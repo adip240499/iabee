@@ -170,13 +170,13 @@ class DataUtamaController extends Controller
 			$worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
 			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
 			
-			$writer->save('data_file/'.'write.xlsx');
-			$download = Yii::getAlias('@backend/web/data_file/write.xlsx');
+			$base = Yii::getAlias("@backend/uploads/import_nilai/{$nama}.xlsx");
+			@unlink($base);
+			$writer->save($base);
 
 			return $this->redirect([
 				'download',
-				'nama'     => $nama,
-				'download' => $download,
+				'nama' => $nama,
 			]);
 		}
 
@@ -211,8 +211,9 @@ class DataUtamaController extends Controller
 		];
 	}
 
-	public function actionDownload($nama, $download)
+	public function actionDownload($nama)
 	{
+		$download = Yii::getAlias("@backend/uploads/import_nilai/{$nama}.xlsx");
 		return Yii::$app->response->sendFile(
 			$download,
 			$nama . '.xlsx'
