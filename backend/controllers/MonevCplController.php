@@ -50,9 +50,11 @@ class MonevCplController extends Controller
         return $this->render('/monev-cpl/index');
     }
 
-    public function actionIndividual($nim = 0)
+    public function actionIndividual()
     {
         $nim = Yii::$app->getRequest()->getQueryParam('nim');
+        
+
         if (!empty($nim)) {
             $cpl = RefCpl::find()->all();
             $total_cpl = count($cpl);

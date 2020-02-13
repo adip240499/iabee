@@ -25,7 +25,7 @@ use yii\helpers\Html;
 			<div class="box box-default">
 				<div class="box-body ">
 					<div class="text-center">
-						<img src="/iabee/backend/web/assets/a76a84a8/img/user2-160x160.jpg" class="img-circle" alt="User Image" width="80%" height="80%">
+						<img src="/iabee/backend/web/assets/a7a0b57/img/user2-160x160.jpg" class="img-circle" alt="User Image" width="80%" height="80%">
 					</div>
 				</div>
 			</div>
