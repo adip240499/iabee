@@ -1,25 +1,108 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Json;
 
-?>
-<!doctype html>
-<html>
+$this->registerJsFile("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js", [
+	'depends'=>["yii\web\JqueryAsset"]
+]);
+$this->registerJsFile("@web/js/utils.js", [
+	'depends'=>["yii\web\JqueryAsset"]
+]);
 
-<head>
-	<title>Radar Chart</title>
-	<script src="/iabee/vendor/bower-asset/chart.js/dist/Chart.min.js"></script>
-	<script src="/iabee/vendor/bower-asset/chart.js/samples/utils.js"></script>
-	<style>
-		canvas {
+$_data = Json::encode(array_values($data));
+// echo "<pre>";print_r($_data);exit;
+$js = <<< JS
+
+		var color = Chart.helpers.color;
+		var radarData = {
+			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
+			datasets: [{
+				label: 'Capaian Lulusan Mahasiswa',
+				backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
+				borderColor: window.chartColors.red,
+				pointBackgroundColor: window.chartColors.red,
+				data: $_data,
+				fill: true
+			}]
+		};
+
+		var color = Chart.helpers.color;
+		var barChartData = {
+			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
+			datasets: [{
+				label: 'Dataset 1',
+				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+				borderColor: window.chartColors.red,
+				borderWidth: 1,
+				data: $_data,
+				fill: true
+			}]
+		};
+
+		window.onload = function() {
+			// window.myRadar = new Chart(document.getElementById('radar'), config);
+
+			var radar = document.getElementById('radar');
+			window.myRadar = new Chart(radar, {
+				type: 'radar',
+				data: radarData,
+				options: {
+					legend: {
+						position: 'top',
+					},
+					title: {
+						display: true,
+						text: 'Adip Safiudin'
+					},
+					scale: {
+						ticks: {
+							min: 0,
+							max: 100
+						}
+					}
+				}
+			});
+
+
+			var ctx = document.getElementById('vertical-bar').getContext('2d');
+			window.myBar = new Chart(ctx, {
+				type: 'bar',
+				data: barChartData,
+				options: {
+					responsive: true,
+					legend: {
+						position: 'top',
+					},
+					scales: {
+						yAxes: [{
+							ticks: {
+								min: 0,
+								max: 100
+							}
+						}]
+					},
+					title: {
+						display: true,
+						text: 'Chart.js Bar Chart'
+					}
+
+				}
+			});
+		};
+JS;
+
+$this->registerJs($js);
+
+$css = <<< CSS
+canvas {
 			-moz-user-select: none;
 			-webkit-user-select: none;
 			-ms-user-select: none;
 		}
-	</style>
-</head>
-
-<body>
+CSS;
+$this->registerCss($css);
+?>
 	<div class="row">
 		<div class="col-md-3">
 			<div class="box box-default">
@@ -101,100 +184,3 @@ use yii\helpers\Html;
 			</div>
 		</div>
 	</div>
-
-
-	<script>
-		var data = new Array();
-		<?php
-		$i = 0;
-		foreach ($data as $key => $value) {
-			if (!$value) {
-				echo "data[$i]= null;";
-			} else {
-				echo "data[$i]= $value;";
-			}
-			$i++;
-		}
-
-		?>
-		var color = Chart.helpers.color;
-		var radarData = {
-			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
-			datasets: [{
-				label: 'Capaian Lulusan Mahasiswa',
-				backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
-				borderColor: window.chartColors.red,
-				pointBackgroundColor: window.chartColors.red,
-				data: data,
-				fill: true
-			}]
-		};
-
-		var color = Chart.helpers.color;
-		var barChartData = {
-			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
-			datasets: [{
-				label: 'Dataset 1',
-				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-				borderColor: window.chartColors.red,
-				borderWidth: 1,
-				data: data,
-				fill: true
-			}]
-		};
-
-		window.onload = function() {
-			// window.myRadar = new Chart(document.getElementById('radar'), config);
-
-			var radar = document.getElementById('radar');
-			window.myRadar = new Chart(radar, {
-				type: 'radar',
-				data: radarData,
-				options: {
-					legend: {
-						position: 'top',
-					},
-					title: {
-						display: true,
-						text: 'Adip Safiudin'
-					},
-					scale: {
-						ticks: {
-							min: 0,
-							max: 100
-						}
-					}
-				}
-			});
-
-
-			var ctx = document.getElementById('vertical-bar').getContext('2d');
-			window.myBar = new Chart(ctx, {
-				type: 'bar',
-				data: barChartData,
-				options: {
-					responsive: true,
-					legend: {
-						position: 'top',
-					},
-					scales: {
-						yAxes: [{
-							ticks: {
-								min: 0,
-								max: 100
-							}
-						}]
-					},
-					title: {
-						display: true,
-						text: 'Chart.js Bar Chart'
-					}
-
-				}
-			});
-		};
-	</script>
-
-</body>
-
-</html>

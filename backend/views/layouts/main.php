@@ -7,6 +7,7 @@ use yii\bootstrap\Modal;
 /* @var $content string */
 
 
+// echo "<pre>";print_r(Yii::$app->assetManager->bundles);exit;
 if (Yii::$app->controller->action->id === 'login') {
     /**
      * Do not use this code in your template. Remove it. 
