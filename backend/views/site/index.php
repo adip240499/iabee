@@ -15,7 +15,7 @@ $this->title = 'Dashboard';
                                 <span class="info-box-icon"><i class="fa fa-users"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Data Mahasiswa</span>
-                                    <span class="info-box-number"><?php echo $aktif?></span>
+                                    <span class="info-box-number"><?php echo $aktif ?></span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width:100%"></div>
                                     </div>
@@ -28,7 +28,7 @@ $this->title = 'Dashboard';
                                 <span class="info-box-icon"><i class="fa fa-building-o"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Data Dosen</span>
-                                    <span class="info-box-number"><?php echo $dosen?></span>
+                                    <span class="info-box-number"><?php echo $dosen ?></span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width:100%"></div>
                                     </div>
@@ -56,7 +56,7 @@ $this->title = 'Dashboard';
                                 <span class="info-box-icon"><i class="fa fa-building-o"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Data Mata Kuliah</span>
-                                    <span class="info-box-number"><?php echo $mk?></span>
+                                    <span class="info-box-number"><?php echo $mk ?></span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width:100%"></div>
                                     </div>
@@ -97,10 +97,11 @@ $this->title = 'Dashboard';
                 <div class="col-sm-4">
                     <div class="box box-solid">
                         <div class="box-body text-center">
-                            <h1 class="current-time"><i class="fa fa-clock-o"></i> 15:12:14</h1>
+
+                                        <h1 id="clock"> </h1>
                         </div>
                         <div class="box-footer text-center">
-                            <b><i class="fa fa-calendar"></i> Tuesday, 21 January 2020</b>
+                            <b><i class="fa fa-calendar"></i> <?php echo date('D, d M Y')?></b>
                         </div>
                     </div>
 
@@ -225,3 +226,24 @@ $this->title = 'Dashboard';
         </section>
     </div>
 </div>
+<script>
+    function digitalClock() {
+        var d = new Date();
+        var h = d.getHours();
+        var m = d.getMinutes();
+        var s = d.getSeconds();
+        var hrs;
+        var mins;
+        var tsecs;
+        var secs;
+        hrs = h;
+        mins = m;
+        secs = s;
+        var ctime = hrs + ":" + mins + ":" + secs;
+        document.getElementById("clock").firstChild.nodeValue = ctime;
+    }
+    window.onload = function() {
+        digitalClock();
+        setInterval('digitalClock()', 1000);
+    }
+</script>

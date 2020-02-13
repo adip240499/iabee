@@ -3,8 +3,8 @@
 
 <head>
 	<title>Radar Chart</title>
-	<script src="/obeelektro/vendor/bower-asset/chart.js/dist/Chart.min.js"></script>
-	<script src="/obeelektro/vendor/bower-asset/chart.js/samples/utils.js"></script>
+	<script src="/iabee/vendor/bower-asset/chart.js/dist/Chart.min.js"></script>
+	<script src="/iabee/vendor/bower-asset/chart.js/samples/utils.js"></script>
 	<style>
 		canvas {
 			-moz-user-select: none;
