@@ -1,78 +1,76 @@
 <?php
 
+
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\helpers\Json;
-use yii\bootstrap\ActiveForm;
-use kartik\widgets\FileInput;
-use kartik\export\ExportMenu;
-use kartik\widgets\SwitchInput;
-
-
-
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\searchs\RefKelas */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Import Nilai';
-$this->params['breadcrumbs'][] = $this->title;
-$url = Url::to(['', 'update' => $update]);
-$urlOn = Url::to(['', 'update' => 1, $update]);
-$urlOf = Url::to(['', 'update' => 0, $update]);
+use kartik\form\ActiveForm;
+use kartik\select2\Select2;
 
 ?>
 
-<div class="import-nilai-index panel panel-default">
-    <div class="panel-heading">
-        <h1><?= Html::encode($this->title) ?></h1>
-        <p>
-            <?php echo Html::a('<i class="fa fa-download"></i> Template Excel', ['landing-download'], [
-                'class' => 'btn btn-success btn-flat',
-                'role'=> 'modal-remote',
-            ]) ?>
-        </p>
-    </div>
+<div style="margin: 0 12px 20px;">
+    <?php $form = ActiveForm::begin([
+        // 'action'    => Url::to(['download', 'dl' => 1])
+    ]); ?>
+    <?php
+    echo $form->field($model, 'id_tahun_ajaran')->widget(Select2::classname(), [
+        'data' => $tahun_ajaran,
+        'options' => [
+            // 'id'    => 'id_tahun_ajaran',
+            // 'name'  => 'id_tahun_ajaran',
+            'placeholder' => '- Pilih -'
+        ],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
 
-    <div class="panel-body">
-        <span style="font-size: 12px;">Jika Data Sudah Ada :</span>
-        <?php echo SwitchInput::widget([
-            'name'          => 'update',
-            'value'            => $update,
-            'pluginOptions' => [
-                'size'     => 'small',
-                'onText'   => 'Perbarui',
-                'offText'  => 'Lewati',
-                'onColor'  => 'danger',
-                'offColor' => 'primary',
-            ],
-            'pluginEvents' => [
-                'switchChange.bootstrapSwitch' => "function(e, s) {
-					if (s) {
-						$('#form-main').attr('action', '$urlOn');
-					} else {
-						$('#form-main').attr('action', '$urlOf');
-					}
-				}",
-            ],
-        ]); ?>
+    $data   = ['Ganjil' => 'Ganjil', 'Genap' => 'Genap'];
+    echo $form->field($model, 'semester')->widget(Select2::classname(), [
+        'data' => $data,
+        'options' => [
+            // 'id'    => 'id_ref_semester',
+            // 'name'  => 'id_ref_semester',
+            'placeholder' => '- Pilih -'
+        ],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
 
-        <?php $form = ActiveForm::begin([
-            'id'      => 'form-main',
-            'action'  => $url,
-            'options' => [
-                'enctype' => 'multipart/form-data',
-            ]
-        ]) ?>
-        <?php echo $form->field($model, 'file')->widget(FileInput::classname(), [
-            'pluginOptions' => [
-                'showRemove' => true,
-                'uploadLabel' => 'Import',
-            ],
-            'options' => [
-                'accept' => '.xlsx',
-            ]
-        ]) ?>
+    echo $form->field($model, 'id_ref_mata_kuliah')->widget(Select2::classname(), [
+        'data' => $mata_kuliah,
+        'options' => [
+            // 'name' => 'id_ref_mata_kuliah',
+            'placeholder' => '- Pilih -'
+        ],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
 
-        <?php ActiveForm::end() ?>
-    </div>
+    echo $form->field($model, 'id_ref_kelas')->widget(Select2::classname(), [
+        'data' => $kelas,
+        'options' => [
+            // 'name' => 'id_ref_kelas',
+            'placeholder' => '- Pilih -'
+        ],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+
+    echo $form->field($model, 'id')->widget(Select2::classname(), [
+        'data' => $mk_tayang,
+        'options' => [
+            // 'name' => 'id_ref_kelas',
+            'placeholder' => '- Pilih -'
+        ],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+
+    ?>
+    <?php ActiveForm::end(); ?>
 </div>

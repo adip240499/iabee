@@ -51,77 +51,77 @@ class KrsController extends Controller
     }
 
 
-	public function actionIndex($update = 0)
-	{
-		$model = new UploadFileImporter();
-		if ($model->load(Yii::$app->request->post())) {
+    public function actionIndex($update = 0)
+    {
+        $model = new UploadFileImporter();
+        if ($model->load(Yii::$app->request->post())) {
 
-			$model->file = UploadedFile::getInstances($model, 'file');
+            $model->file = UploadedFile::getInstances($model, 'file');
 
-			if ($model->file) {
-				$xlsx = $model->file[0]->tempName;
-				$reader = new Xlsx();
-				$spreadsheet = $reader->load($xlsx);
-				$spreadsheetData = $spreadsheet->getActiveSheet()->toArray();
+            if ($model->file) {
+                $xlsx = $model->file[0]->tempName;
+                $reader = new Xlsx();
+                $spreadsheet = $reader->load($xlsx);
+                $spreadsheetData = $spreadsheet->getActiveSheet()->toArray();
 
-				$fakultas         = $spreadsheet->getActiveSheet()->getCell('C4')->getValue();
-				$program_studi    = $spreadsheet->getActiveSheet()->getCell('C5')->getValue();
-				$tahun_ajaran     = $spreadsheet->getActiveSheet()->getCell('C6')->getValue();
-				$semester         = $spreadsheet->getActiveSheet()->getCell('C7')->getValue();
-				$kode_mata_kuliah = $spreadsheet->getActiveSheet()->getCell('C8')->getValue();
-				$mata_kuliah      = $spreadsheet->getActiveSheet()->getCell('C9')->getValue();
-				$kelas            = $spreadsheet->getActiveSheet()->getCell('C10')->getValue();
-				$dosen            = $spreadsheet->getActiveSheet()->getCell('C11')->getValue();
-				$encrypt            = $spreadsheet->getActiveSheet()->getCell('B12')->getValue();
+                $fakultas         = $spreadsheet->getActiveSheet()->getCell('C4')->getValue();
+                $program_studi    = $spreadsheet->getActiveSheet()->getCell('C5')->getValue();
+                $tahun_ajaran     = $spreadsheet->getActiveSheet()->getCell('C6')->getValue();
+                $semester         = $spreadsheet->getActiveSheet()->getCell('C7')->getValue();
+                $kode_mata_kuliah = $spreadsheet->getActiveSheet()->getCell('C8')->getValue();
+                $mata_kuliah      = $spreadsheet->getActiveSheet()->getCell('C9')->getValue();
+                $kelas            = $spreadsheet->getActiveSheet()->getCell('C10')->getValue();
+                $dosen            = $spreadsheet->getActiveSheet()->getCell('C11')->getValue();
+                $encrypt            = $spreadsheet->getActiveSheet()->getCell('B12')->getValue();
 
 
-				// $id_cpmk1         = $spreadsheet->getActiveSheet()->getCell('H7')->getValue();
-				// $id_cpmk2         = $spreadsheet->getActiveSheet()->getCell('H8')->getValue();
-				// $id_cpmk3         = $spreadsheet->getActiveSheet()->getCell('H9')->getValue();
-				// $id_cpmk4         = $spreadsheet->getActiveSheet()->getCell('H10')->getValue();
+                // $id_cpmk1         = $spreadsheet->getActiveSheet()->getCell('H7')->getValue();
+                // $id_cpmk2         = $spreadsheet->getActiveSheet()->getCell('H8')->getValue();
+                // $id_cpmk3         = $spreadsheet->getActiveSheet()->getCell('H9')->getValue();
+                // $id_cpmk4         = $spreadsheet->getActiveSheet()->getCell('H10')->getValue();
 
-				if (count($spreadsheetData) > 1) {
-					for ($i = 0; $i < 14; $i++) {
-						unset($spreadsheetData[$i]);
-					}
+                if (count($spreadsheetData) > 1) {
+                    for ($i = 0; $i < 14; $i++) {
+                        unset($spreadsheetData[$i]);
+                    }
 
-					// echo "<pre>";
-					// print_r($spreadsheetData);
-					// exit;
+                    // echo "<pre>";
+                    // print_r($spreadsheetData);
+                    // exit;
 
-					return $this->render('view', [
-						'model'  			=> $spreadsheetData,
-						'update'			=> $update,
-						'fakultas' 			=> $fakultas,
-						'program_studi' 	=> $program_studi,
-						'tahun_ajaran' 		=> $tahun_ajaran,
-						'semester' 			=> $semester,
-						'kode_mata_kuliah' 	=> $kode_mata_kuliah,
-						'mata_kuliah' 		=> $mata_kuliah,
-						'kelas' 			=> $kelas,
-						'dosen' 			=> $dosen,
-						'encrypt' 			=> $encrypt,
-						// 'id_cpmk1'			=> $id_cpmk1,
-						// 'id_cpmk2'			=> $id_cpmk2,
-						// 'id_cpmk3'			=> $id_cpmk3,
-						// 'id_cpmk4'			=> $id_cpmk4,
-					]);
-				} else {
-					Yii::$app->session->setFlash('error', 'Minimal terdapat 1 record data.');
+                    return $this->render('view', [
+                        'model'              => $spreadsheetData,
+                        'update'            => $update,
+                        'fakultas'             => $fakultas,
+                        'program_studi'     => $program_studi,
+                        'tahun_ajaran'         => $tahun_ajaran,
+                        'semester'             => $semester,
+                        'kode_mata_kuliah'     => $kode_mata_kuliah,
+                        'mata_kuliah'         => $mata_kuliah,
+                        'kelas'             => $kelas,
+                        'dosen'             => $dosen,
+                        'encrypt'             => $encrypt,
+                        // 'id_cpmk1'			=> $id_cpmk1,
+                        // 'id_cpmk2'			=> $id_cpmk2,
+                        // 'id_cpmk3'			=> $id_cpmk3,
+                        // 'id_cpmk4'			=> $id_cpmk4,
+                    ]);
+                } else {
+                    Yii::$app->session->setFlash('error', 'Minimal terdapat 1 record data.');
 
-					return $this->refresh();
-				}
-			} else {
-				Yii::$app->session->setFlash('error', 'Gagal mengunggah file.');
-			}
-		}
+                    return $this->refresh();
+                }
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal mengunggah file.');
+            }
+        }
 
-		$model->file = null;
-		return $this->render('index', [
-			'model'  => $model,
-			'update' => $update,
-		]);
-	}
+        $model->file = null;
+        return $this->render('index', [
+            'model'  => $model,
+            'update' => $update,
+        ]);
+    }
 
     /**
      * Lists all Krs models.
@@ -130,36 +130,42 @@ class KrsController extends Controller
     public function actionLandingDownload()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $model	= new MataKuliahTayang();
+        $model    = new MataKuliahTayang();
         $data['tahun_ajaran'] = ArrayHelper::map(RefTahunAjaran::find()->all(), 'id', 'tahun');
-		$data['kelas']        = ArrayHelper::map(RefKelas::find()->all(), 'id', 'kelas');
-		$data['mata_kuliah']  = ArrayHelper::map(RefMataKuliah::find()->all(), 'id', 'nama');
+        $data['kelas']        = ArrayHelper::map(RefKelas::find()->all(), 'id', 'kelas');
+        $data['mata_kuliah']  = ArrayHelper::map(RefMataKuliah::find()->all(), 'id', 'nama');
 
-		return [
-			'title'   => 'Portal Download Template',
-			'content' => $this->renderAjax('landing-download', [
-				'tahun_ajaran'	=> $data['tahun_ajaran'],
-				'kelas'			=> $data['kelas'],
-				'mata_kuliah'	=> $data['mata_kuliah'],
-				'model'			=> $model
-			]),
-			'footer'  => '<div class="col-12 text-right">' .
-				Html::button(
-					'Batal',
-					[
-						'class'        => 'btn btn-secondary',
-						'data-dismiss' => 'modal',
-					]
-				) . ' ' .
-				Html::button(
-					'Submit',
-					[
-						'class'  => 'btn btn-success',
-						'type'   => 'submit',
-					]
-				) .
-				'</div>'
-		];
+        $query = MataKuliahTayang::find()
+            ->joinWith("refMataKuliah")
+            ->all();
+        $data['mk_tayang']  = ArrayHelper::map($query, 'id', 'refMataKuliah.nama');
+
+        return [
+            'title'   => 'Portal Download Template',
+            'content' => $this->renderAjax('landing-download', [
+                'tahun_ajaran'     => $data['tahun_ajaran'],
+                'kelas'            => $data['kelas'],
+                'mata_kuliah'      => $data['mata_kuliah'],
+                'mk_tayang'      => $data['mk_tayang'],
+                'model'            => $model
+            ]),
+            'footer'  => '<div class="col-12 text-right">' .
+                Html::button(
+                    'Batal',
+                    [
+                        'class'        => 'btn btn-secondary',
+                        'data-dismiss' => 'modal',
+                    ]
+                ) . ' ' .
+                Html::button(
+                    'Submit',
+                    [
+                        'class'  => 'btn btn-success',
+                        'type'   => 'submit',
+                    ]
+                ) .
+                '</div>'
+        ];
     }
 
     /**
