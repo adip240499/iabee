@@ -22,6 +22,7 @@ use backend\models\UploadFileImporter;
 use yii\base\Model;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -168,9 +169,12 @@ class DataUtamaController extends Controller
 
 			$encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
 			$worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
+			
 			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
 			
-			$base = Yii::getAlias("@backend/uploads/import_nilai/{$nama}.xlsx");
+			$path = Yii::getAlias("@backend/uploads/import_nilai");
+
+			$base = "{$path}/{$nama}.xlsx";
 			@unlink($base);
 			$writer->save($base);
 
