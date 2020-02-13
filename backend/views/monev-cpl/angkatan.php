@@ -20,7 +20,7 @@
 			<div class="box box-default">
 				<div class="box-body ">
 					<div class="text-center">
-						<img src="/iabee/backend/web/assets/a76a84a8/img/user2-160x160.jpg" class="img-circle" alt="User Image" width="80%" height="80%">
+						<img src="/iabee/backend/web/assets/a7a0b57/img/user2-160x160.jpg" class="img-circle" alt="User Image" width="80%" height="80%">
 					</div>
 				</div>
 			</div>
@@ -29,12 +29,12 @@
 		<div class="col-md-9">
 			<div class="box box-default">
 				<div class="box-body ">
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<label id="nim" class="col-sm-2 control-label">Nim</label>
 						<div class="col-sm-10">
 							<input value="I0716001" class="form-control" readonly>
 						</div>
-					</div>
+					</div> -->
 					<div class="form-group">
 						<label id="nim" class="col-sm-2 control-label">Angkatan</label>
 						<div class="col-sm-10">

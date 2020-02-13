@@ -4,7 +4,7 @@ use yii\widgets\Breadcrumbs;
 use dmstr\widgets\Alert;
 
 ?>
-<div class="content-wrapper" style="background: url(&quot;https://files.diecoding.com/assets/images/pattern/symphony.png&quot;) fixed; min-height: 659px;">
+<div class="content-wrapper" style="background: url(https://files.diecoding.com/assets/images/pattern/symphony.png) fixed; min-height: 659px;">
     <section class="content-header">
         <?php if (isset($this->blocks['content-header'])) { ?>
             <h1 ><?= $this->blocks['content-header'] ?></h1>
