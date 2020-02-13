@@ -168,10 +168,10 @@ class DataUtamaController extends Controller
 
 			$encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
 			$worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
-			$writer = \PhpOffice\PhpSpreadsheet\Shared\File::setUseUploadTempDirectory(true);
 			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-			$writer->save('write.xlsx');
-			$download = 'write.xlsx';
+			
+			$writer->save('data_file/'.'write.xlsx');
+			$download = Yii::getAlias('@backend/web/data_file/write.xlsx');
 
 			return $this->redirect([
 				'download',
