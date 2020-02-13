@@ -52,10 +52,10 @@ class MonevCplController extends Controller
 
     public function actionIndividual()
     {
-        $nim = Yii::$app->getRequest()->getQueryParam('nim');
+        $id_mahasiswa = Yii::$app->getRequest()->getQueryParam('jk');
         
 
-        if (!empty($nim)) {
+        if (!empty($id_mahasiswa)) {
             $cpl = RefCpl::find()->all();
             $total_cpl = count($cpl);
 
@@ -64,13 +64,13 @@ class MonevCplController extends Controller
                 $individu[$i] = CapaianMahasiswa::find()
                     ->joinWith(['relasiCpmkCpls'])
                     ->where([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
-                    ->andWhere([CapaianMahasiswa::tableName() . '.nim_ref_mahasiswa' => $nim])
+                    ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => $id_mahasiswa])
                     ->average(CapaianMahasiswa::tableName() . '.nilai');
                 // $jumlah_cpl[$i] = count($cpl[$i]) * 100;
                 // $nilai_cpl[$i]  = $nilai[$i] / $jumlah_cpl[$i] * 100;
                 // $data[$i]       = $nilai_cpl[$i];
             }
-            $mahasiswa = RefMahasiswa::findOne(["nim"=>$nim]);
+            $mahasiswa = RefMahasiswa::findOne(["id"=>$id_mahasiswa]);
             return $this->render(
                 '/monev-cpl/individual',
                 [

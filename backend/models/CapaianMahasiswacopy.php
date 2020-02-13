@@ -5,11 +5,14 @@ namespace backend\models;
 use Yii;
 
 /**
- * This is the model class for table "relasi_cpmk_cpl".
+ * This is the model class for table "capaian_mahasiswa".
  *
  * @property int $id
  * @property int|null $id_ref_cpmk
- * @property int|null $id_ref_cpl
+ * @property string|null $nim_ref_mahasiswa
+ * @property float|null $nilai
+ * @property string|null $tahun
+ * @property string|null $semester ganjil, genap
  * @property int|null $status
  * @property string|null $created_at
  * @property string|null $updated_at
@@ -17,17 +20,16 @@ use Yii;
  * @property string|null $updated_user
  *
  * @property RefCpmk $refCpmk
- * @property RefCpl $refCpl
- * @property RefMataKuliah $refMataKuliah
+ * @property RefMahasiswa $nimRefMahasiswa
  */
-class RelasiCpmkCpl extends \yii\db\ActiveRecord
+class CapaianMahasiswa extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'relasi_cpmk_cpl';
+        return 'capaian_mahasiswa';
     }
 
     /**
@@ -36,13 +38,14 @@ class RelasiCpmkCpl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
-            [['id', 'id_ref_cpmk', 'id_ref_cpl', 'status'], 'integer'],
+            [['id_ref_cpmk', 'status'], 'integer'],
+            [['nilai'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
+            [['nim_ref_mahasiswa'], 'string', 'max' => 11],
+            [['tahun', 'semester'], 'string', 'max' => 16],
             [['created_user', 'updated_user'], 'string', 'max' => 255],
-            [['id'], 'unique'],
             [['id_ref_cpmk'], 'exist', 'skipOnError' => true, 'targetClass' => RefCpmk::className(), 'targetAttribute' => ['id_ref_cpmk' => 'id']],
-            [['id_ref_cpl'], 'exist', 'skipOnError' => true, 'targetClass' => RefCpl::className(), 'targetAttribute' => ['id_ref_cpl' => 'id']],
+            [['nim_ref_mahasiswa'], 'exist', 'skipOnError' => true, 'targetClass' => RefMahasiswa::className(), 'targetAttribute' => ['nim_ref_mahasiswa' => 'nim']],
         ];
     }
 
@@ -54,7 +57,10 @@ class RelasiCpmkCpl extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_ref_cpmk' => 'Id Ref Cpmk',
-            'id_ref_cpl' => 'Id Ref Cpl',
+            'nim_ref_mahasiswa' => 'Nim Ref Mahasiswa',
+            'nilai' => 'Nilai',
+            'tahun' => 'Tahun',
+            'semester' => 'Semester',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -73,35 +79,19 @@ class RelasiCpmkCpl extends \yii\db\ActiveRecord
         return $this->hasOne(RefCpmk::className(), ['id' => 'id_ref_cpmk']);
     }
 
-
     /**
-     * Gets query for [[RefCpmk]].
+     * Gets query for [[NimRefMahasiswa]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getRefMataKuliah()
+    public function getNimRefMahasiswa()
     {
-        return $this->hasOne(RefMataKuliah::className(), ['id' => 'id_ref_mata_kuliah'])
-            ->viaTable('ref_cpmk', ['id' => 'id_ref_cpmk']);
+        return $this->hasOne(RefMahasiswa::className(), ['nim' => 'nim_ref_mahasiswa']);
     }
 
-    /**
-     * Gets query for [[RefCpl]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRefCpl()
+    public function getRelasiCpmkCpls()
     {
-        return $this->hasOne(RefCpl::className(), ['id' => 'id_ref_cpl']);
-    }
-
-    public function getDataRelasiCpmkCpl()
-    {
-        return $this->hasOne(CapaianMahasiswa::className(), [
-            'id_ref_cpmk' => 'id'
-        ])
-            ->viaTable('refCpmk', [
-                'id' => 'id_ref_cpmk'
-            ]);
+        return $this->hasMany(RelasiCpmkCpl::className(), ['id_ref_cpmk' => 'id'])
+            ->viaTable(RefCpmk::tableName(), ['id' => 'id_ref_cpmk']);
     }
 }

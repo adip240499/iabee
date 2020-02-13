@@ -40,7 +40,7 @@ class RefCpmk extends RefCpmkModel
      */
     public function search($params)
     {
-        $query = RefCpmkModel::find()->where(["status"=>1]);
+        $query = RefCpmkModel::find()->where(['status'=>1]);
 
         // add conditions that should always apply here
 

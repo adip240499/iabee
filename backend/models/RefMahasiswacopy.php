@@ -18,7 +18,7 @@ use Yii;
  * @property string|null $updated_user
  *
  * @property CapaianMahasiswa[] $capaianMahasiswas
- * @property Krs[] $krs
+ * @property RelasiCpmkCpl[] $relasiCpmkCpls
  */
 class RefMahasiswa extends \yii\db\ActiveRecord
 {
@@ -63,8 +63,6 @@ class RefMahasiswa extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[CapaianMahasiswas]].
-     *
      * @return \yii\db\ActiveQuery
      */
     public function getCapaianMahasiswas()
@@ -72,20 +70,10 @@ class RefMahasiswa extends \yii\db\ActiveRecord
         return $this->hasMany(CapaianMahasiswa::className(), ['id_ref_mahasiswa' => 'id']);
     }
 
-    /**
-     * Gets query for [[Krs]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getKrs()
-    {
-        return $this->hasMany(Krs::className(), ['id_ref_mahasiswa' => 'id']);
-    }
-
     public function getRelasiCpmkCpls()
     {
         return $this->hasMany(RelasiCpmkCpl::className(), ['id_ref_cpmk' => 'id_ref_cpmk'])
         ->viaTable(RefCpmk::tableName(), ['id' => 'id_ref_cpmk'])
-        ->viaTable(CapaianMahasiswa::tableName(), ['id_ref_mahasiswa' => 'id']);
+        ->viaTable(CapaianMahasiswa::tableName(), ['nim_ref_mahasiswa' => 'nim']);
     }
 }

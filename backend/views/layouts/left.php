@@ -36,7 +36,7 @@
                                     //     'label' => 'CPL Individual', 'icon' => 'file-code-o',
                                     //     'options' => ['role' => 'modal-remote'], 'url' => ['/monev-cpl/landing-individual'],
                                     // ],
-                                    ['label' => 'CPL individu', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/individual'.$nim = '?nim=I0717013'],],
+                                    ['label' => 'CPL individu', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/individual'.$nim = '?jk=8'],],
                                     ['label' => 'CPL Semester', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/semester'],],
                                     ['label' => 'CPL Angkatan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/angkatan'],],
                                     ['label' => 'CPL Lulusan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/lulusan'],],

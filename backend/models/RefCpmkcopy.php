@@ -54,8 +54,9 @@ class RefCpmk extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_ref_mata_kuliah' => 'Id Ref Mata Kuliah',
-            'kode' => 'Kode',
+            'id_ref_mata_kuliah' => 'Mata Kuliah',
+            'kode' => 'Kode CPMK',
+            'ref_cpl.kode' => 'Kode CPL',
             'isi' => 'Isi',
             'status' => 'Status',
             'created_at' => 'Created At',
@@ -95,11 +96,6 @@ class RefCpmk extends \yii\db\ActiveRecord
         return $this->hasMany(RelasiCpmkCpl::className(), ['id_ref_cpmk' => 'id']);
     }
 
-    /**
-     * Gets query for [[RefCpl]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getRefCpl()
     {
         return $this->hasOne(RefCpl::className(), [

@@ -11,6 +11,7 @@ use backend\models\searchs\RefKelas;
 use backend\models\searchs\RefCpmk;
 use backend\models\searchs\RefMataKuliah;
 use backend\models\searchs\RefTahunAjaran;
+use backend\models\searchs\RefMahasiswa;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -257,6 +258,9 @@ class DataUtamaController extends Controller
 
 		$data          = $request->post('data');
 		$encrypt       = $request->post('encrypt');
+		$tahun         = $request->post('tahun_ajaran');
+		$semester      = $request->post('semester');
+		$kelas      = $request->post('kelas');
 
 		$decrypt = \Yii::$app->encrypter->decrypt($encrypt);
 		$cpmks   = RefCpmk::find()
@@ -390,6 +394,11 @@ class DataUtamaController extends Controller
 			$status = $desc = '';
 			$statust = $desct = '';
 
+			$id_mahasiswa = RefMahasiswa::findOne(['nim'=>$nim]);
+
+			// echo '<pre>';
+			// print_r($tahun);
+			// exit;
 			$transaction  = Yii::$app->db->beginTransaction();
 			try {
 				$desc   .= $desct;
@@ -398,7 +407,7 @@ class DataUtamaController extends Controller
 
 				for ($i = 0; $i < $count; $i++) {
 					$newData = false;
-					$data    = $exist = CapaianMahasiswa::findOne(['nim_ref_mahasiswa' => $nim, 'id_ref_cpmk' => $id_cpmk[$i]]);
+					$data    = $exist = CapaianMahasiswa::findOne(['id_ref_mahasiswa' => $id_mahasiswa->id, 'id_ref_cpmk' => $id_cpmk[$i]]);
 					if (!$data) {
 						$newData = true;
 						$data    = new CapaianMahasiswa();
@@ -408,8 +417,11 @@ class DataUtamaController extends Controller
 					}
 					if ($update || $newData) {
 						$data->id_ref_cpmk       = $id_cpmk[$i];                 // ID CPMK dalam bentuk array
-						$data->nim_ref_mahasiswa = $nim;
+						$data->id_ref_mahasiswa  = $id_mahasiswa->id;
 						$data->nilai             = $cpmk[$i];
+						$data->tahun             = $tahun;
+						$data->semester          = $semester;
+						$data->kelas          = $kelas;
 						$flag                    = $flag && $data->save(false);
 
 						if ($update && $exist) {

@@ -9,8 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property int|null $id_ref_cpmk
- * @property string|null $nim_ref_mahasiswa
+ * @property int|null $id_ref_mahasiswa
  * @property float|null $nilai
+ * @property string|null $kelas
  * @property string|null $tahun
  * @property string|null $semester ganjil, genap
  * @property int|null $status
@@ -20,7 +21,7 @@ use Yii;
  * @property string|null $updated_user
  *
  * @property RefCpmk $refCpmk
- * @property RefMahasiswa $nimRefMahasiswa
+ * @property RefMahasiswa $refMahasiswa
  */
 class CapaianMahasiswa extends \yii\db\ActiveRecord
 {
@@ -38,14 +39,13 @@ class CapaianMahasiswa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_ref_cpmk', 'status'], 'integer'],
+            [['id_ref_cpmk', 'id_ref_mahasiswa', 'status'], 'integer'],
             [['nilai'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
-            [['nim_ref_mahasiswa'], 'string', 'max' => 11],
-            [['tahun', 'semester'], 'string', 'max' => 16],
+            [['kelas', 'tahun', 'semester'], 'string', 'max' => 16],
             [['created_user', 'updated_user'], 'string', 'max' => 255],
             [['id_ref_cpmk'], 'exist', 'skipOnError' => true, 'targetClass' => RefCpmk::className(), 'targetAttribute' => ['id_ref_cpmk' => 'id']],
-            [['nim_ref_mahasiswa'], 'exist', 'skipOnError' => true, 'targetClass' => RefMahasiswa::className(), 'targetAttribute' => ['nim_ref_mahasiswa' => 'nim']],
+            [['id_ref_mahasiswa'], 'exist', 'skipOnError' => true, 'targetClass' => RefMahasiswa::className(), 'targetAttribute' => ['id_ref_mahasiswa' => 'id']],
         ];
     }
 
@@ -57,8 +57,9 @@ class CapaianMahasiswa extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_ref_cpmk' => 'Id Ref Cpmk',
-            'nim_ref_mahasiswa' => 'Nim Ref Mahasiswa',
+            'id_ref_mahasiswa' => 'Id Ref Mahasiswa',
             'nilai' => 'Nilai',
+            'kelas' => 'Kelas',
             'tahun' => 'Tahun',
             'semester' => 'Semester',
             'status' => 'Status',
@@ -80,13 +81,13 @@ class CapaianMahasiswa extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[NimRefMahasiswa]].
+     * Gets query for [[RefMahasiswa]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getNimRefMahasiswa()
+    public function getRefMahasiswa()
     {
-        return $this->hasOne(RefMahasiswa::className(), ['nim' => 'nim_ref_mahasiswa']);
+        return $this->hasOne(RefMahasiswa::className(), ['id' => 'id_ref_mahasiswa']);
     }
 
     public function getRelasiCpmkCpls()

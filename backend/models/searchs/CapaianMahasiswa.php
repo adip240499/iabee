@@ -17,9 +17,9 @@ class CapaianMahasiswa extends CapaianMahasiswaModel
     public function rules()
     {
         return [
-            [['id', 'id_ref_cpmk', 'status'], 'integer'],
-            [['nim_ref_mahasiswa', 'semester', 'created_at', 'updated_at', 'created_user', 'updated_user'], 'safe'],
+            [['id', 'id_ref_cpmk', 'id_ref_mahasiswa', 'status'], 'integer'],
             [['nilai'], 'number'],
+            [['kelas', 'tahun', 'semester', 'created_at', 'updated_at', 'created_user', 'updated_user'], 'safe'],
         ];
     }
 
@@ -61,13 +61,15 @@ class CapaianMahasiswa extends CapaianMahasiswaModel
         $query->andFilterWhere([
             'id' => $this->id,
             'id_ref_cpmk' => $this->id_ref_cpmk,
+            'id_ref_mahasiswa' => $this->id_ref_mahasiswa,
             'nilai' => $this->nilai,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'nim_ref_mahasiswa', $this->nim_ref_mahasiswa])
+        $query->andFilterWhere(['like', 'kelas', $this->kelas])
+            ->andFilterWhere(['like', 'tahun', $this->tahun])
             ->andFilterWhere(['like', 'semester', $this->semester])
             ->andFilterWhere(['like', 'created_user', $this->created_user])
             ->andFilterWhere(['like', 'updated_user', $this->updated_user]);
