@@ -168,7 +168,7 @@ class DataUtamaController extends Controller
 
 			$encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
 			$worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
-
+			$writer = \PhpOffice\PhpSpreadsheet\Shared\File::setUseUploadTempDirectory(true);
 			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
 			$writer->save('write.xlsx');
 			$download = 'write.xlsx';
