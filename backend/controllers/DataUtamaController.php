@@ -265,6 +265,7 @@ class DataUtamaController extends Controller
 		$mata_kuliah = RefMataKuliah::findOne($model->id_ref_mata_kuliah);
 		$kelas       = RefKelas::findOne($model->id_ref_kelas);
 		$tahun       = RefTahunAjaran::findOne($model->id_tahun_ajaran);
+		$dosen       = RefDosen::findOne($model->id_ref_dosen);
 
 		$nama = 'nilai_' .
 			$mata_kuliah->kode . '_' .
@@ -281,7 +282,7 @@ class DataUtamaController extends Controller
 		$worksheet->setCellValue('C8', $mata_kuliah->kode);  //Kode Mata Kuliah
 		$worksheet->setCellValue('C9', $mata_kuliah->nama);  //Nama Mata Kuliah
 		$worksheet->setCellValue('C10', $kelas->kelas);  //Kelas
-		$worksheet->setCellValue('C11', 'Pengampu Belum diambil');  //Pengampu
+		$worksheet->setCellValue('C11', $dosen->nama_dosen);  //Pengampu
 
 		// $encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
 		// $worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
@@ -298,10 +299,15 @@ class DataUtamaController extends Controller
 		@unlink($base);
 		$writer->save($base);
 
-		return $this->redirect([
-			'download',
-			'nama' => $nama,
-		]);
+		return Yii::$app->response->sendFile(
+			$base,
+			$nama . '.xlsx'
+		);
+
+		// return $this->redirect([
+		// 	'download',
+		// 	'nama' => $nama,
+		// ]);
 	}
 
 	public function actionDownload($nama)
@@ -320,11 +326,13 @@ class DataUtamaController extends Controller
 
 		$data = FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai']);
 		$file = Yii::getAlias("@backend/uploads/file_nilai/{$data->file_name}.xlsx");
+		if (file_exists($file)) {
+			return Yii::$app->response->sendFile(
+				$file,
+				$data->file_name . '.xlsx'
+			);
+		}
 
-		return Yii::$app->response->sendFile(
-			$file,
-			'nama.xlsx',
-		);
 
 		// echo '<pre>';
 		// print_r($file);

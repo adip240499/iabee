@@ -34,7 +34,9 @@
 		
 		"phpnt/yii2-chartjs": "*",
 		"nickcv/yii2-encrypter": "*",
-        "bower-asset/chart-js": "^2.9"
+        "bower-asset/chart-js": "^2.9",
+		
+		"lesha724/yii2-document-viewer": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

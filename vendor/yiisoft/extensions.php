@@ -390,4 +390,13 @@ return array (
       '@kartik/datecontrol' => $vendorDir . '/kartik-v/yii2-datecontrol/src',
     ),
   ),
+  'lesha724/yii2-document-viewer' => 
+  array (
+    'name' => 'lesha724/yii2-document-viewer',
+    'version' => '0.1.0.0',
+    'alias' => 
+    array (
+      '@lesha724/documentviewer' => $vendorDir . '/lesha724/yii2-document-viewer',
+    ),
+  ),
 );

@@ -103,12 +103,13 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
                 // 'role'=> 'modal-remote',
             ]) ?>
             <?php
-            if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk,'jenis'=>'nilai'])) {
+            if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
                 // echo '<p align = "right">';
                 echo Html::a('<i class="fa fa-eye"></i> Lihat File Upload', ['file-upload', 'jk' => $jk], [
                     'class' => 'btn btn-primary btn-flat',
-                    'role' => 'modal-remote',
+                    // 'role' => 'modal-remote',
                 ]);
+
                 // echo '</p>';
                 // $mata_kuliah = RefMataKuliah::findOne($tayang->id_ref_mata_kuliah);
                 // $kelas       = RefKelas::findOne($tayang->id_ref_kelas);

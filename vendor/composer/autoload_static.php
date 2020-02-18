@@ -110,6 +110,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             'nickcv\\encrypter\\' => 17,
         ),
+        'l' => 
+        array (
+            'lesha724\\documentviewer\\' => 24,
+        ),
         'k' => 
         array (
             'kartik\\widgets\\' => 15,
@@ -281,6 +285,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'nickcv\\encrypter\\' => 
         array (
             0 => __DIR__ . '/..' . '/nickcv/yii2-encrypter',
+        ),
+        'lesha724\\documentviewer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lesha724/yii2-document-viewer',
         ),
         'kartik\\widgets\\' => 
         array (

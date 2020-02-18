@@ -20,6 +20,7 @@ return array(
     'phpnt\\chartJS\\' => array($vendorDir . '/phpnt/yii2-chartjs'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
     'nickcv\\encrypter\\' => array($vendorDir . '/nickcv/yii2-encrypter'),
+    'lesha724\\documentviewer\\' => array($vendorDir . '/lesha724/yii2-document-viewer'),
     'kartik\\widgets\\' => array($vendorDir . '/kartik-v/yii2-widgets/src'),
     'kartik\\typeahead\\' => array($vendorDir . '/kartik-v/yii2-widget-typeahead/src'),
     'kartik\\touchspin\\' => array($vendorDir . '/kartik-v/yii2-widget-touchspin/src'),

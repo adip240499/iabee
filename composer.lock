@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "808ce4958b7a34d6c4ea1e2f5a108810",
+    "content-hash": "1894f8f867418bb4e4c47bc6798d77a7",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -180,6 +180,24 @@
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
             },
             "type": "bower-asset"
+        },
+        {
+            "name": "bower-asset/viewerjs",
+            "version": "v0.5.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webodf/ViewerJS_release.git",
+                "reference": "4f6e52aaad44b4c11e5de28e40a488c0a4ccbebf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webodf/ViewerJS_release/zipball/4f6e52aaad44b4c11e5de28e40a488c0a4ccbebf",
+                "reference": "4f6e52aaad44b4c11e5de28e40a488c0a4ccbebf"
+            },
+            "type": "bower-asset",
+            "license": [
+                "AGPL-3.0"
+            ]
         },
         {
             "name": "bower-asset/yii2-pjax",
@@ -467,16 +485,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.16",
+            "version": "2.1.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "5065fafc8c29d229ff207f2a89b02175f479a909"
+                "reference": "ade6887fd9bd74177769645ab5c474824f8a418a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/5065fafc8c29d229ff207f2a89b02175f479a909",
-                "reference": "5065fafc8c29d229ff207f2a89b02175f479a909",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/ade6887fd9bd74177769645ab5c474824f8a418a",
+                "reference": "ade6887fd9bd74177769645ab5c474824f8a418a",
                 "shasum": ""
             },
             "require": {
@@ -521,7 +539,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2020-02-12T22:28:28+00:00"
+            "time": "2020-02-13T22:36:52+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -2475,6 +2493,51 @@
                 "yii2"
             ],
             "time": "2019-09-03T03:11:11+00:00"
+        },
+        {
+            "name": "lesha724/yii2-document-viewer",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lesha724/yii2-document-viewer.git",
+                "reference": "3f8ceef2e95b5f11bc3b8a87cd44857a7d937a51"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lesha724/yii2-document-viewer/zipball/3f8ceef2e95b5f11bc3b8a87cd44857a7d937a51",
+                "reference": "3f8ceef2e95b5f11bc3b8a87cd44857a7d937a51",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/viewerjs": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "lesha724\\documentviewer\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "lesha724",
+                    "email": "neff.alexey@gmail.com"
+                }
+            ],
+            "description": "виджет для отображения online документов с помощью google viewer и microsoft document viewer",
+            "keywords": [
+                "Viewer",
+                "ViewerJS",
+                "docs",
+                "extension",
+                "widget",
+                "yii2"
+            ],
+            "time": "2018-11-03T17:45:22+00:00"
         },
         {
             "name": "markbaker/complex",
@@ -6932,16 +6995,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "573381c0a64f155a0d9a23f4b0c797194805b925"
+                "reference": "aed98a490f9a8f78468232db345ab9cf606cf598"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/573381c0a64f155a0d9a23f4b0c797194805b925",
-                "reference": "573381c0a64f155a0d9a23f4b0c797194805b925",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/aed98a490f9a8f78468232db345ab9cf606cf598",
+                "reference": "aed98a490f9a8f78468232db345ab9cf606cf598",
                 "shasum": ""
             },
             "require": {
@@ -6976,7 +7039,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2019-11-24T13:36:37+00:00"
+            "time": "2020-02-14T12:15:55+00:00"
         },
         {
             "name": "yiisoft/yii2-debug",
