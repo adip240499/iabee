@@ -273,7 +273,7 @@ class DataUtamaController extends Controller
 			$kelas->kelas . '_Tahun_' .
 			$tahun->tahun;
 
-		$base        = Yii::getAlias('@backend/modules/import/templates/template.xlsx');
+		$base        = Yii::getAlias('@backend/modules/import/templates/template-nilai.xlsx');
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($base);
 		$worksheet   = $spreadsheet->getActiveSheet();
 

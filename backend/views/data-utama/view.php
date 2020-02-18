@@ -10,7 +10,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Json;
 
-$this->title = 'Proses Import Data Utama';
+$this->title = 'Proses Import Nilai';
 $this->params['breadcrumbs'][] = $this->title;
 
 $count     = count($model);

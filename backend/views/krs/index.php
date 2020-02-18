@@ -1,5 +1,6 @@
 <?php
 
+use backend\models\FileUpload;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Json;
@@ -16,13 +17,10 @@ use kartik\widgets\SwitchInput;
 
 $this->title = 'Import';
 $this->params['breadcrumbs'][] = $this->title;
-// $id_tahun_ajaran = Yii::$app->request->post('id_tahun_ajaran');
-// $id_ref_semester = Yii::$app->request->post('id_ref_semester');
-// $id_ref_mata_kuliah = Yii::$app->request->post('id_ref_mata_kuliah');
-// $id_ref_kelas = Yii::$app->request->post('id_ref_kelas');
-$url = Url::to(['', 'update' => $update]);
-$urlOn = Url::to(['', 'update' => 1, $update]);
-$urlOf = Url::to(['', 'update' => 0, $update]);
+$jk = Yii::$app->getRequest()->getQueryParam('jk');
+$url = Url::to(['', 'update' => $update, 'jk' => $jk]);
+$urlOn = Url::to(['', 'update' => 1, $update, 'jk' => $jk]);
+$urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
 
 
 ?>
@@ -37,10 +35,19 @@ $urlOf = Url::to(['', 'update' => 0, $update]);
 
     <div class="panel-body">
         <p>
-            <?php echo Html::a('<i class="fa fa-download"></i> Template Excel', ['landing-download'], [
+            <?php echo Html::a('<i class="fa fa-download"></i> Template Excel', ['download-template', 'jk' => $jk], [
                 'class' => 'btn btn-success btn-flat',
-                'role' => 'modal-remote',
+                // 'role' => 'modal-remote',
             ]) ?>
+            <?php
+            if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'krs'])) {
+                // echo '<p align = "right">';
+                echo Html::a('<i class="fa fa-eye"></i> Lihat File Upload', ['file-upload', 'jk' => $jk], [
+                    'class' => 'btn btn-primary btn-flat',
+                    // 'role' => 'modal-remote',
+                ]);
+            }
+            ?>
         </p>
         <span style="font-size: 12px;">Jika Data Sudah Ada :</span>
         <?php echo SwitchInput::widget([

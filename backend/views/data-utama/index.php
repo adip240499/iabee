@@ -109,20 +109,6 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
                     'class' => 'btn btn-primary btn-flat',
                     // 'role' => 'modal-remote',
                 ]);
-
-                // echo '</p>';
-                // $mata_kuliah = RefMataKuliah::findOne($tayang->id_ref_mata_kuliah);
-                // $kelas       = RefKelas::findOne($tayang->id_ref_kelas);
-                // $tahun       = RefTahunAjaran::findOne($tayang->id_tahun_ajaran);
-                // $dosen       = RefDosen::findOne($tayang->id_ref_dosen);
-
-                // $nama = 'nilai_' .
-                //     $mata_kuliah->kode . '_' .
-                //     $mata_kuliah->nama . '_' .
-                //     $kelas->kelas . '_Tahun_' .
-                //     $tahun->tahun;
-
-
             }
             ?>
         </p>

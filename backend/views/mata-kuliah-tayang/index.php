@@ -62,10 +62,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     // 'visible' => !Yii::$app->assign->is(["Pimpinan"]),
                     'buttons' => [
                         'all' => function ($url, $model, $key) {
-                            if (FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'nilai'])) {
+                            if (FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'krs'])) {
                                 $krs = Html::a(
                                     '<span class="glyphicon glyphicon-eye-open"> KRS</span>',
-                                    ['/data-utama', 'jk' => $model->id],
+                                    ['/krs', 'jk' => $model->id],
                                     [
                                         'class' => 'btn-sm btn btn-primary',
                                     ]
@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             } else {
                                 $krs = Html::a(
                                     '<i class="glyphicon glyphicon-eye-open"> KRS</i>',
-                                    ['/data-utama', 'jk' => $model->id],
+                                    ['/krs', 'jk' => $model->id],
                                     [
                                         'class' => 'btn-sm btn btn-warning',
                                     ]
