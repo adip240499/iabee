@@ -1,87 +1,19 @@
-<!doctype html>
-<html>
+<?php
 
-<head>
-	<title>Radar Chart</title>
-	<script src="/iabee/vendor/bower-asset/chart.js/dist/Chart.min.js"></script>
-	<script src="/iabee/vendor/bower-asset/chart.js/samples/utils.js"></script>
-	<style>
-		canvas {
-			-moz-user-select: none;
-			-webkit-user-select: none;
-			-ms-user-select: none;
-		}
-	</style>
-</head>
+use yii\helpers\Html;
+use yii\helpers\Json;
 
-<body>
-	<div class="row">
-		<div class="col-md-3">
-			<div class="box box-default">
-				<div class="box-body ">
-					<div class="text-center">
-						<img src="/iabee/backend/web/assets/a7a0b57/img/user2-160x160.jpg" class="img-circle" alt="User Image" width="80%" height="80%">
-					</div>
-				</div>
-			</div>
-		</div>
+$this->registerJsFile("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js", [
+	'depends' => ["yii\web\JqueryAsset"]
+]);
+$this->registerJsFile("@web/js/utils.js", [
+	'depends' => ["yii\web\JqueryAsset"]
+]);
 
-		<div class="col-md-9">
-			<div class="box box-default">
-				<div class="box-body ">
-					<!-- <div class="form-group">
-						<label id="nim" class="col-sm-2 control-label">Nim</label>
-						<div class="col-sm-10">
-							<input value="I0716001" class="form-control" readonly>
-						</div>
-					</div> -->
-					<div class="form-group">
-						<label id="nim" class="col-sm-2 control-label">Angkatan</label>
-						<div class="col-sm-10">
-							<input value="2016" class="form-control" readonly>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+$_data = Json::encode(array_values($data));
+// echo "<pre>";print_r($_data);exit;
+$js = <<< JS
 
-	<div class="box box-solid">
-
-		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#home">Grafik Radar</a></li>
-			<li><a data-toggle="tab" href="#menu1">Grafik Bar</a></li>
-		</ul>
-
-		<div class="tab-content">
-			<div id="home" class="tab-pane fade in active">
-				<div style="width:80% , center">
-					<canvas id="radar"></canvas>
-				</div>
-			</div>
-			<div id="menu1" class="tab-pane fade">
-				<div id="container" style="width: 50%, center">
-					<canvas id="vertical-bar"></canvas>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<script>
-		var data = new Array();
-		<?php
-		$i=0;
-		foreach ($data as $key => $value) {
-			if (!$value) {
-				echo "data[$i]= null;";
-			}else{
-				echo "data[$i]= $value;";
-			}
-			$i++;
-		}
-
-		?>
 		var color = Chart.helpers.color;
 		var radarData = {
 			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
@@ -90,7 +22,7 @@
 				backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
 				borderColor: window.chartColors.red,
 				pointBackgroundColor: window.chartColors.red,
-				data: data,
+				data: $_data,
 				fill: true
 			}]
 		};
@@ -103,7 +35,7 @@
 				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 				borderColor: window.chartColors.red,
 				borderWidth: 1,
-				data: data,
+				data: $_data,
 				fill: true
 			}]
 		};
@@ -158,8 +90,75 @@
 				}
 			});
 		};
-	</script>
+JS;
 
-</body>
+$this->registerJs($js);
 
-</html>
+$css = <<< CSS
+canvas {
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
+CSS;
+$this->registerCss($css);
+?>
+<div class="row">
+	<div class="col-md-3">
+		<div class="box box-default">
+			<div class="box-body ">
+				<div class="text-center">
+					<img src="/iabee/backend/web/assets/a7a0b57/img/user2-160x160.jpg" class="img-circle" alt="User Image" width="80%" height="80%">
+				</div>
+			</div>
+		</div>
+	</div>
+<?php 
+	// echo '<pre>';
+	// print_r($angkatan);
+	// exit;
+
+?>
+
+	<div class="col-md-9">
+		<div class="box box-default">
+			<div class="box-body ">
+				<div class="form-group">
+					<label id="nim" class="col-sm-2 control-label">Angkatan</label>
+					<div class="col-sm-10">
+						<input value="<?php echo $angkatan ?>" class="form-control" readonly>
+					</div>
+				</div>
+				<div>
+					<div>
+						<?php echo Html::a('<i></i> Pilih Angkatan', ['landing-angkatan'], [
+							'class' => 'btn btn-success btn-flat',
+							'role' => 'modal-remote',
+						]) ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="box box-solid">
+
+	<ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#home">Grafik Radar</a></li>
+		<li><a data-toggle="tab" href="#menu1">Grafik Bar</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="home" class="tab-pane fade in active">
+			<div style="width:80% , center">
+				<canvas id="radar"></canvas>
+			</div>
+		</div>
+		<div id="menu1" class="tab-pane fade">
+			<div id="container" style="width: 50%, center">
+				<canvas id="vertical-bar"></canvas>
+			</div>
+		</div>
+	</div>
+</div>

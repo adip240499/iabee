@@ -53,7 +53,7 @@ class MonevCplController extends Controller
     public function actionIndividual()
     {
         $id_mahasiswa = Yii::$app->getRequest()->getQueryParam('jk');
-        
+
         if (!empty($id_mahasiswa)) {
             $cpl = RefCpl::find()->all();
             $total_cpl = count($cpl);
@@ -69,7 +69,7 @@ class MonevCplController extends Controller
                 // $nilai_cpl[$i]  = $nilai[$i] / $jumlah_cpl[$i] * 100;
                 // $data[$i]       = $nilai_cpl[$i];
             }
-            $mahasiswa = RefMahasiswa::findOne(["id"=>$id_mahasiswa]);
+            $mahasiswa = RefMahasiswa::findOne(["id" => $id_mahasiswa]);
             return $this->render(
                 '/monev-cpl/individual',
                 [
@@ -79,20 +79,19 @@ class MonevCplController extends Controller
             );
         }
 
-
         // $cpl = RefCpl::find()->all();
         // $total_cpl = count($cpl);
 
         // for ($i = 1; $i <= $total_cpl; $i++) {
-            // $cpl[$i]        = RelasiCpmkCpl::find()->where(['id_ref_cpl' => $i])->all();
-            // $individu[$i] = CapaianMahasiswa::find()
-            //     ->joinWith(['relasiCpmkCpls'])
-            //     ->where([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
-            //     ->andWhere([CapaianMahasiswa::tableName() . '.nim_ref_mahasiswa' => 'I0717037'])
-            //     ->average(CapaianMahasiswa::tableName() . '.nilai');
-            // $jumlah_cpl[$i] = count($cpl[$i]) * 100;
-            // $nilai_cpl[$i]  = $nilai[$i] / $jumlah_cpl[$i] * 100;
-            // $data[$i]       = $nilai_cpl[$i];
+        // $cpl[$i]        = RelasiCpmkCpl::find()->where(['id_ref_cpl' => $i])->all();
+        // $individu[$i] = CapaianMahasiswa::find()
+        //     ->joinWith(['relasiCpmkCpls'])
+        //     ->where([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
+        //     ->andWhere([CapaianMahasiswa::tableName() . '.nim_ref_mahasiswa' => 'I0717037'])
+        //     ->average(CapaianMahasiswa::tableName() . '.nilai');
+        // $jumlah_cpl[$i] = count($cpl[$i]) * 100;
+        // $nilai_cpl[$i]  = $nilai[$i] / $jumlah_cpl[$i] * 100;
+        // $data[$i]       = $nilai_cpl[$i];
         // }
 
         // $nilai = RefMahasiswa::find()
@@ -151,13 +150,15 @@ class MonevCplController extends Controller
 
     public function actionAngkatan()
     {
+        $tahun = Yii::$app->getRequest()->getQueryParam('jk');
+
         $cpl = RefCpl::find()->all();
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
             $angkatan[] = RefMahasiswa::find()
                 ->joinWith(['relasiCpmkCpls'])
-                ->where([RefMahasiswa::tableName() . '.angkatan' => '2015'])
+                ->where([RefMahasiswa::tableName() . '.angkatan' => $tahun])
                 ->andWhere([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
                 ->average(CapaianMahasiswa::tableName() . '.nilai');
         }
@@ -165,16 +166,37 @@ class MonevCplController extends Controller
             '/monev-cpl/angkatan',
             [
                 'data' => $angkatan,
+                'angkatan' => $tahun
             ]
         );
     }
 
+    public function actionSemester()
+    {
+        $tahun = Yii::$app->getRequest()->getQueryParam('js');
+        $sem = Yii::$app->getRequest()->getQueryParam('jk');
 
-    // public function actionLandingIndividual()
-    // {
+        $cpl = RefCpl::find()->all();
+        $total_cpl = count($cpl);
 
-    //     return $this->render('/monev-cpl/landing-individual');
-    // }
+        for ($i = 1; $i <= $total_cpl; $i++) {
+            $semester[] = CapaianMahasiswa::find()
+                ->joinWith(['relasiCpmkCpls'])
+                ->where([CapaianMahasiswa::tableName() . '.tahun' => $tahun])
+                ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $sem])
+                ->andWhere([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
+                ->average(CapaianMahasiswa::tableName() . '.nilai');
+        }
+        return $this->render(
+            '/monev-cpl/semester',
+            [
+                'data' => $semester,
+                'tahun' => $tahun,
+                'semester' => $sem
+            ]
+        );
+    }
+
 
     public function actionLandingIndividual()
     {
@@ -200,6 +222,98 @@ class MonevCplController extends Controller
             'title'   => 'Portal Individual',
             'content' => $this->renderAjax('landing-individual', [
                 'mahasiswa'    => $data['mahasiswa'],
+                'model'            => $model
+            ]),
+            'footer'  => '<div class="col-12 text-right">' .
+                Html::button(
+                    'Batal',
+                    [
+                        'class'        => 'btn btn-secondary',
+                        'data-dismiss' => 'modal',
+                    ]
+                ) . ' ' .
+                Html::button(
+                    'Submit',
+                    [
+                        'class'  => 'btn btn-success',
+                        'type'   => 'submit',
+                    ]
+                ) .
+                '</div>'
+        ];
+    }
+
+    public function actionLandingAngkatan()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model    = new CapaianMahasiswa();
+        if ($model->load(Yii::$app->request->post())) {
+
+            // echo "<pre>";
+            // print_r($model->nim_ref_mahasiswa);
+            // exit;
+            return $this->redirect([
+                'angkatan',
+                // 'nama'     => $nama,
+                'jk' => $model->id_ref_mahasiswa,
+            ]);
+        }
+        $mahasiswa = CapaianMahasiswa::find()
+            ->joinWith(['refMahasiswa'])
+            ->groupBy('angkatan')
+            ->all();
+        $data['angkatan'] = ArrayHelper::map($mahasiswa, 'refMahasiswa.angkatan', 'refMahasiswa.angkatan');
+
+        return [
+            'title'   => 'Portal Angkatan',
+            'content' => $this->renderAjax('landing-angkatan', [
+                'angkatan'    => $data['angkatan'],
+                'model'            => $model
+            ]),
+            'footer'  => '<div class="col-12 text-right">' .
+                Html::button(
+                    'Batal',
+                    [
+                        'class'        => 'btn btn-secondary',
+                        'data-dismiss' => 'modal',
+                    ]
+                ) . ' ' .
+                Html::button(
+                    'Submit',
+                    [
+                        'class'  => 'btn btn-success',
+                        'type'   => 'submit',
+                    ]
+                ) .
+                '</div>'
+        ];
+    }
+
+    public function actionLandingSemester()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model    = new CapaianMahasiswa();
+        if ($model->load(Yii::$app->request->post())) {
+
+            // echo "<pre>";
+            // print_r($model->nim_ref_mahasiswa);
+            // exit;
+            return $this->redirect([
+                'semester',
+                // 'nama'     => $nama,
+                'jk' => $model->semester,
+                'js' => $model->tahun,
+            ]);
+        }
+        $data = CapaianMahasiswa::find()->all();
+        $tahun = ArrayHelper::map($data, 'tahun', 'tahun');
+        $semester = ArrayHelper::map($data, 'semester', 'semester');
+
+        return [
+            'title'   => 'Portal Semester',
+            'content' => $this->renderAjax('landing-semester', [
+                'tahun'    => $tahun,
+                'semester' => $semester,
                 'model'            => $model
             ]),
             'footer'  => '<div class="col-12 text-right">' .

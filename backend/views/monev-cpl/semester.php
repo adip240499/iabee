@@ -114,46 +114,30 @@ $this->registerCss($css);
 		</div>
 	</div>
 	<?php
-	if ($mahasiswa->status == 1) {
-		$status = 'Aktif';
-	} else if ($mahasiswa->status == 2) {
-		$status = 'Lulus';
-	} else if ($mahasiswa->status == 3) {
-		$status = 'Tidak Aktif';
-	} else {
-		$status = 'Tidak Ditemukan';
-	}
+	// echo '<pre>';
+	// print_r($angkatan);
+	// exit;
+
 	?>
+
 	<div class="col-md-9">
 		<div class="box box-default">
 			<div class="box-body ">
 				<div class="form-group">
-					<label id="nim" class="col-sm-2 control-label">Nim</label>
+					<label id="nim" class="col-sm-2 control-label">Tahun Ajaran</label>
 					<div class="col-sm-10">
-						<input value="<?php echo $mahasiswa->nim ?>" class="form-control" readonly>
+						<input value="<?php echo $tahun?>" class="form-control" readonly>
 					</div>
 				</div>
 				<div class="form-group">
-					<label id="nim" class="col-sm-2 control-label">Nama</label>
+					<label id="nim" class="col-sm-2 control-label">Semester</label>
 					<div class="col-sm-10">
-						<input value="<?php echo $mahasiswa->nama ?>" class="form-control" readonly>
-					</div>
-				</div>
-				<div class="form-group">
-					<label id="nim" class="col-sm-2 control-label">Angkatan</label>
-					<div class="col-sm-10">
-						<input value="<?php echo $mahasiswa->angkatan ?>" class="form-control" readonly>
-					</div>
-				</div>
-				<div class="form-group">
-					<label id="nim" class="col-sm-2 control-label">Status</label>
-					<div class="col-sm-10">
-						<input value="<?php echo $status ?>" class="form-control" readonly>
+						<input value="<?php echo $semester?>" class="form-control" readonly>
 					</div>
 				</div>
 				<div>
 					<div>
-						<?php echo Html::a('<i></i> Pilih Mahasiswa', ['landing-individual'], [
+						<?php echo Html::a('<i></i> - Pilih -', ['landing-semester'], [
 							'class' => 'btn btn-success btn-flat',
 							'role' => 'modal-remote',
 						]) ?>
