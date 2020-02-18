@@ -1,7 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+// use yii\grid\GridView;
+use kartik\grid\GridView;
+use phpDocumentor\Reflection\Types\Null_;
+use PHPUnit\Framework\Constraint\IsNull;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\searchs\MataKuliahTayang */
@@ -51,6 +54,67 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $dataProvider['refKelas']->kelas; // $data['name'] for array data, e.g. using SqlDataProvider.
                     },
                 ],
+                [
+                    'class' => 'kartik\grid\ActionColumn',
+                    'template' => '{all}',
+                    // 'visible' => !Yii::$app->assign->is(["Pimpinan"]),
+                    'buttons' => [
+                        'all' => function ($url, $model, $key) {
+                            $view = Html::a(
+                                '<i class="mdi mdi-table-border"></i>',
+                                ['view', 'id' => $model->id],
+                                [
+                                    'class' => 'btn-sm btn btn-dark',
+                                    'data' => [
+                                        'toggle' => 'tooltip',
+                                        'title' => 'Lihat',
+                                    ],
+                                ]
+                            );
+                            $file_nilai = 1;
+                            if (!empty($file_nilai)) {
+                                $update = Html::a(
+                                    '<span class="glyphicon glyphicon-eye-open"> Nilai</span>',
+                                    ['/data-utama', 'jk' => $model->id],
+                                    [
+                                        'class' => 'btn-sm btn btn-primary',
+                                    ]
+                                );
+                            } else {
+                                $update = Html::a(
+                                    '<i class="glyphicon glyphicon-eye-open"> Nilai</i>',
+                                    ['mata-kuliah-tayang/file-nilai'],
+                                    [
+                                        'class' => 'btn-sm btn btn-warning',
+                                    ]
+                                );
+                            }
+
+
+                            $delete = Html::a(
+                                'Delete',
+                                ['delete', 'id' => $model->id],
+                                [
+                                    'class' => 'btn-sm btn btn-danger',
+                                    'data' => [
+                                        'toggle' => 'tooltip',
+                                        'title' => 'Hapus',
+                                        'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                                        'method' => 'post',
+                                    ],
+                                ]
+                            );
+
+                            // $update = !$model->is_end ? $update : '';
+
+                            return "<div class='btn-group'>
+                                {$update},
+                                {$delete}
+                            </div>";
+                        },
+                    ],
+                ],
+
                 ['class' => 'yii\grid\ActionColumn'],
             ],
         ]); ?>

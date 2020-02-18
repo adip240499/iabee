@@ -3,7 +3,9 @@
 namespace backend\controllers;
 
 use backend\models\CapaianMahasiswa as ModelsCapaianMahasiswa;
+use backend\models\FileUpload;
 use backend\models\MataKuliahTayang;
+use backend\models\RefDosen;
 use backend\models\RefMataKuliah as ModelsRefMataKuliah;
 use backend\models\RefTahunAjaran as ModelsRefTahunAjaran;
 use backend\models\searchs\CapaianMahasiswa;
@@ -55,11 +57,14 @@ class DataUtamaController extends Controller
 
 	public function actionIndex($update = 0)
 	{
+		if (!(Yii::$app->getRequest()->getQueryParam('jk'))) {
+			return $this->redirect([
+				'/mata-kuliah-tayang',
+			]);
+		}
 		$model = new UploadFileImporter();
 		if ($model->load(Yii::$app->request->post())) {
-
 			$model->file = UploadedFile::getInstances($model, 'file');
-
 			if ($model->file) {
 				$xlsx = $model->file[0]->tempName;
 				$reader = new Xlsx();
@@ -68,19 +73,49 @@ class DataUtamaController extends Controller
 
 				$fakultas         = $spreadsheet->getActiveSheet()->getCell('C4')->getValue();
 				$program_studi    = $spreadsheet->getActiveSheet()->getCell('C5')->getValue();
-				$tahun_ajaran     = $spreadsheet->getActiveSheet()->getCell('C6')->getValue();
+				// $tahun_ajaran     = $spreadsheet->getActiveSheet()->getCell('C6')->getValue();
 				$semester         = $spreadsheet->getActiveSheet()->getCell('C7')->getValue();
-				$kode_mata_kuliah = $spreadsheet->getActiveSheet()->getCell('C8')->getValue();
-				$mata_kuliah      = $spreadsheet->getActiveSheet()->getCell('C9')->getValue();
-				$kelas            = $spreadsheet->getActiveSheet()->getCell('C10')->getValue();
-				$dosen            = $spreadsheet->getActiveSheet()->getCell('C11')->getValue();
+				// $kode_mata_kuliah = $spreadsheet->getActiveSheet()->getCell('C8')->getValue();
+				// $mata_kuliah      = $spreadsheet->getActiveSheet()->getCell('C9')->getValue();
+				// $kelas            = $spreadsheet->getActiveSheet()->getCell('C10')->getValue();
+				// $dosen            = $spreadsheet->getActiveSheet()->getCell('C11')->getValue();
 				$encrypt            = $spreadsheet->getActiveSheet()->getCell('B12')->getValue();
 
+				$decrypt = \Yii::$app->encrypter->decrypt($encrypt);
+				$tayang = MataKuliahTayang::findOne($decrypt);
+				$mata_kuliah = RefMataKuliah::findOne($tayang->id_ref_mata_kuliah);
+				$kelas       = RefKelas::findOne($tayang->id_ref_kelas);
+				$tahun       = RefTahunAjaran::findOne($tayang->id_tahun_ajaran);
+				$dosen       = RefDosen::findOne($tayang->id_ref_dosen);
 
-				// $id_cpmk1         = $spreadsheet->getActiveSheet()->getCell('H7')->getValue();
-				// $id_cpmk2         = $spreadsheet->getActiveSheet()->getCell('H8')->getValue();
-				// $id_cpmk3         = $spreadsheet->getActiveSheet()->getCell('H9')->getValue();
-				// $id_cpmk4         = $spreadsheet->getActiveSheet()->getCell('H10')->getValue();
+				$nama = 'nilai_' .
+					$mata_kuliah->kode . '_' .
+					$mata_kuliah->nama . '_' .
+					$kelas->kelas . '_Tahun_' .
+					$tahun->tahun;
+
+				$path = Yii::getAlias("@backend/uploads/file_nilai");
+				$base = "{$path}/{$nama}.xlsx";
+				@unlink($base);
+				$files = $model->file[0]->saveAs($base, FALSE);
+				if ($files) {
+					$flag = true;
+					$newData = false;
+					$data = $exist = FileUpload::findOne(['id_mata_kuliah_tayang' => $decrypt, 'jenis' => 'nilai']);
+					if (!$data) {
+						$newData = true;
+						$data = new FileUpload();
+					}
+					if ($update || $newData) {
+						$data->id_mata_kuliah_tayang = $decrypt;
+						$data->file_name = $nama;
+						$data->base_name = $model->file[0]->baseName;
+						$data->jenis = 'nilai';
+						$flag = $flag && $data->save(FALSE);
+						if ($update && $exist) {
+						}
+					}
+				}
 
 				if (count($spreadsheetData) > 1) {
 					for ($i = 0; $i < 14; $i++) {
@@ -96,12 +131,12 @@ class DataUtamaController extends Controller
 						'update'			=> $update,
 						'fakultas' 			=> $fakultas,
 						'program_studi' 	=> $program_studi,
-						'tahun_ajaran' 		=> $tahun_ajaran,
+						'tahun_ajaran' 		=> $tahun->tahun,
 						'semester' 			=> $semester,
-						'kode_mata_kuliah' 	=> $kode_mata_kuliah,
-						'mata_kuliah' 		=> $mata_kuliah,
-						'kelas' 			=> $kelas,
-						'dosen' 			=> $dosen,
+						'kode_mata_kuliah' 	=> $mata_kuliah->kode,
+						'mata_kuliah' 		=> $mata_kuliah->nama,
+						'kelas' 			=> $kelas->kelas,
+						'dosen' 			=> $dosen->nama_dosen,
 						'encrypt' 			=> $encrypt,
 						// 'id_cpmk1'			=> $id_cpmk1,
 						// 'id_cpmk2'			=> $id_cpmk2,
@@ -140,80 +175,133 @@ class DataUtamaController extends Controller
 	// 	]);
 	// }
 
-	public function actionLandingDownload()
+	// public function actionLandingDownload()
+	// {
+	// 	Yii::$app->response->format = Response::FORMAT_JSON;
+	// 	$model	= new MataKuliahTayang();
+	// 	if ($model->load(Yii::$app->request->post())) {
+	// 		$mata_kuliah = RefMataKuliah::findOne($model->id_ref_mata_kuliah);
+	// 		$kelas       = RefKelas::findOne($model->id_ref_kelas);
+	// 		$tahun       = RefTahunAjaran::findOne($model->id_tahun_ajaran);
+
+
+	// 		$nama = 'nilai_' .
+	// 			$mata_kuliah->kode . '_' .
+	// 			$mata_kuliah->nama . '_' .
+	// 			$kelas->kelas . '_Tahun_' .
+	// 			$tahun->tahun;
+
+	// 		$base        = Yii::getAlias('@backend/modules/import/templates/template.xlsx');
+	// 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($base);
+	// 		$worksheet   = $spreadsheet->getActiveSheet();
+
+	// 		$worksheet->setCellValue('C6', $tahun->tahun);  //Tahun Ajaran
+	// 		$worksheet->setCellValue('C7', $model->semester);  //Semester
+	// 		$worksheet->setCellValue('C8', $mata_kuliah->kode);  //Kode Mata Kuliah
+	// 		$worksheet->setCellValue('C9', $mata_kuliah->nama);  //Nama Mata Kuliah
+	// 		$worksheet->setCellValue('C10', $kelas->kelas);  //Kelas
+	// 		$worksheet->setCellValue('C11', 'Pengampu Belum diambil');  //Pengampu
+
+	// 		$encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
+	// 		$worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
+
+	// 		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+
+	// 		$path = Yii::getAlias("@backend/uploads/import_nilai");
+
+	// 		$base = "{$path}/{$nama}.xlsx";
+	// 		@unlink($base);
+	// 		$writer->save($base);
+
+	// 		return $this->redirect([
+	// 			'download',
+	// 			'nama' => $nama,
+	// 		]);
+	// 	}
+
+	// 	$data['tahun_ajaran'] = ArrayHelper::map(RefTahunAjaran::find()->all(), 'id', 'tahun');
+	// 	$data['kelas']        = ArrayHelper::map(RefKelas::find()->all(), 'id', 'kelas');
+	// 	$data['mata_kuliah']  = ArrayHelper::map(RefMataKuliah::find()->all(), 'id', 'nama');
+
+	// 	return [
+	// 		'title'   => 'Portal Download Template',
+	// 		'content' => $this->renderAjax('landing-download', [
+	// 			'tahun_ajaran'	=> $data['tahun_ajaran'],
+	// 			'kelas'			=> $data['kelas'],
+	// 			'mata_kuliah'	=> $data['mata_kuliah'],
+	// 			'model'			=> $model
+	// 		]),
+	// 		'footer'  => '<div class="col-12 text-right">' .
+	// 			Html::button(
+	// 				'Batal',
+	// 				[
+	// 					'class'        => 'btn btn-secondary',
+	// 					'data-dismiss' => 'modal',
+	// 				]
+	// 			) . ' ' .
+	// 			Html::button(
+	// 				'Submit',
+	// 				[
+	// 					'class'  => 'btn btn-success',
+	// 					'type'   => 'submit',
+	// 				]
+	// 			) .
+	// 			'</div>'
+	// 	];
+	// }
+
+
+	public function actionDownloadTemplate()
 	{
 		Yii::$app->response->format = Response::FORMAT_JSON;
-		$model	= new MataKuliahTayang();
-		if ($model->load(Yii::$app->request->post())) {
-			$mata_kuliah = RefMataKuliah::findOne($model->id_ref_mata_kuliah);
-			$kelas       = RefKelas::findOne($model->id_ref_kelas);
-			$tahun       = RefTahunAjaran::findOne($model->id_tahun_ajaran);
-
-
-			$nama = 'nilai_' .
-				$mata_kuliah->kode . '_' .
-				$mata_kuliah->nama . '_' .
-				$kelas->kelas . '_Tahun_' .
-				$tahun->tahun . '_' .
-				date('YmdHis');
-
-			$base        = Yii::getAlias('@backend/modules/import/templates/template.xlsx');
-			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($base);
-			$worksheet   = $spreadsheet->getActiveSheet();
-
-			$worksheet->setCellValue('C6', $tahun->tahun);  //Tahun Ajaran
-			$worksheet->setCellValue('C7', $model->semester);  //Semester
-			$worksheet->setCellValue('C8', $mata_kuliah->kode);  //Kode Mata Kuliah
-			$worksheet->setCellValue('C9', $mata_kuliah->nama);  //Nama Mata Kuliah
-			$worksheet->setCellValue('C10', $kelas->kelas);  //Kelas
-			$worksheet->setCellValue('C11', 'Pengampu Belum diambil');  //Pengampu
-
-			$encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
-			$worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
-			
-			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-			
-			$path = Yii::getAlias("@backend/uploads/import_nilai");
-
-			$base = "{$path}/{$nama}.xlsx";
-			@unlink($base);
-			$writer->save($base);
-
+		if (empty(Yii::$app->getRequest()->getQueryParam('jk'))) {
 			return $this->redirect([
-				'download',
-				'nama' => $nama,
+				'/mata-kuliah-tayang'
 			]);
 		}
+		$id_tayang = Yii::$app->getRequest()->getQueryParam('jk');
 
-		$data['tahun_ajaran'] = ArrayHelper::map(RefTahunAjaran::find()->all(), 'id', 'tahun');
-		$data['kelas']        = ArrayHelper::map(RefKelas::find()->all(), 'id', 'kelas');
-		$data['mata_kuliah']  = ArrayHelper::map(RefMataKuliah::find()->all(), 'id', 'nama');
+		$model = MataKuliahTayang::findOne($id_tayang);
+		$mata_kuliah = RefMataKuliah::findOne($model->id_ref_mata_kuliah);
+		$kelas       = RefKelas::findOne($model->id_ref_kelas);
+		$tahun       = RefTahunAjaran::findOne($model->id_tahun_ajaran);
 
-		return [
-			'title'   => 'Portal Download Template',
-			'content' => $this->renderAjax('landing-download', [
-				'tahun_ajaran'	=> $data['tahun_ajaran'],
-				'kelas'			=> $data['kelas'],
-				'mata_kuliah'	=> $data['mata_kuliah'],
-				'model'			=> $model
-			]),
-			'footer'  => '<div class="col-12 text-right">' .
-				Html::button(
-					'Batal',
-					[
-						'class'        => 'btn btn-secondary',
-						'data-dismiss' => 'modal',
-					]
-				) . ' ' .
-				Html::button(
-					'Submit',
-					[
-						'class'  => 'btn btn-success',
-						'type'   => 'submit',
-					]
-				) .
-				'</div>'
-		];
+		$nama = 'nilai_' .
+			$mata_kuliah->kode . '_' .
+			$mata_kuliah->nama . '_' .
+			$kelas->kelas . '_Tahun_' .
+			$tahun->tahun;
+
+		$base        = Yii::getAlias('@backend/modules/import/templates/template.xlsx');
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($base);
+		$worksheet   = $spreadsheet->getActiveSheet();
+
+		$worksheet->setCellValue('C6', $tahun->tahun);  //Tahun Ajaran
+		$worksheet->setCellValue('C7', $model->semester);  //Semester
+		$worksheet->setCellValue('C8', $mata_kuliah->kode);  //Kode Mata Kuliah
+		$worksheet->setCellValue('C9', $mata_kuliah->nama);  //Nama Mata Kuliah
+		$worksheet->setCellValue('C10', $kelas->kelas);  //Kelas
+		$worksheet->setCellValue('C11', 'Pengampu Belum diambil');  //Pengampu
+
+		// $encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
+		// $worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
+
+		$encrypt	= \Yii::$app->encrypter->encrypt($id_tayang);
+		$worksheet->setCellValue('B12', $encrypt);  //id mata kuliah tayang
+
+
+		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+
+		$path = Yii::getAlias("@backend/uploads/import_nilai");
+
+		$base = "{$path}/{$nama}.xlsx";
+		@unlink($base);
+		$writer->save($base);
+
+		return $this->redirect([
+			'download',
+			'nama' => $nama,
+		]);
 	}
 
 	public function actionDownload($nama)
@@ -225,29 +313,23 @@ class DataUtamaController extends Controller
 		);
 	}
 
-	// public function actionDepDropMataKuliah()
-	// {
-	// 	Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+	public function actionFileUpload()
+	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
+		$jk = Yii::$app->getRequest()->getQueryParam('jk');
 
-	// 	$parents = Yii::$app->request->post('depdrop_parents');
-	// 	if ($parents) {
-	// 		$out = [];
+		$data = FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai']);
+		$file = Yii::getAlias("@backend/uploads/file_nilai/{$data->file_name}.xlsx");
 
-	// 		$models = MataKuliahTayang::find()
-	// ->joinWith(['refMataKuliah'])
-	// 			->where(['id_tahun_ajaran' => $parents[0]])
-	// 			->groupBy('ref_mata_kuliah.id')
-	// 			->all();
-	// 		foreach ($models as $model) {
-	// 			$out[] = [
-	// 				'id'   => $model['refMataKuliah']->id,
-	// 				'name' => $model['refMataKuliah']->nama,
-	// 			];
-	// 		}
-	// 		return ['output' => $out, 'selected' => ''];
-	// 	}
-	// 	return ['output' => '', 'selected' => ''];
-	// }
+		return Yii::$app->response->sendFile(
+			$file,
+			'nama.xlsx',
+		);
+
+		// echo '<pre>';
+		// print_r($file);
+		// exit;
+	}
 
 	public function actionProsesAjax($update = 0)
 	{
@@ -263,8 +345,9 @@ class DataUtamaController extends Controller
 		$kelas      = $request->post('kelas');
 
 		$decrypt = \Yii::$app->encrypter->decrypt($encrypt);
+		$model = MataKuliahTayang::findOne($decrypt);
 		$cpmks   = RefCpmk::find()
-			->where(['id_ref_mata_kuliah' => $decrypt])
+			->where(['id_ref_mata_kuliah' => $model->id_ref_mata_kuliah])
 			->all();
 
 		$count = count($cpmks);
@@ -394,7 +477,7 @@ class DataUtamaController extends Controller
 			$status = $desc = '';
 			$statust = $desct = '';
 
-			$id_mahasiswa = RefMahasiswa::findOne(['nim'=>$nim]);
+			$id_mahasiswa = RefMahasiswa::findOne(['nim' => $nim]);
 
 			// echo '<pre>';
 			// print_r($tahun);

@@ -4,11 +4,17 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\MataKuliahTayang;
+use backend\models\RefKelas;
+use backend\models\RefMataKuliah;
+use backend\models\RefTahunAjaran;
 use backend\models\searchs\MataKuliahTayang as MataKuliahTayangSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\web\Response;
 
 /**
  * MataKuliahTayangController implements the CRUD actions for MataKuliahTayang model.
@@ -121,6 +127,47 @@ class MataKuliahTayangController extends Controller
         }
         return $this->redirect(['index']);
     }
+
+    public function actionFileNilai(){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model    = new MataKuliahTayang();
+        $data['tahun_ajaran'] = ArrayHelper::map(RefTahunAjaran::find()->all(), 'id', 'tahun');
+        $data['kelas']        = ArrayHelper::map(RefKelas::find()->all(), 'id', 'kelas');
+        $data['mata_kuliah']  = ArrayHelper::map(RefMataKuliah::find()->all(), 'id', 'nama');
+
+        $query = MataKuliahTayang::find()
+            ->joinWith("refMataKuliah")
+            ->all();
+        $data['mk_tayang']  = ArrayHelper::map($query, 'id', 'refMataKuliah.nama');
+
+        return [
+            'title'   => 'File Nilai',
+            'content' => $this->renderAjax('file-nilai', [
+                'tahun_ajaran'     => $data['tahun_ajaran'],
+                'kelas'            => $data['kelas'],
+                'mata_kuliah'      => $data['mata_kuliah'],
+                'mk_tayang'      => $data['mk_tayang'],
+                'model'            => $model
+            ]),
+            'footer'  => '<div class="col-12 text-right">' .
+                Html::button(
+                    'Batal',
+                    [
+                        'class'        => 'btn btn-secondary',
+                        'data-dismiss' => 'modal',
+                    ]
+                ) . ' ' .
+                Html::button(
+                    'Submit',
+                    [
+                        'class'  => 'btn btn-success',
+                        'type'   => 'submit',
+                    ]
+                ) .
+                '</div>'
+        ];
+    }
+
 
     /**
      * Finds the MataKuliahTayang model based on its primary key value.
