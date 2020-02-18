@@ -54,7 +54,6 @@ class MonevCplController extends Controller
     {
         $id_mahasiswa = Yii::$app->getRequest()->getQueryParam('jk');
         
-
         if (!empty($id_mahasiswa)) {
             $cpl = RefCpl::find()->all();
             $total_cpl = count($cpl);
@@ -189,13 +188,13 @@ class MonevCplController extends Controller
             return $this->redirect([
                 'individual',
                 // 'nama'     => $nama,
-                'nim' => $model->nim_ref_mahasiswa,
+                'jk' => $model->id_ref_mahasiswa,
             ]);
         }
         $mahasiswa = CapaianMahasiswa::find()
-            ->joinWith(['nimRefMahasiswa'])
+            ->joinWith(['refMahasiswa'])
             ->all();
-        $data['mahasiswa'] = ArrayHelper::map($mahasiswa, 'nimRefMahasiswa.nim', 'nimRefMahasiswa.nama');
+        $data['mahasiswa'] = ArrayHelper::map($mahasiswa, 'refMahasiswa.id', 'refMahasiswa.nama');
 
         return [
             'title'   => 'Portal Individual',

@@ -16,7 +16,7 @@ use kartik\select2\Select2;
     // echo "<pre>";
     // print_r($mahasiswa);
     // exit;
-    echo $form->field($model, 'nim_ref_mahasiswa')->widget(Select2::classname(), [
+    echo $form->field($model, 'id_ref_mahasiswa')->widget(Select2::classname(), [
         'data' => $mahasiswa,
         'options' => [
             // 'id'    => 'id_tahun_ajaran',
