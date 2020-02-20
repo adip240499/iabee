@@ -100,33 +100,36 @@ canvas {
 			-webkit-user-select: none;
 			-ms-user-select: none;
 		}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background: none;
+    outline: none;
+}
 CSS;
 $this->registerCss($css);
 ?>
+<?php
+if ($mahasiswa->status == 1) {
+	$status = 'Aktif';
+} else if ($mahasiswa->status == 2) {
+	$status = 'Lulus';
+} else if ($mahasiswa->status == 3) {
+	$status = 'Tidak Aktif';
+} else {
+	$status = 'Tidak Ditemukan';
+}
+?>
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-12">
 		<div class="box box-default">
 			<div class="box-body ">
-				<div class="text-center">
-					<img src="/iabee/backend/web/assets/a7a0b57/img/user2-160x160.jpg" class="img-circle" alt="User Image" width="80%" height="80%">
+				<div class="form-group">
+					<div>
+						<?php echo Html::a('<i></i> Pilih Mahasiswa', ['landing-individual'], [
+							'class' => 'btn btn-success btn-flat',
+							'role' => 'modal-remote',
+						]) ?>
+					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-	<?php
-	if ($mahasiswa->status == 1) {
-		$status = 'Aktif';
-	} else if ($mahasiswa->status == 2) {
-		$status = 'Lulus';
-	} else if ($mahasiswa->status == 3) {
-		$status = 'Tidak Aktif';
-	} else {
-		$status = 'Tidak Ditemukan';
-	}
-	?>
-	<div class="col-md-9">
-		<div class="box box-default">
-			<div class="box-body ">
 				<div class="form-group">
 					<label id="nim" class="col-sm-2 control-label">Nim</label>
 					<div class="col-sm-10">
@@ -149,14 +152,6 @@ $this->registerCss($css);
 					<label id="nim" class="col-sm-2 control-label">Status</label>
 					<div class="col-sm-10">
 						<input value="<?php echo $status ?>" class="form-control" readonly>
-					</div>
-				</div>
-				<div>
-					<div>
-						<?php echo Html::a('<i></i> Pilih Mahasiswa', ['landing-individual'], [
-							'class' => 'btn btn-success btn-flat',
-							'role' => 'modal-remote',
-						]) ?>
 					</div>
 				</div>
 			</div>

@@ -19,8 +19,9 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget' => 'tree'],
                 'items' => [
                     ['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => Yii::$app->homeUrl],
-                    ['label' => 'Import Nilai', 'icon' => 'ioxhost', 'url' => ['/data-utama']],
+                    // ['label' => 'Import Nilai', 'icon' => 'ioxhost', 'url' => ['/data-utama']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => 'Mata Kuliah Tayang', 'icon' => 'black-tie', 'url' => ['/mata-kuliah-tayang'],],
                     [
                         'label' => 'CP Lulusan',
                         'icon' => 'black-tie',
@@ -36,7 +37,7 @@
                                     //     'label' => 'CPL Individual', 'icon' => 'file-code-o',
                                     //     'options' => ['role' => 'modal-remote'], 'url' => ['/monev-cpl/landing-individual'],
                                     // ],
-                                    ['label' => 'CPL individu', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/individual'.$nim = '?jk=8'],],
+                                    ['label' => 'CPL individu', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/individual' . $nim = '?jk=8'],],
                                     ['label' => 'CPL Semester', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/semester'],],
                                     ['label' => 'CPL Angkatan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/angkatan'],],
                                     ['label' => 'CPL Lulusan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/lulusan'],],
@@ -44,15 +45,16 @@
                             ],
                         ],
                     ],
-                    [
-                        'label' => 'Kartu Rencana Studi',
-                        'icon' => 'black-tie',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Kartu Rencana Studi', 'icon' => 'file-code-o', 'url' => ['/krs'],],
-                            ['label' => 'Mata Kuliah Tayang', 'icon' => 'file-code-o', 'url' => ['/mata-kuliah-tayang'],],
-                        ],
-                    ],
+                    // [
+                    //     'label' => 'Kartu Rencana Studi',
+                    //     'icon' => 'black-tie',
+                    //     'url' => '#',
+                    //     'items' => [
+                    //         ['label' => 'Kartu Rencana Studi', 'icon' => 'file-code-o', 'url' => ['/krs'],],
+                    //         ['label' => 'Mata Kuliah Tayang', 'icon' => 'file-code-o', 'url' => ['/mata-kuliah-tayang'],],
+                    //     ],
+                    // ],
+
                     [
                         'label' => 'CP Mata Kuliah',
                         'icon' => 'black-tie',

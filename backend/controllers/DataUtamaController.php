@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\CapaianMahasiswa as ModelsCapaianMahasiswa;
 use backend\models\FileUpload;
+use backend\models\Krs;
 use backend\models\MataKuliahTayang;
 use backend\models\RefDosen;
 use backend\models\RefMataKuliah as ModelsRefMataKuliah;
@@ -81,8 +82,8 @@ class DataUtamaController extends Controller
 				// $dosen            = $spreadsheet->getActiveSheet()->getCell('C11')->getValue();
 				$encrypt            = $spreadsheet->getActiveSheet()->getCell('B12')->getValue();
 
-				$decrypt = \Yii::$app->encrypter->decrypt($encrypt);
-				$tayang = MataKuliahTayang::findOne($decrypt);
+				$decrypt     = \Yii::$app->encrypter->decrypt($encrypt);
+				$tayang      = MataKuliahTayang::findOne($decrypt);
 				$mata_kuliah = RefMataKuliah::findOne($tayang->id_ref_mata_kuliah);
 				$kelas       = RefKelas::findOne($tayang->id_ref_kelas);
 				$tahun       = RefTahunAjaran::findOne($tayang->id_tahun_ajaran);
@@ -261,11 +262,19 @@ class DataUtamaController extends Controller
 		}
 		$id_tayang = Yii::$app->getRequest()->getQueryParam('jk');
 
-		$model = MataKuliahTayang::findOne($id_tayang);
+		$model       = MataKuliahTayang::findOne($id_tayang);
 		$mata_kuliah = RefMataKuliah::findOne($model->id_ref_mata_kuliah);
 		$kelas       = RefKelas::findOne($model->id_ref_kelas);
 		$tahun       = RefTahunAjaran::findOne($model->id_tahun_ajaran);
 		$dosen       = RefDosen::findOne($model->id_ref_dosen);
+		$mahasiswa   = Krs::find()
+			->joinWith('refMahasiswa')
+			->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $id_tayang])
+			->all();
+
+		// echo '<pre>';
+		// print_r($mahasiswa[0]['refMahasiswa']->nim);
+		// exit;
 
 		$nama = 'nilai_' .
 			$mata_kuliah->kode . '_' .
@@ -284,6 +293,14 @@ class DataUtamaController extends Controller
 		$worksheet->setCellValue('C10', $kelas->kelas);  //Kelas
 		$worksheet->setCellValue('C11', $dosen->nama_dosen);  //Pengampu
 
+		$count = count($mahasiswa);
+		$no =1;
+		for ($i = 0; $i < $count; $i++) {
+			$j=15+$i;
+			$worksheet->setCellValue('A'.$j, $no++);  //no
+			$worksheet->setCellValue('B'.$j, $mahasiswa[$i]['refMahasiswa']->nim);  //nim
+			$worksheet->setCellValue('C'.$j, $mahasiswa[$i]['refMahasiswa']->nama);  //nama mahasiswa
+		}
 		// $encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
 		// $worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
 
@@ -303,11 +320,6 @@ class DataUtamaController extends Controller
 			$base,
 			$nama . '.xlsx'
 		);
-
-		// return $this->redirect([
-		// 	'download',
-		// 	'nama' => $nama,
-		// ]);
 	}
 
 	public function actionDownload($nama)

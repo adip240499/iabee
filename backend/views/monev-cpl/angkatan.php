@@ -31,7 +31,7 @@ $js = <<< JS
 		var barChartData = {
 			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
 			datasets: [{
-				label: 'Dataset 1',
+				label: 'Capaian Lulusan Mahasiswa',
 				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 				borderColor: window.chartColors.red,
 				borderWidth: 1,
@@ -53,7 +53,7 @@ $js = <<< JS
 					},
 					title: {
 						display: true,
-						text: 'Adip Safiudin'
+						text: $angkatan
 					},
 					scale: {
 						ticks: {
@@ -84,7 +84,7 @@ $js = <<< JS
 					},
 					title: {
 						display: true,
-						text: 'Chart.js Bar Chart'
+						text: $angkatan
 					}
 
 				}
@@ -100,11 +100,15 @@ canvas {
 			-webkit-user-select: none;
 			-ms-user-select: none;
 		}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background: none;
+    outline: none;
+}
 CSS;
 $this->registerCss($css);
 ?>
 <div class="row">
-	<div class="col-md-3">
+	<!-- <div class="col-md-3">
 		<div class="box box-default">
 			<div class="box-body ">
 				<div class="text-center">
@@ -112,29 +116,29 @@ $this->registerCss($css);
 				</div>
 			</div>
 		</div>
-	</div>
-<?php 
+	</div> -->
+	<?php
 	// echo '<pre>';
 	// print_r($angkatan);
 	// exit;
 
-?>
+	?>
 
-	<div class="col-md-9">
+	<div class="col-md-12">
 		<div class="box box-default">
 			<div class="box-body ">
 				<div class="form-group">
-					<label id="nim" class="col-sm-2 control-label">Angkatan</label>
-					<div class="col-sm-10">
-						<input value="<?php echo $angkatan ?>" class="form-control" readonly>
-					</div>
-				</div>
-				<div>
 					<div>
 						<?php echo Html::a('<i></i> Pilih Angkatan', ['landing-angkatan'], [
 							'class' => 'btn btn-success btn-flat',
 							'role' => 'modal-remote',
 						]) ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label id="nim" class="col-sm-2 control-label">Angkatan</label>
+					<div class="col-sm-10">
+						<input value="<?php echo $angkatan ?>" class="form-control" readonly>
 					</div>
 				</div>
 			</div>
