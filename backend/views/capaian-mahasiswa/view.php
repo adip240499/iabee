@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'id_ref_cpmk',
-            'nim_ref_mahasiswa',
+            'id_ref_mahasiswa',
             'nilai',
             'semester',
             'status',

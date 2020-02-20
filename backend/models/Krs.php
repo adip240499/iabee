@@ -18,6 +18,7 @@ use Yii;
  *
  * @property RefMahasiswa $refMahasiswa
  * @property MataKuliahTayang $mataKuliahTayang
+ * @property CapaianMahasiswa $capaianMahasiswa
  */
 class Krs extends \yii\db\ActiveRecord
 {
@@ -80,5 +81,11 @@ class Krs extends \yii\db\ActiveRecord
     public function getMataKuliahTayang()
     {
         return $this->hasOne(MataKuliahTayang::className(), ['id' => 'id_mata_kuliah_tayang']);
+    }
+
+    public function getCapaianMahasiswa()
+    {
+        return $this->hasMany(CapaianMahasiswa::className(), ['id_ref_mahasiswa' => 'id'])
+        ->viaTable(RefMahasiswa::tableName(), ['id' => 'id_ref_mahasiswa']);
     }
 }

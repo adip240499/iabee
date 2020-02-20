@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'id_ref_cpmk',
-            'nim_ref_mahasiswa',
+            'id_ref_mahasiswa',
             'nilai',
             'semester',
             //'status',

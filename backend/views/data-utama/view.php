@@ -84,6 +84,14 @@ function generate(model, max, key)
 JS;
 $this->registerJs($js);
 
+$css = <<< CSS
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background: none;
+    outline: none;
+    border: none;
+}
+CSS;
+$this->registerCss($css);
 ?>
 
 <div class="row">

@@ -95,4 +95,5 @@ class CapaianMahasiswa extends \yii\db\ActiveRecord
         return $this->hasMany(RelasiCpmkCpl::className(), ['id_ref_cpmk' => 'id'])
             ->viaTable(RefCpmk::tableName(), ['id' => 'id_ref_cpmk']);
     }
+    
 }

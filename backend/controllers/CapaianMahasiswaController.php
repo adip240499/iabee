@@ -4,6 +4,12 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\CapaianMahasiswa;
+use backend\models\Krs;
+use backend\models\MataKuliahTayang;
+use backend\models\RefDosen;
+use backend\models\RefKelas;
+use backend\models\RefMataKuliah;
+use backend\models\RefTahunAjaran;
 use backend\models\searchs\CapaianMahasiswa as CapaianMahasiswaSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -136,5 +142,41 @@ class CapaianMahasiswaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionNilaiUpload()
+    {
+        $jk             = Yii::$app->getRequest()->getQueryParam('jk');
+        $data['tayang']       = MataKuliahTayang::findOne(['id' => $jk]);
+        $data['mata_kuliah']  = RefMataKuliah::findOne($data['tayang']->id_ref_mata_kuliah);
+        $data['kelas']        = RefKelas::findOne($data['tayang']->id_ref_kelas);
+        $data['tahun_ajaran'] = RefTahunAjaran::findOne($data['tayang']->id_tahun_ajaran);
+        $data['dosen']        = RefDosen::findOne($data['tayang']->id_ref_dosen);
+        $data['capaian']      = Krs::find()
+            ->select('*')
+            ->joinWith('capaianMahasiswa')
+            // ->joinWith('refMahasiswa')
+            ->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $jk])
+            ->where([CapaianMahasiswa::tableName() . '.status' => 1])
+            ->groupBy(Krs::tableName().'.id_ref_mahasiswa')
+            // ->where([CapaianMahasiswa::tableName() . '.id_mata_kuliah_tayang' => $jk])
+            ->all();
+        // $connection = Yii::$app->getDb();
+        // $command = $connection->createCommand("
+        // SELECT * 
+        // FROM `krs` 
+        // LEFT JOIN `ref_mahasiswa` ON `krs`.`id_ref_mahasiswa` = `ref_mahasiswa`.`id` 
+        // LEFT JOIN `capaian_mahasiswa` ON `ref_mahasiswa`.`id` = `capaian_mahasiswa`.`id_ref_mahasiswa` 
+        // WHERE `krs`.`id_mata_kuliah_tayang`=".$jk);
+
+        // $result = $command->queryAll();
+
+        // echo '<pre>';
+        // print_r($result);
+        // exit;
+        return $this->render('nilai-upload', [
+            'data' => $data,
+            // 'result' => $result
+        ]);
     }
 }

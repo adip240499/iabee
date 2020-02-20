@@ -525,6 +525,7 @@ class DataUtamaController extends Controller
 						$data->tahun             = $tahun;
 						$data->semester          = $semester;
 						$data->kelas          = $kelas;
+						$data->status          = 1;
 						$flag                    = $flag && $data->save(false);
 
 						if ($update && $exist) {

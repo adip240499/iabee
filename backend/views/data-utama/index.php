@@ -109,6 +109,11 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
                     'class' => 'btn btn-primary btn-flat',
                     // 'role' => 'modal-remote',
                 ]);
+
+                echo Html::a('<i class="fa fa-eye"></i> Lihat Nilai', ['/capaian-mahasiswa/nilai-upload', 'jk' => $jk], [
+                    'class' => 'btn btn-primary btn-flat',
+                    // 'role' => 'modal-remote',
+                ]);
             }
             ?>
         </p>
