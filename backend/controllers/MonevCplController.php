@@ -64,6 +64,7 @@ class MonevCplController extends Controller
                     ->joinWith(['relasiCpmkCpls'])
                     ->where([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
                     ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => $id_mahasiswa])
+                    ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
                     ->average(CapaianMahasiswa::tableName() . '.nilai');
                 // $jumlah_cpl[$i] = count($cpl[$i]) * 100;
                 // $nilai_cpl[$i]  = $nilai[$i] / $jumlah_cpl[$i] * 100;
@@ -160,6 +161,7 @@ class MonevCplController extends Controller
                 ->joinWith(['relasiCpmkCpls'])
                 ->where([RefMahasiswa::tableName() . '.angkatan' => $tahun])
                 ->andWhere([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
+                ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
                 ->average(CapaianMahasiswa::tableName() . '.nilai');
         }
         return $this->render(
@@ -185,6 +187,7 @@ class MonevCplController extends Controller
                 ->where([CapaianMahasiswa::tableName() . '.tahun' => $tahun])
                 ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $sem])
                 ->andWhere([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
+                ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
                 ->average(CapaianMahasiswa::tableName() . '.nilai');
         }
         return $this->render(
