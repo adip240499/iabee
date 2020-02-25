@@ -31,7 +31,7 @@ $js = <<< JS
 		var barChartData = {
 			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
 			datasets: [{
-				label: 'Dataset 1',
+				label: 'Capaian Lulusan Mahasiswa',
 				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 				borderColor: window.chartColors.red,
 				borderWidth: 1,
@@ -53,7 +53,7 @@ $js = <<< JS
 					},
 					title: {
 						display: true,
-						text: 'Adip Safiudin'
+						text: $angkatan
 					},
 					scale: {
 						ticks: {
@@ -84,7 +84,7 @@ $js = <<< JS
 					},
 					title: {
 						display: true,
-						text: 'Chart.js Bar Chart'
+						text: $angkatan
 					}
 
 				}
@@ -107,18 +107,23 @@ canvas {
 CSS;
 $this->registerCss($css);
 ?>
-<?php
-if ($mahasiswa->status == 1) {
-	$status = 'Aktif';
-} else if ($mahasiswa->status == 2) {
-	$status = 'Lulus';
-} else if ($mahasiswa->status == 3) {
-	$status = 'Tidak Aktif';
-} else {
-	$status = 'Tidak Ditemukan';
-}
-?>
 <div class="row">
+	<!-- <div class="col-md-3">
+		<div class="box box-default">
+			<div class="box-body ">
+				<div class="text-center">
+					<img src="/iabee/backend/web/assets/a7a0b57/img/user2-160x160.jpg" class="img-circle" alt="User Image" width="80%" height="80%">
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<?php
+	// echo '<pre>';
+	// print_r($angkatan);
+	// exit;
+
+	?>
+
 	<div class="col-md-12">
 		<div class="box box-default">
 			<div class="box-body ">
@@ -145,27 +150,9 @@ if ($mahasiswa->status == 1) {
 					</div>
 				</div>
 				<div class="form-group">
-					<label id="nim" class="col-sm-2 control-label">Nim</label>
-					<div class="col-sm-10">
-						<input value="<?php echo $mahasiswa->nim ?>" class="form-control" readonly>
-					</div>
-				</div>
-				<div class="form-group">
-					<label id="nim" class="col-sm-2 control-label">Nama</label>
-					<div class="col-sm-10">
-						<input value="<?php echo $mahasiswa->nama ?>" class="form-control" readonly>
-					</div>
-				</div>
-				<div class="form-group">
 					<label id="nim" class="col-sm-2 control-label">Angkatan</label>
 					<div class="col-sm-10">
-						<input value="<?php echo $mahasiswa->angkatan ?>" class="form-control" readonly>
-					</div>
-				</div>
-				<div class="form-group">
-					<label id="nim" class="col-sm-2 control-label">Status</label>
-					<div class="col-sm-10">
-						<input value="<?php echo $status ?>" class="form-control" readonly>
+						<input value="<?php echo $angkatan ?>" class="form-control" readonly>
 					</div>
 				</div>
 			</div>

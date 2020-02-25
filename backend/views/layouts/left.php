@@ -40,7 +40,7 @@
                                     ['label' => 'CPL individu', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/individual' . $nim = '?jk=8'],],
                                     ['label' => 'CPL Semester', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/semester'],],
                                     ['label' => 'CPL Angkatan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/angkatan'],],
-                                    ['label' => 'CPL Lulusan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/lulusan'],],
+                                    ['label' => 'CPL Lulusan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/index'. $nim = '?jk=8'],],
                                 ]
                             ],
                         ],
