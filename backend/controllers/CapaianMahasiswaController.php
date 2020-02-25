@@ -176,13 +176,13 @@ class CapaianMahasiswaController extends Controller
         $data['tahun_ajaran'] = RefTahunAjaran::findOne($data['tayang']->id_tahun_ajaran);
         $data['dosen']        = RefDosen::findOne($data['tayang']->id_ref_dosen);
 
-        $data['capaian']      = Krs::find()
-            ->select([Krs::tableName() . '.id_ref_mahasiswa', RefCpmk::tableName() . '.id_ref_mata_kuliah'])
+        $data['capaian']      = MataKuliahTayang::find()
+            ->select('*')
             // ->select('*')
-            ->joinWith('refMahasiswa.capaianMahasiswas.refCpmk')
-            ->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $jk])
-            ->AndWhere([CapaianMahasiswa::tableName() . '.status' => 1])
-            ->AndWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => 106])
+            ->joinWith('krs.refMahasiswa.capaianMahasiswas')
+            // ->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $jk])
+            ->where([CapaianMahasiswa::tableName() . '.status' => 1])
+            ->AndWhere([MataKuliahTayang::tableName() . '.id_ref_mata_kuliah' => 106])
             // ->groupBy(Krs::tableName() . '.id_ref_mahasiswa')
             ->all();
 

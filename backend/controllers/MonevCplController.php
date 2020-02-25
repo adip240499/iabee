@@ -127,6 +127,7 @@ class MonevCplController extends Controller
                 ->where([RefMahasiswa::tableName() . '.angkatan' => $tahun])
                 ->andWhere([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
                 ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
+                ->andWhere([RefMahasiswa::tableName() . '.status' => 1])
                 ->average(CapaianMahasiswa::tableName() . '.nilai');
         }
         return $this->render(
@@ -147,12 +148,13 @@ class MonevCplController extends Controller
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
-            $semester[] = CapaianMahasiswa::find()
-                ->joinWith(['relasiCpmkCpls'])
+            $semester[] = RefMahasiswa::find()
+                ->joinWith(['capaianMahasiswas.relasiCpmkCpls'])
                 ->where([CapaianMahasiswa::tableName() . '.tahun' => $tahun])
                 ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $sem])
                 ->andWhere([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
                 ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
+                ->andWhere([RefMahasiswa::tableName() . '.status' => 1])
                 ->average(CapaianMahasiswa::tableName() . '.nilai');
         }
         return $this->render(
@@ -183,6 +185,7 @@ class MonevCplController extends Controller
         }
         $mahasiswa = CapaianMahasiswa::find()
             ->joinWith(['refMahasiswa'])
+            ->andWhere([RefMahasiswa::tableName() . '.status' => 1])
             ->all();
         $data['mahasiswa'] = ArrayHelper::map($mahasiswa, 'refMahasiswa.id', 'refMahasiswa.nama');
 
@@ -273,7 +276,10 @@ class MonevCplController extends Controller
                 'js' => $model->tahun,
             ]);
         }
-        $data = CapaianMahasiswa::find()->all();
+        $data = CapaianMahasiswa::find()
+            ->joinWith('refMahasiswa')
+            ->where([RefMahasiswa::tableName() . '.status' => 1])
+            ->all();
         $tahun = ArrayHelper::map($data, 'tahun', 'tahun');
         $semester = ArrayHelper::map($data, 'semester', 'semester');
 
@@ -317,6 +323,7 @@ class MonevCplController extends Controller
                 ->where([RefMahasiswa::tableName() . '.angkatan' => $tahun])
                 ->andWhere([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
                 ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
+                ->andWhere([RefMahasiswa::tableName() . '.status' => 8])
                 ->average(CapaianMahasiswa::tableName() . '.nilai');
         }
         return $this->render(
@@ -337,12 +344,13 @@ class MonevCplController extends Controller
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
-            $semester[] = CapaianMahasiswa::find()
-                ->joinWith(['relasiCpmkCpls'])
+            $semester[] = RefMahasiswa::find()
+                ->joinWith(['capaianMahasiswas.relasiCpmkCpls'])
                 ->where([CapaianMahasiswa::tableName() . '.tahun' => $tahun])
                 ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $sem])
                 ->andWhere([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
                 ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
+                ->andWhere([RefMahasiswa::tableName() . '.status' => 8])
                 ->average(CapaianMahasiswa::tableName() . '.nilai');
         }
         return $this->render(
@@ -368,7 +376,7 @@ class MonevCplController extends Controller
         }
         $mahasiswa = CapaianMahasiswa::find()
             ->joinWith(['refMahasiswa'])
-            ->where([RefMahasiswa::tableName().'.status'=>8])
+            ->where([RefMahasiswa::tableName() . '.status' => 8])
             ->all();
         $data['mahasiswa'] = ArrayHelper::map($mahasiswa, 'refMahasiswa.id', 'refMahasiswa.nama');
 
@@ -409,7 +417,7 @@ class MonevCplController extends Controller
         }
         $mahasiswa = CapaianMahasiswa::find()
             ->joinWith(['refMahasiswa'])
-            ->where([RefMahasiswa::tableName().'.status'=>8])
+            ->where([RefMahasiswa::tableName() . '.status' => 8])
             ->groupBy('angkatan')
             ->all();
         $data['angkatan'] = ArrayHelper::map($mahasiswa, 'refMahasiswa.angkatan', 'refMahasiswa.angkatan');
@@ -451,9 +459,9 @@ class MonevCplController extends Controller
             ]);
         }
         $data = CapaianMahasiswa::find()
-        ->joinWith('refMahasiswa')
-        ->where([RefMahasiswa::tableName().'.status'=>8])
-        ->all();
+            ->joinWith('refMahasiswa')
+            ->where([RefMahasiswa::tableName() . '.status' => 8])
+            ->all();
         $tahun = ArrayHelper::map($data, 'tahun', 'tahun');
         $semester = ArrayHelper::map($data, 'semester', 'semester');
 
@@ -482,5 +490,4 @@ class MonevCplController extends Controller
                 '</div>'
         ];
     }
-
 }
