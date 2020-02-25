@@ -34,6 +34,18 @@ return [
             'name' => 'advanced-backend',
         ],
 
+        //Client Collection User
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => [
+                    'class'        => 'yii\authclient\clients\Google',
+                    'clientId'     => 'iabee-791@iabee-269305.iam.gserviceaccount.com',
+                    'clientSecret' => '105923249319618723922',
+                ]
+            ],
+        ],
+
         // NICKCV ENCRYPTER
         'encrypter' => [
             'class'               => 'nickcv\encrypter\components\Encrypter',

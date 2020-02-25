@@ -294,12 +294,12 @@ class DataUtamaController extends Controller
 		$worksheet->setCellValue('C11', $dosen->nama_dosen);  //Pengampu
 
 		$count = count($mahasiswa);
-		$no =1;
+		$no = 1;
 		for ($i = 0; $i < $count; $i++) {
-			$j=15+$i;
-			$worksheet->setCellValue('A'.$j, $no++);  //no
-			$worksheet->setCellValue('B'.$j, $mahasiswa[$i]['refMahasiswa']->nim);  //nim
-			$worksheet->setCellValue('C'.$j, $mahasiswa[$i]['refMahasiswa']->nama);  //nama mahasiswa
+			$j = 15 + $i;
+			$worksheet->setCellValue('A' . $j, $no++);  //no
+			$worksheet->setCellValue('B' . $j, $mahasiswa[$i]['refMahasiswa']->nim);  //nim
+			$worksheet->setCellValue('C' . $j, $mahasiswa[$i]['refMahasiswa']->nama);  //nama mahasiswa
 		}
 		// $encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
 		// $worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
@@ -356,17 +356,19 @@ class DataUtamaController extends Controller
 		$request = Yii::$app->request;
 		Yii::$app->response->format = Response::FORMAT_JSON;
 
-		$update        = $update == 1;
+		$update   = $update == 1;
 
-		$data          = $request->post('data');
-		$encrypt       = $request->post('encrypt');
-		$tahun         = $request->post('tahun_ajaran');
-		$semester      = $request->post('semester');
-		$kelas      = $request->post('kelas');
+		$data     = $request->post('data');
+		$encrypt  = $request->post('encrypt');
+		// $tahun    = $request->post('tahun_ajaran');  // Langsung dari Mata Kuliah Tayang Saja
+		// $semester = $request->post('semester');      // Langsung dari Mata Kuliah Tayang Saja
+		// $kelas    = $request->post('kelas');         // Langsung dari Mata Kuliah Tayang Saja
 
-		$decrypt = \Yii::$app->encrypter->decrypt($encrypt);
-		$model = MataKuliahTayang::findOne($decrypt);
-		$cpmks   = RefCpmk::find()
+		$decrypt      = \Yii::$app->encrypter->decrypt($encrypt);
+		$model        = MataKuliahTayang::findOne($decrypt);
+		$tahun_ajaran = RefTahunAjaran::findOne($model->id_tahun_ajaran);
+		$kelas        = RefKelas::findOne($model->id_ref_kelas);
+		$cpmks        = RefCpmk::find()
 			->where(['id_ref_mata_kuliah' => $model->id_ref_mata_kuliah])
 			->all();
 
@@ -519,14 +521,14 @@ class DataUtamaController extends Controller
 						$statust = "<span class='label label-warning'>Skip Nilai</span><br>";
 					}
 					if ($update || $newData) {
-						$data->id_ref_cpmk       = $id_cpmk[$i];                 // ID CPMK dalam bentuk array
-						$data->id_ref_mahasiswa  = $id_mahasiswa->id;
-						$data->nilai             = $cpmk[$i];
-						$data->tahun             = $tahun;
-						$data->semester          = $semester;
-						$data->kelas          = $kelas;
-						$data->status          = 1;
-						$flag                    = $flag && $data->save(false);
+						$data->id_ref_cpmk      = $id_cpmk[$i];                 // ID CPMK dalam bentuk array
+						$data->id_ref_mahasiswa = $id_mahasiswa->id;
+						$data->nilai            = $cpmk[$i];
+						$data->tahun            = $tahun_ajaran->tahun;
+						$data->semester         = $model->semester;
+						$data->kelas            = $kelas->kelas;
+						$data->status           = 1;
+						$flag                   = $flag && $data->save(false);
 
 						if ($update && $exist) {
 							$desct   = 'Update Nilai ';
