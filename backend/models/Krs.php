@@ -17,6 +17,7 @@ use Yii;
  * @property string|null $updated_user
  *
  * @property RefMahasiswa $refMahasiswa
+ * @property RefCpmks $refCpmks
  * @property MataKuliahTayang $mataKuliahTayang
  * @property CapaianMahasiswa $capaianMahasiswa
  */
@@ -87,5 +88,11 @@ class Krs extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CapaianMahasiswa::className(), ['id_ref_mahasiswa' => 'id'])
         ->viaTable(RefMahasiswa::tableName(), ['id' => 'id_ref_mahasiswa']);
+    }
+
+    public function getRefCpmks()
+    {
+        return $this->hasMany(RefCpmk::className(), ['id' => 'id_ref_cpmk'])
+        ->viaTable(CapaianMahasiswa::tableName(), ['id_ref_mahasiswa' => 'id_ref_mahasiswa']);
     }
 }

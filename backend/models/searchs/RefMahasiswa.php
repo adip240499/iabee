@@ -40,7 +40,10 @@ class RefMahasiswa extends RefMahasiswaModel
      */
     public function search($params)
     {
-        $query = RefMahasiswaModel::find()->where(['status'=>1]);
+        $query = RefMahasiswaModel::find()
+            ->where(['not in','status',0]);
+            // ->orWhere(['status' => 9])
+            // ->orWhere(['status' => 8]);
 
         // add conditions that should always apply here
 

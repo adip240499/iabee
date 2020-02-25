@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Data <?php echo $model->nama?></h1>
+        <h1 class="panel-title">Data <?php echo $model->nama ?></h1>
     </div>
     <div class="panel-body">
         <p align="right">
@@ -26,13 +26,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]) ?>
         </p>
-
+        <?php
+            if ($model->status==1) {
+                $status = 'Aktif';
+            }elseif ($model->status==9) {
+                $status = 'Tidak Aktif';
+            }elseif ($model->status==8) {
+                $status = 'Lulus';
+            }elseif ($model->status==7) {
+                $status = 'Undur Diri';
+            }elseif ($model->status==6) {
+                $status = 'Hilang';
+            }
+        ?>
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
                 'nim',
                 'nama',
                 'angkatan',
+                [                                                  // the owner name of the model
+                    'label' => 'Status',
+                    'value' => $status,
+                ],
             ],
         ]) ?>
     </div>

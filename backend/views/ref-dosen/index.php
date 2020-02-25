@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="panel-body">
         <p align="right">
-            <?= Html::a('Create Ref Dosen', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
         </p>
 
         <?php // echo $this->render('_search', ['model' => $searchModel]); 
@@ -32,7 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'kode_dosen',
                 'nip',
                 'nama_dosen',
-                'status',
+                // 'status',
+                [
+                    'class' => 'yii\grid\DataColumn', // can be omitted, as it is the default
+                    'attribute' => 'status',
+                    'value' => function ($dataProvider) {
+                        if ($dataProvider->status == 1) {
+                            return 'Aktif';
+                        } elseif ($dataProvider->status == 9) {
+                            return 'Tidak Aktif';
+                        }
+                        // return $dataProvider->status; // $data['name'] for array data, e.g. using SqlDataProvider.
+                    },
+                ],
                 //'created_at',
                 //'updated_at',
                 //'created_user',

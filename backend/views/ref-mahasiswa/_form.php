@@ -18,6 +18,16 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'angkatan')->textInput() ?>
 
+    <?= $form->field($model, 'status')->dropDownList(
+        [
+            '1' => 'Aktif',
+            '9' => 'Tidak Aktif',
+            '8' => 'Lulus',
+            '7' => 'Undur Diri',
+            '6' => 'Hilang',
+        ]
+    ) ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

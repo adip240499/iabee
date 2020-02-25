@@ -24,6 +24,7 @@ use Yii;
  * @property RefMataKuliah $refMataKuliah
  * @property RefKelas $refKelas
  * @property RefDosen $refDosen
+ * @property RefCpmks $refCpmks
  * @property CapaianMahasiswa $capaianMahasiswa
  */
 class MataKuliahTayang extends \yii\db\ActiveRecord
@@ -129,10 +130,9 @@ class MataKuliahTayang extends \yii\db\ActiveRecord
     //         ->viaTable(RefCpmk::tableName(), ['id' => 'id_ref_cpmk']);
     // }
 
-    // public function getCapaianMahasiswa()
-    // {
-    //     return $this->hasMany(CapaianMahasiswa::className(), ['id_ref_mahasiswa' => 'id'])
-    //         ->viaTable(RefMahasiswa::tableName(), ['id' => 'id_ref_mahasiswa'])
-    //         ->viaTable(Krs::tableName(), ['id_ref_mahasiswa' => 'id']);
-    // }
+    public function getRefCpmks()
+    {
+        return $this->hasMany(RefCpmk::className(), ['id_ref_mata_kuliah' => 'id'])
+            ->viaTable(RefMataKuliah::tableName(), ['id' => 'id_ref_mata_kuliah']);
+    }
 }

@@ -35,6 +35,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'nama',
                 'angkatan',
                 // 'status',
+                [
+                    'class' => 'yii\grid\DataColumn', // can be omitted, as it is the default
+                    'attribute' => 'status',
+                    'value' => function ($dataProvider) {
+                        if ($dataProvider->status == 1) {
+                            return 'Aktif';
+                        } elseif ($dataProvider->status == 9) {
+                            return 'Tidak Aktif';
+                        } elseif ($dataProvider->status == 8) {
+                            return 'Lulus';
+                        } elseif ($dataProvider->status == 7) {
+                            return 'Undur Diri';
+                        } elseif ($dataProvider->status == 6) {
+                            return 'Hilang';
+                        }
+                        // return $dataProvider->status; // $data['name'] for array data, e.g. using SqlDataProvider.
+                    },
+                ],
                 //'created_at',
                 //'updated_at',
                 //'created_user',

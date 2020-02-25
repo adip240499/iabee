@@ -6,6 +6,7 @@ use Yii;
 use backend\models\CapaianMahasiswa;
 use backend\models\Krs;
 use backend\models\MataKuliahTayang;
+use backend\models\RefCpmk;
 use backend\models\RefDosen;
 use backend\models\RefKelas;
 use backend\models\RefMataKuliah;
@@ -38,9 +39,9 @@ class CapaianMahasiswaController extends Controller
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
+                // 'actions' => [
+                //     'delete' => ['POST'],
+                // ],
             ],
         ];
     }
@@ -118,14 +119,36 @@ class CapaianMahasiswaController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        $model = $this->findModel($id);
-        if ($model) {
-            $model->status  = 0;
-            $model->save();
+        $id_mata_kuliah_tayang = Yii::$app->getRequest()->getQueryParam('jk');
+        $id_mahasiswa           = Yii::$app->getRequest()->getQueryParam('js');
+
+        $mata_kuliah_tayang = MataKuliahTayang::find()
+            ->joinWith('refCpmks')
+            ->where([MataKuliahTayang::tableName() . '.id' => $id_mata_kuliah_tayang])
+            ->all();
+
+
+        $count = count($mata_kuliah_tayang[0]['refCpmks']);
+
+
+        foreach ($mata_kuliah_tayang as $key => $value) {
+            foreach ($value['refCpmks'] as $key => $value) {
+                // echo '<pre>';
+                // print_r($value->id);
+                // exit;
+                $exist = CapaianMahasiswa::findOne(['id_ref_mahasiswa' => $id_mahasiswa, 'id_ref_cpmk' => $value->id]);
+                $exist->status = 0;
+                $exist->save();
+            }
         }
-        return $this->redirect(['index']);
+
+        // if ($model) {
+        //     $model->status  = 0;
+        //     $model->save();
+        // }
+        return $this->redirect(['nilai-upload', 'jk' => $id_mata_kuliah_tayang]);
     }
 
     /**
@@ -146,37 +169,29 @@ class CapaianMahasiswaController extends Controller
 
     public function actionNilaiUpload()
     {
-        $jk             = Yii::$app->getRequest()->getQueryParam('jk');
+        $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
         $data['tayang']       = MataKuliahTayang::findOne(['id' => $jk]);
         $data['mata_kuliah']  = RefMataKuliah::findOne($data['tayang']->id_ref_mata_kuliah);
         $data['kelas']        = RefKelas::findOne($data['tayang']->id_ref_kelas);
         $data['tahun_ajaran'] = RefTahunAjaran::findOne($data['tayang']->id_tahun_ajaran);
         $data['dosen']        = RefDosen::findOne($data['tayang']->id_ref_dosen);
+
         $data['capaian']      = Krs::find()
-            ->select('*')
-            ->joinWith('capaianMahasiswa')
-            // ->joinWith('refMahasiswa')
+            ->select([Krs::tableName() . '.id_ref_mahasiswa', RefCpmk::tableName() . '.id_ref_mata_kuliah'])
+            // ->select('*')
+            ->joinWith('refMahasiswa.capaianMahasiswas.refCpmk')
             ->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $jk])
-            ->where([CapaianMahasiswa::tableName() . '.status' => 1])
-            ->groupBy(Krs::tableName().'.id_ref_mahasiswa')
-            // ->where([CapaianMahasiswa::tableName() . '.id_mata_kuliah_tayang' => $jk])
+            ->AndWhere([CapaianMahasiswa::tableName() . '.status' => 1])
+            ->AndWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => 106])
+            // ->groupBy(Krs::tableName() . '.id_ref_mahasiswa')
             ->all();
-        // $connection = Yii::$app->getDb();
-        // $command = $connection->createCommand("
-        // SELECT * 
-        // FROM `krs` 
-        // LEFT JOIN `ref_mahasiswa` ON `krs`.`id_ref_mahasiswa` = `ref_mahasiswa`.`id` 
-        // LEFT JOIN `capaian_mahasiswa` ON `ref_mahasiswa`.`id` = `capaian_mahasiswa`.`id_ref_mahasiswa` 
-        // WHERE `krs`.`id_mata_kuliah_tayang`=".$jk);
 
-        // $result = $command->queryAll();
-
-        // echo '<pre>';
-        // print_r($result);
-        // exit;
+        // Query masih belum benar
+        echo '<pre>';
+        print_r($data['capaian']);
+        exit;
         return $this->render('nilai-upload', [
             'data' => $data,
-            // 'result' => $result
         ]);
     }
 }

@@ -40,7 +40,7 @@ class RefDosen extends RefDosenModel
      */
     public function search($params)
     {
-        $query = RefDosenModel::find()->where(['status'=>1]);
+        $query = RefDosenModel::find()->where(['not in','status',0]);
 
         // add conditions that should always apply here
 

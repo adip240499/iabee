@@ -331,13 +331,13 @@ class KrsController extends Controller
                     $statust = "<span class='label label-warning'>Skip Nilai</span><br>";
                 }
                 if ($update || $newData) {
-                    $data->id_mata_kuliah_tayang       = $decrypt;                 // ID CPMK dalam bentuk array
-                    $data->id_ref_mahasiswa  = $id_mahasiswa->id;
-                    // $data->nilai             = $cpmk[$i];
-                    // $data->tahun             = $tahun;
-                    // $data->semester          = $semester;
-                    // $data->kelas          = $kelas;
-                    $flag                    = $flag && $data->save(false);
+                    $data->id_mata_kuliah_tayang = $decrypt;     
+                    $data->id_ref_mahasiswa      = $id_mahasiswa->id;
+                    // $data->nilai    = $cpmk[$i];
+                    // $data->tahun    = $tahun;
+                    // $data->semester = $semester;
+                    // $data->kelas    = $kelas;
+                    $flag = $flag && $data->save(false);
 
                     if ($update && $exist) {
                         $desct   = 'Update Mahasiswa ';

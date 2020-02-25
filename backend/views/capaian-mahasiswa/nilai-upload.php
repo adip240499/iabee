@@ -6,13 +6,17 @@
  * @copyright Copyright (c) 2018
  */
 
+use backend\models\MataKuliahTayang;
+use backend\models\RefCpmk;
 use backend\models\searchs\RefMahasiswa;
+use yii\helpers\BaseUrl;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Json;
 
 $this->title = 'Tampilan Nilai Mata Kuliah';
 $this->params['breadcrumbs'][] = $this->title;
+$jk = Yii::$app->getRequest()->getQueryParam('jk');
 
 
 $css = <<< CSS
@@ -28,7 +32,20 @@ $this->registerCss($css);
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <?php echo Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Halaman Unggah File', ['/data-utama'], ['class' => 'btn-social btn btn-']) ?>
+        <div class="row">
+            <div div class="col-md-6">
+                <?php echo Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Halaman Unggah File', ['/data-utama'], ['class' => 'btn-social btn btn-']) ?>
+            </div>
+            <div class="col-md-6" align="right">
+                <?php
+                echo Html::a('<i class="fa fa-eye"></i> Lihat File Upload', ['/data-utama/file-upload', 'jk' => $jk], [
+                    'class' => 'btn btn-primary btn-flat',
+                    // 'role' => 'modal-remote',
+                ]);
+                ?>
+            </div>
+        </div>
+
         <hr>
         <div class="row">
             <div class="col-md-12">
@@ -81,9 +98,10 @@ $this->registerCss($css);
                         <input value="<?php echo $data['dosen']->nama_dosen ?>" class="form-control" readonly>
                     </div>
                 </div>
-
             </div>
         </div>
+        <hr>
+
         <br>
         <div class="row">
             <div class="table-responsive">
@@ -110,11 +128,6 @@ $this->registerCss($css);
                             <?php
                             }
                             ?>
-
-                            <!-- <th class="text-center">CPMK2</th>
-                            <th class="text-center">CPMK3</th>
-                            <th class="text-center">CPMK4</th>
-                            <th class="text-center">CPMK5</th> -->
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -123,26 +136,40 @@ $this->registerCss($css);
                         $no = 1;
                         foreach ($data['capaian'] as $data) {
 
-                            $mahasiswa = RefMahasiswa::findOne(['id' => $data->id_ref_mahasiswa]);
+                            // $mahasiswa = RefMahasiswa::findOne(['id' => $data->id_ref_mahasiswa]);
+                            // $mata_kuliah = MataKuliahTayang::findOne(['id' => $data->id_mata_kuliah_tayang]);
+                            // $cpmks = RefCpmk::find()->where(['id_ref_mata_kuliah' => $mata_kuliah->id_ref_mata_kuliah])->all();
+                            // foreach ($cpmks as $key => $value) {
+                            //     $cpmk[] = $value->id;
+                            // }
                             // echo '<pre>';
-                            // print_r($mahasiswa);
+                            // print_r($data);
                             // exit;
                         ?>
 
                             <tr>
                                 <td class="text-center"><?php echo $no++ ?></td>
-                                <td><?php echo $mahasiswa->nim ?></td>
-                                <td><?php echo $mahasiswa->nama ?></td>
+                                <td><?php echo $data['refMahasiswa']->nim ?></td>
+                                <td><?php echo $data['refMahasiswa']->nama ?></td>
                                 <?php
-                                foreach ($data['capaianMahasiswa'] as $value) {
+                                // echo '<pre>';
+                                // print_r($data['capaianMahasiswa'][10]->id_ref_cpmk);
+                                // exit;
+                                // if ($data['capaianMahasiswa'][0]->id_ref_cpmk == $cpmk[0]) {
+                                    foreach ($data['capaianMahasiswa'] as $key => $value) {
+                                        // echo '<pre>';
+                                        // print_r($value);
+                                        // exit;
                                 ?>
-                                    <td class="text-center"><?php echo $value->nilai ?></td>
+                                        <td class="text-center"><?php echo $value->nilai ?></td>
                                 <?php
+                                        // }
+                                    // }
                                 }
                                 ?>
                                 <td class="text-center">
-                                    <a href=""><i class="fa fa-edit"></i></a>
-                                    <a href=""><i class="fa fa-trash"></i></a>
+                                    <a href="<?php echo Url::to(['capaian-mahasiswa/update', 'jk' => $jk, 'js' => $data->id_ref_mahasiswa]); ?>"><i class="fa fa-edit"></i></a>
+                                    <a href="<?php echo Url::to(['/capaian-mahasiswa/delete', 'jk' => $jk, 'js' => $data->id_ref_mahasiswa]); ?>"><i class="fa fa-trash"></i></a>
                                 </td>
 
                             </tr>
