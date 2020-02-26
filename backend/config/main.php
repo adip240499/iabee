@@ -62,13 +62,13 @@ return [
         ],
 
         //mPDF
-        'pdf' => [
-            'class' => Pdf::classname(),
-            'format' => Pdf::FORMAT_A4,
-            'orientation' => Pdf::ORIENT_PORTRAIT,
-            'destination' => Pdf::DEST_BROWSER,
-            // refer settings section for all configuration options
-        ],
+        // 'pdf' => [
+        //     'class' => Pdf::classname(),
+        //     'format' => Pdf::FORMAT_A4,
+        //     'orientation' => Pdf::ORIENT_PORTRAIT,
+        //     'destination' => Pdf::DEST_BROWSER,
+        //     // refer settings section for all configuration options
+        // ],
 
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
