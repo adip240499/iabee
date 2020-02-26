@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 // use yii\grid\GridView;
 use kartik\grid\GridView;
-
+use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\searchs\RefMahasiswa */
@@ -36,8 +36,27 @@ $this->params['breadcrumbs'][] = $this->title;
                 'angkatan',
                 // 'status',
                 [
-                    'class' => 'yii\grid\DataColumn', // can be omitted, as it is the default
-                    'attribute' => 'status',
+                    'class'      => 'kartik\grid\DataColumn',   // can be omitted, as it is the default
+                    'attribute'  => 'status',         
+                    'format'     => 'raw',
+                    'filterType' => GridView::FILTER_SELECT2,
+                    'filter'     => [
+                        '1' => 'Aktif',
+                        '9' => 'DO',
+                        '8' => 'Lulus',
+                        '7' => 'Undur Diri',
+                        '6' => 'Hilang',
+                        '5' => 'Meninggal Dunia',
+                    ],
+                    'filterWidgetOptions' => [
+                        'theme'         => Select2::THEME_BOOTSTRAP,
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                        ],
+                    ],
+                    'filterInputOptions' => [
+                        'placeholder' => '',
+                    ],
                     'value' => function ($dataProvider) {
                         if ($dataProvider->status == 1) {
                             return 'Aktif';

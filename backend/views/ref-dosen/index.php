@@ -1,7 +1,8 @@
 <?php
 
+use kartik\widgets\Select2;
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\searchs\RefDosen */
@@ -34,8 +35,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'nama_dosen',
                 // 'status',
                 [
-                    'class' => 'yii\grid\DataColumn', // can be omitted, as it is the default
-                    'attribute' => 'status',
+                    'class'      => 'kartik\grid\DataColumn',   // can be omitted, as it is the default
+                    'attribute'  => 'status',
+                    'format'     => 'raw',
+                    'filterType' => GridView::FILTER_SELECT2,
+                    'filter'     => [
+                        '1' => 'Aktif',
+                        '9' => 'Tidak Aktif',
+                    ],
+                    'filterWidgetOptions' => [
+                        'theme'         => Select2::THEME_BOOTSTRAP,
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                        ],
+                    ],
+                    'filterInputOptions' => [
+                        'placeholder' => '',
+                    ],
                     'value' => function ($dataProvider) {
                         if ($dataProvider->status == 1) {
                             return 'Aktif';
