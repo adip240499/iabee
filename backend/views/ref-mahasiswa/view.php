@@ -26,17 +26,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]) ?>
         </p>
+        <!-- '1' => 'Aktif',
+            '9' => 'DO',
+            '8' => 'Lulus',
+            '7' => 'Undur Diri',
+            '6' => 'Hilang',
+            '5' => 'Meninggal Dunia', -->
         <?php
             if ($model->status==1) {
                 $status = 'Aktif';
             }elseif ($model->status==9) {
-                $status = 'Tidak Aktif';
+                $status = 'DO';
             }elseif ($model->status==8) {
                 $status = 'Lulus';
             }elseif ($model->status==7) {
                 $status = 'Undur Diri';
             }elseif ($model->status==6) {
                 $status = 'Hilang';
+            }elseif ($model->status==5) {
+                $status = 'Meninggal Dunia';
             }
         ?>
         <?= DetailView::widget([

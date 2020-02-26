@@ -45,16 +45,6 @@
                             ],
                         ],
                     ],
-                    // [
-                    //     'label' => 'Kartu Rencana Studi',
-                    //     'icon' => 'black-tie',
-                    //     'url' => '#',
-                    //     'items' => [
-                    //         ['label' => 'Kartu Rencana Studi', 'icon' => 'file-code-o', 'url' => ['/krs'],],
-                    //         ['label' => 'Mata Kuliah Tayang', 'icon' => 'file-code-o', 'url' => ['/mata-kuliah-tayang'],],
-                    //     ],
-                    // ],
-
                     [
                         'label' => 'CP Mata Kuliah',
                         'icon' => 'black-tie',

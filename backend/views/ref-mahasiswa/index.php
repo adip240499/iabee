@@ -42,13 +42,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         if ($dataProvider->status == 1) {
                             return 'Aktif';
                         } elseif ($dataProvider->status == 9) {
-                            return 'Tidak Aktif';
+                            return 'DO';
                         } elseif ($dataProvider->status == 8) {
                             return 'Lulus';
                         } elseif ($dataProvider->status == 7) {
                             return 'Undur Diri';
                         } elseif ($dataProvider->status == 6) {
                             return 'Hilang';
+                        } elseif ($dataProvider->status == 5) {
+                            return 'Meninggal Dunia';
                         }
                         // return $dataProvider->status; // $data['name'] for array data, e.g. using SqlDataProvider.
                     },

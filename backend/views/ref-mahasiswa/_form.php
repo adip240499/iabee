@@ -21,10 +21,11 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'status')->dropDownList(
         [
             '1' => 'Aktif',
-            '9' => 'Tidak Aktif',
+            '9' => 'DO',
             '8' => 'Lulus',
             '7' => 'Undur Diri',
             '6' => 'Hilang',
+            '5' => 'Meninggal Dunia',
         ]
     ) ?>
 
