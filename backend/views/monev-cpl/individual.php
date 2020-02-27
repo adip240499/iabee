@@ -18,7 +18,7 @@ $js = <<< JS
 		var radarData = {
 			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
 			datasets: [{
-				label: 'Capaian Lulusan Mahasiswa',
+				label: 'Nilai Capaian',
 				backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
 				borderColor: window.chartColors.red,
 				pointBackgroundColor: window.chartColors.red,
@@ -31,7 +31,7 @@ $js = <<< JS
 		var barChartData = {
 			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
 			datasets: [{
-				label: 'Dataset 1',
+				label: 'Nilai Capaian',
 				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 				borderColor: window.chartColors.red,
 				borderWidth: 1,
@@ -53,7 +53,7 @@ $js = <<< JS
 					},
 					title: {
 						display: true,
-						text: 'Adip Safiudin'
+						text: '$mahasiswa->nama'
 					},
 					scale: {
 						ticks: {
@@ -84,7 +84,7 @@ $js = <<< JS
 					},
 					title: {
 						display: true,
-						text: 'Chart.js Bar Chart'
+						text: '$mahasiswa->nama'
 					}
 
 				}
