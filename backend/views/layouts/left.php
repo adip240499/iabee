@@ -1,3 +1,33 @@
+<?php
+$css = <<< CSS
+.skin-blue .main-sidebar, .skin-blue .left-side {
+    background-color: #00252d;
+}
+
+.skin-blue .sidebar-menu > li.active > a,
+.skin-blue .sidebar-menu > li:hover > a,
+.skin-blue .sidebar-menu > li.menu-open > a {
+    background: #010f13;
+}
+
+.skin-blue .sidebar-menu > li.active > a {
+    border-left-color: #ffff;
+}
+
+.skin-blue .sidebar-menu > li > .treeview-menu {
+    background: #01404e;
+}
+
+.skin-blue .sidebar-menu .treeview-menu > li.active > a,
+.skin-blue .sidebar-menu .treeview-menu > li > a:hover {
+    /* border-left-color: #3c8dbc; */
+    background: #013342;
+}
+CSS;
+$this->registerCss($css);
+
+?>
+
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -40,7 +70,7 @@
                                     ['label' => 'CPL individu', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/individual' . $nim = '?jk=8'],],
                                     ['label' => 'CPL Semester', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/semester'],],
                                     ['label' => 'CPL Angkatan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/angkatan'],],
-                                    ['label' => 'CPL Lulusan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/index'. $nim = '?jk=8'],],
+                                    ['label' => 'CPL Lulusan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/index' . $nim = '?jk=8'],],
                                 ]
                             ],
                         ],

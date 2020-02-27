@@ -4,11 +4,36 @@ use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+
+
+$css = <<< CSS
+.skin-blue .main-header .navbar {
+    background-color: #00c0ef;
+}
+.skin-blue .main-header .logo {
+    background-color: #009abf;
+    color: #ffffff;
+    border-bottom: 0 solid transparent;
+}
+
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+    background-color: #0081a0;
+}
+
+.skin-blue .main-header .logo:hover {
+    background-color: #0081a0;
+}
+
+.skin-blue .main-header li.user-header {
+    background-color: #00c0ef;
+}
+CSS;
+$this->registerCss($css);
 ?>
 
 <header class="main-header">
 
-    <?= Html::a('<span class="logo-mini"><b>OBE</b></span><span class="logo-lg">' .'Aplikasi <b>OBE</b>'. '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini"><b>OBE</b></span><span class="logo-lg">' . 'Aplikasi <b>OBE</b>' . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 

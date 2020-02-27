@@ -15,7 +15,7 @@ $this->title = 'Dashboard';
                                 <span class="info-box-icon"><i class="fa fa-users"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Data Mahasiswa</span>
-                                    <span class="info-box-number"><?php echo $aktif ?></span>
+                                    <span class="info-box-number"><?php echo $data['all'] ?></span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width:100%"></div>
                                     </div>
@@ -28,7 +28,7 @@ $this->title = 'Dashboard';
                                 <span class="info-box-icon"><i class="fa fa-building-o"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Data Dosen</span>
-                                    <span class="info-box-number"><?php echo $dosen ?></span>
+                                    <span class="info-box-number"><?php echo $data['dosen'] ?></span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width:100%"></div>
                                     </div>
@@ -41,7 +41,7 @@ $this->title = 'Dashboard';
                                 <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Data Tahun Ajaran</span>
-                                    <span class="info-box-number">4</span>
+                                    <span class="info-box-number"><?php echo $data['tahun'] ?></span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width:100%"></div>
                                     </div>
@@ -56,7 +56,7 @@ $this->title = 'Dashboard';
                                 <span class="info-box-icon"><i class="fa fa-building-o"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Data Mata Kuliah</span>
-                                    <span class="info-box-number"><?php echo $mk ?></span>
+                                    <span class="info-box-number"><?php echo $data['mk'] ?></span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width:100%"></div>
                                     </div>

@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\RefDosen;
 use backend\models\RefMahasiswa;
 use backend\models\RefMataKuliah;
+use backend\models\RefTahunAjaran;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -64,19 +65,20 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $aktif = RefMahasiswa::find()
-            ->where(['status' => 1])
+        $data['all'] = RefMahasiswa::find()
+            ->where(['not in', 'status', 0])
             ->count();
-        $dosen = RefDosen::find()
-            ->where(['status' => 1])
+        $data['dosen'] = RefDosen::find()
+            ->where(['not in', 'status', 0])
             ->count();
-        $mk = RefMataKuliah::find()
-            ->where(['status' => 1])
+        $data['mk'] = RefMataKuliah::find()
+            ->where(['not in', 'status', 0])
+            ->count();
+        $data['tahun'] = RefTahunAjaran::find()
+            ->where(['not in', 'status', 0])
             ->count();
         return $this->render('index', [
-            'aktif' => $aktif,
-            'dosen' => $dosen,
-            'mk' => $mk,
+            'data' => $data,
         ]);
     }
 
