@@ -54,8 +54,8 @@ class RefCpmk extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_ref_mata_kuliah' => 'Id Ref Mata Kuliah',
-            'kode' => 'Kode',
+            'id_ref_mata_kuliah' => Yii::t('app', 'Mata Kuliah'),
+            'kode' => 'Kode CPMK',
             'isi' => 'Isi',
             'status' => 'Status',
             'created_at' => 'Created At',
