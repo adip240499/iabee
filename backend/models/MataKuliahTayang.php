@@ -61,11 +61,11 @@ class MataKuliahTayang extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_tahun_ajaran' => 'Id Tahun Ajaran',
+            'id_tahun_ajaran' => 'Tahun Ajaran',
             'semester' => 'Semester',
-            'id_ref_mata_kuliah' => 'Id Ref Mata Kuliah',
-            'id_ref_kelas' => 'Id Ref Kelas',
-            'id_ref_dosen' => 'Id Ref Dosen',
+            'id_ref_mata_kuliah' => 'Mata Kuliah',
+            'id_ref_kelas' => 'Kelas',
+            'id_ref_dosen' => 'Dosen',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
