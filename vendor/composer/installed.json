@@ -1090,12 +1090,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/die-coding/yii2-core.git",
-            "reference": "acead13f1b8305a6549cfb828d95538fa4b89821"
+            "reference": "a6a67694aa7736a72b9664d79d2014037e35949f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/die-coding/yii2-core/zipball/acead13f1b8305a6549cfb828d95538fa4b89821",
-            "reference": "acead13f1b8305a6549cfb828d95538fa4b89821",
+            "url": "https://api.github.com/repos/die-coding/yii2-core/zipball/a6a67694aa7736a72b9664d79d2014037e35949f",
+            "reference": "a6a67694aa7736a72b9664d79d2014037e35949f",
             "shasum": ""
         },
         "require": {
@@ -1127,7 +1127,7 @@
             "yiisoft/yii2-httpclient": "^2.0.0",
             "yiisoft/yii2-imagine": "~2.2.0"
         },
-        "time": "2020-02-17T15:12:24+00:00",
+        "time": "2020-03-04T01:02:37+00:00",
         "type": "yii2-extension",
         "installation-source": "source",
         "autoload": {
@@ -1160,17 +1160,17 @@
     },
     {
         "name": "diecoding/yii2-dropify",
-        "version": "v0.1.0",
-        "version_normalized": "0.1.0.0",
+        "version": "v0.1.1",
+        "version_normalized": "0.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/die-coding/yii2-dropify.git",
-            "reference": "534d5994cc52aa9486548eb83e93e3afea2ac92f"
+            "reference": "3415a68aad4403a3d9bb91aeca035994adfc8d6a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/die-coding/yii2-dropify/zipball/534d5994cc52aa9486548eb83e93e3afea2ac92f",
-            "reference": "534d5994cc52aa9486548eb83e93e3afea2ac92f",
+            "url": "https://api.github.com/repos/die-coding/yii2-dropify/zipball/3415a68aad4403a3d9bb91aeca035994adfc8d6a",
+            "reference": "3415a68aad4403a3d9bb91aeca035994adfc8d6a",
             "shasum": ""
         },
         "require": {
@@ -1181,7 +1181,7 @@
         "require-dev": {
             "phpunit/phpunit": "<7"
         },
-        "time": "2020-02-14T09:22:47+00:00",
+        "time": "2020-03-04T01:02:55+00:00",
         "type": "yii2-widget",
         "installation-source": "dist",
         "autoload": {
@@ -1215,17 +1215,17 @@
     },
     {
         "name": "diecoding/yii2-rbac",
-        "version": "v0.1.5",
-        "version_normalized": "0.1.5.0",
+        "version": "v0.2.0",
+        "version_normalized": "0.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/die-coding/yii2-rbac.git",
-            "reference": "acdeb0957ec53f2efd205b75b4d3518ed747c4f3"
+            "reference": "3172ec03e7d143e63f074dda6e63498e1c84eea6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/die-coding/yii2-rbac/zipball/acdeb0957ec53f2efd205b75b4d3518ed747c4f3",
-            "reference": "acdeb0957ec53f2efd205b75b4d3518ed747c4f3",
+            "url": "https://api.github.com/repos/die-coding/yii2-rbac/zipball/3172ec03e7d143e63f074dda6e63498e1c84eea6",
+            "reference": "3172ec03e7d143e63f074dda6e63498e1c84eea6",
             "shasum": ""
         },
         "require": {
@@ -1235,7 +1235,7 @@
         "require-dev": {
             "yiisoft/yii2-codeception": "~2.0"
         },
-        "time": "2020-01-05T16:38:17+00:00",
+        "time": "2020-03-04T01:03:35+00:00",
         "type": "yii2-extension",
         "installation-source": "dist",
         "autoload": {
@@ -1273,17 +1273,17 @@
     },
     {
         "name": "diecoding/yii2-toastr",
-        "version": "v1.0.4",
-        "version_normalized": "1.0.4.0",
+        "version": "v1.0.5",
+        "version_normalized": "1.0.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/die-coding/yii2-toastr.git",
-            "reference": "ab44be9c8b11502094dc98f410c5201b6262231c"
+            "reference": "7091a322a8c335cfcd6c66f999e00eaf2f49c1e5"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/die-coding/yii2-toastr/zipball/ab44be9c8b11502094dc98f410c5201b6262231c",
-            "reference": "ab44be9c8b11502094dc98f410c5201b6262231c",
+            "url": "https://api.github.com/repos/die-coding/yii2-toastr/zipball/7091a322a8c335cfcd6c66f999e00eaf2f49c1e5",
+            "reference": "7091a322a8c335cfcd6c66f999e00eaf2f49c1e5",
             "shasum": ""
         },
         "require": {
@@ -1294,7 +1294,7 @@
         "require-dev": {
             "phpunit/phpunit": "<7"
         },
-        "time": "2019-08-12T15:36:35+00:00",
+        "time": "2020-03-04T01:03:43+00:00",
         "type": "yii2-widget",
         "installation-source": "dist",
         "autoload": {

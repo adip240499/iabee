@@ -528,7 +528,7 @@ return array (
   'diecoding/yii2-rbac' => 
   array (
     'name' => 'diecoding/yii2-rbac',
-    'version' => '0.1.5.0',
+    'version' => '0.2.0.0',
     'alias' => 
     array (
       '@diecoding/rbac' => $vendorDir . '/diecoding/yii2-rbac/src',
