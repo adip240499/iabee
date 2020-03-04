@@ -176,15 +176,39 @@ class CapaianMahasiswaController extends Controller
         $data['tahun_ajaran'] = RefTahunAjaran::findOne($data['tayang']->id_tahun_ajaran);
         $data['dosen']        = RefDosen::findOne($data['tayang']->id_ref_dosen);
 
-        $data['capaian']      = Krs::find()
-            ->select('*')
-            // ->select('*')
-            ->joinWith('refMahasiswa.capaianMahasiswas.refCpmk')
-            // ->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $jk])
-            ->where([CapaianMahasiswa::tableName() . '.status' => 1])
-            ->AndWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => 106])
-            // ->groupBy(Krs::tableName() . '.id_ref_mahasiswa')
-            ->all();
+        // $data['capaian']      = Krs::find()
+        //     ->select('*')
+        //     // ->select('*')
+        //     ->joinWith('refMahasiswa.capaianMahasiswas.refCpmk')
+        //     // ->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $jk])
+        //     ->where([CapaianMahasiswa::tableName() . '.status' => 1])
+        //     ->AndWhere([RefCpmk::tableName() . '.id_ref_fmata_kuliah' => 106])
+        //     // ->groupBy(Krs::tableName() . '.id_ref_mahasiswa')
+        //     ->all();
+
+        //query backup
+        // $data['capaian'] = Krs::find()
+        //             ->alias('k')
+        //             ->select(['*'])
+        //             ->join('INNER JOIN', 'ref_mahasiswa m', 'k.id_ref_mahasiswa = m.id')
+        //             ->join('INNER JOIN', 'capaian_mahasiswa cm', 'm.id = cm.id_ref_mahasiswa')
+        //             ->join('INNER JOIN', 'ref_cpmk rc', 'rc.id = cm.id_ref_cpmk')
+        //             ->where([
+        //                 'rc.id_ref_mata_kuliah' => 106
+        //             ])
+        //             ->asArray()
+        //             ->all();
+
+        $data['capaian'] = (new \yii\db\Query())
+                        ->select('*')
+                        ->from('krs k')
+                        ->leftJoin('ref_mahasiswa m', 'k.id_ref_mahasiswa = m.id')
+                        ->leftJoin('capaian_mahasiswa cm', 'm.id = cm.id_ref_mahasiswa')
+                        ->leftJoin('ref_cpmk rc', 'rc.id = cm.id_ref_cpmk')
+                        ->where([
+                            'rc.id_ref_mata_kuliah' => '106'
+                        ])
+                        ->all();
 
         // Query masih belum benar
         // echo '<pre>';

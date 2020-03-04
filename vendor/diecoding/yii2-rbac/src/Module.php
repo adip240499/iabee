@@ -1,0 +1,54 @@
+<?php
+
+namespace diecoding\rbac;
+
+use Yii;
+
+/**
+ * @inheritDoc
+ * 
+ * @author Die Coding (Sugeng Sulistiyawan) <diecoding@gmail.com>
+ * @copyright 2019 Die Coding
+ * @license MIT
+ * @link https://www.diecoding.com
+ * @version 0.0.1
+ */
+class Module extends \mdm\admin\Module
+{
+    /**
+     * @inheritDoc
+     */
+    public $controllerNamespace = 'mdm\admin\controllers';
+
+    /**
+     * @inheritDoc
+     */
+    public $layout = 'left-menu';
+
+    /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+        if (!isset(Yii::$app->i18n->translations['diecoding-rbac'])) {
+            Yii::$app->i18n->translations['diecoding-rbac'] = [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' => 'en',
+                'basePath' => '@diecoding/rbac/languages',
+            ];
+        }
+
+        if (php_sapi_name() !== 'cli') {
+            AppAsset::register(Yii::$app->view);
+        }
+
+        $this->controllerMap = [
+            'menu' => [
+                'class' => 'diecoding\rbac\controllers\MenuController',
+            ],
+        ];
+
+        $this->setViewPath('@mdm/admin/views');
+    }
+}

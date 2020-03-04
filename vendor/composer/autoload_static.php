@@ -7,16 +7,15 @@ namespace Composer\Autoload;
 class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
-        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         'abede361264e2ae69ec1eee813a101af' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/abs.php',
         '21a5860fbef5be28db5ddfbc3cca67c4' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acos.php',
         '1546e3f9d127f2a9bb2d1b6c31c26ef1' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acosh.php',
@@ -75,6 +74,7 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'aa53dcba601214d17ad405b7c291b7e8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/multiply.php',
         '75c79eb1b25749b05a47976f32b0d8a2' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideby.php',
         '6ab8ad87a734f276a6bcd5a0fe1289be' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideinto.php',
+        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         '180092cfc969a12e06f2132a203a3184' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/function.php',
@@ -85,17 +85,25 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             'yii\\swiftmailer\\' => 16,
             'yii\\jui\\' => 8,
+            'yii\\imagine\\' => 12,
+            'yii\\httpclient\\' => 15,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
             'yii\\composer\\' => 13,
             'yii\\bootstrap\\' => 14,
             'yii\\bootstrap4\\' => 15,
+            'yii\\authclient\\' => 15,
             'yii\\' => 4,
+        ),
+        'w' => 
+        array (
+            'wbraganca\\dynamicform\\' => 22,
         ),
         's' => 
         array (
-            'setasign\\Fpdi\\' => 14,
+            'skeeks\\yii2\\mobiledetect\\' => 25,
+            'sizeg\\jwt\\' => 10,
         ),
         'r' => 
         array (
@@ -110,8 +118,13 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             'nickcv\\encrypter\\' => 17,
         ),
+        'm' => 
+        array (
+            'mdm\\admin\\' => 10,
+        ),
         'l' => 
         array (
+            'libphonenumber\\' => 15,
             'lesha724\\documentviewer\\' => 24,
         ),
         'k' => 
@@ -127,10 +140,13 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
             'kartik\\select2\\' => 15,
             'kartik\\rating\\' => 14,
             'kartik\\range\\' => 13,
+            'kartik\\popover\\' => 15,
+            'kartik\\plugins\\popover\\' => 23,
             'kartik\\plugins\\fileinput\\' => 25,
             'kartik\\plugins\\depdrop\\' => 23,
             'kartik\\plugins\\dateformatter\\' => 29,
             'kartik\\mpdf\\' => 12,
+            'kartik\\money\\' => 13,
             'kartik\\icons\\' => 13,
             'kartik\\helpers\\' => 15,
             'kartik\\growl\\' => 13,
@@ -139,10 +155,13 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
             'kartik\\file\\' => 12,
             'kartik\\field\\' => 13,
             'kartik\\export\\' => 14,
+            'kartik\\editable\\' => 16,
             'kartik\\dynagrid\\' => 16,
             'kartik\\dialog\\' => 14,
+            'kartik\\detail\\' => 14,
             'kartik\\depdrop\\' => 15,
             'kartik\\datetime\\' => 16,
+            'kartik\\daterange\\' => 17,
             'kartik\\datecontrol\\' => 19,
             'kartik\\date\\' => 12,
             'kartik\\color\\' => 13,
@@ -153,11 +172,20 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         ),
         'd' => 
         array (
+            'dosamigos\\tinymce\\' => 18,
             'dmstr\\' => 6,
+            'diecoding\\toastr\\' => 17,
+            'diecoding\\rbac\\' => 15,
+            'diecoding\\dropify\\' => 18,
+            'diecoding\\' => 10,
         ),
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
+        ),
+        'b' => 
+        array (
+            'borales\\extensions\\phoneInput\\' => 30,
         ),
         'W' => 
         array (
@@ -189,6 +217,7 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Prophecy\\' => 9,
+            'PhpOption\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
         ),
         'O' => 
@@ -200,9 +229,18 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
             'Mpdf\\' => 5,
             'Matrix\\' => 7,
         ),
+        'L' => 
+        array (
+            'Lcobucci\\JWT\\' => 13,
+        ),
+        'I' => 
+        array (
+            'Imagine\\' => 8,
+        ),
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
+            'Giggsey\\Locale\\' => 15,
         ),
         'F' => 
         array (
@@ -214,6 +252,7 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         ),
         'D' => 
         array (
+            'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Common\\Lexer\\' => 22,
             'DeepCopy\\' => 9,
@@ -235,6 +274,14 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'yii\\jui\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-jui',
+        ),
+        'yii\\imagine\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-imagine/src',
+        ),
+        'yii\\httpclient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-httpclient/src',
         ),
         'yii\\gii\\' => 
         array (
@@ -260,13 +307,25 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap4/src',
         ),
+        'yii\\authclient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-authclient/src',
+        ),
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
         ),
-        'setasign\\Fpdi\\' => 
+        'wbraganca\\dynamicform\\' => 
         array (
-            0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+            0 => __DIR__ . '/..' . '/wbraganca/yii2-dynamicform',
+        ),
+        'skeeks\\yii2\\mobiledetect\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/skeeks/yii2-mobile-detect/src',
+        ),
+        'sizeg\\jwt\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sizeg/yii2-jwt',
         ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (
@@ -285,6 +344,14 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'nickcv\\encrypter\\' => 
         array (
             0 => __DIR__ . '/..' . '/nickcv/yii2-encrypter',
+        ),
+        'mdm\\admin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mdmsoft/yii2-admin',
+        ),
+        'libphonenumber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
         ),
         'lesha724\\documentviewer\\' => 
         array (
@@ -334,6 +401,14 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-rangeinput/src',
         ),
+        'kartik\\popover\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-popover-x',
+        ),
+        'kartik\\plugins\\popover\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-popover-x',
+        ),
         'kartik\\plugins\\fileinput\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
@@ -349,6 +424,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'kartik\\mpdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-mpdf/src',
+        ),
+        'kartik\\money\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-money/src',
         ),
         'kartik\\icons\\' => 
         array (
@@ -382,6 +461,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-export/src',
         ),
+        'kartik\\editable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-editable/src',
+        ),
         'kartik\\dynagrid\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dynagrid/src',
@@ -390,6 +473,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog/src',
         ),
+        'kartik\\detail\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-detail-view/src',
+        ),
         'kartik\\depdrop\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-depdrop/src',
@@ -397,6 +484,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'kartik\\datetime\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker/src',
+        ),
+        'kartik\\daterange\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-date-range/src',
         ),
         'kartik\\datecontrol\\' => 
         array (
@@ -426,13 +517,37 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-affix',
         ),
+        'dosamigos\\tinymce\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-tinymce-widget/src',
+        ),
         'dmstr\\' => 
         array (
             0 => __DIR__ . '/..' . '/dmstr/yii2-adminlte-asset',
         ),
+        'diecoding\\toastr\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/diecoding/yii2-toastr/src',
+        ),
+        'diecoding\\rbac\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/diecoding/yii2-rbac/src',
+        ),
+        'diecoding\\dropify\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/diecoding/yii2-dropify/src',
+        ),
+        'diecoding\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/diecoding/yii2-core/src',
+        ),
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'borales\\extensions\\phoneInput\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/borales/yii2-phone-input/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -522,6 +637,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             0 => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy',
         ),
+        'PhpOption\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
@@ -538,9 +657,21 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         array (
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
+        'Lcobucci\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
+        ),
+        'Imagine\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/imagine/imagine/src',
+        ),
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'Giggsey\\Locale\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/locale/src',
         ),
         'Faker\\' => 
         array (
@@ -549,6 +680,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'Egulias\\EmailValidator\\' => 
         array (
             0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
+        ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
@@ -610,6 +745,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
             array (
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
             ),
+            'Detection' => 
+            array (
+                0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
+            ),
         ),
         'B' => 
         array (
@@ -635,10 +774,16 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'Codeception\\Module\\Yii2' => __DIR__ . '/..' . '/codeception/module-yii2/src/Codeception/Module/Yii2.php',
         'Codeception\\Util\\HttpCode' => __DIR__ . '/..' . '/codeception/lib-innerbrowser/src/Codeception/Util/HttpCode.php',
         'Codeception\\Util\\Shared\\Asserts' => __DIR__ . '/..' . '/codeception/lib-asserts/src/Codeception/Util/Shared/Asserts.php',
+        'FPDF_TPL' => __DIR__ . '/..' . '/setasign/fpdi/fpdf_tpl.php',
+        'FPDI' => __DIR__ . '/..' . '/setasign/fpdi/fpdi.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
+        'FilterASCII85' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCII85.php',
+        'FilterASCIIHexDecode' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCIIHexDecode.php',
+        'FilterLZW' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterLZW.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+        'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',
@@ -1178,6 +1323,8 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'TheSeer\\Tokenizer\\TokenCollectionException' => __DIR__ . '/..' . '/theseer/tokenizer/src/TokenCollectionException.php',
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
+        'fpdi_pdf_parser' => __DIR__ . '/..' . '/setasign/fpdi/fpdi_pdf_parser.php',
+        'pdf_context' => __DIR__ . '/..' . '/setasign/fpdi/pdf_context.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
