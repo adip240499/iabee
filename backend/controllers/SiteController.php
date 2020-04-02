@@ -11,6 +11,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use backend\models\SignupForm;
+
 
 /**
  * Site controller
@@ -25,6 +27,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['logout', 'signup'],
                 'rules' => [
                     [
                         'actions' => ['login', 'error'],
@@ -65,21 +68,25 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $data['all'] = RefMahasiswa::find()
-            ->where(['not in', 'status', 0])
-            ->count();
-        $data['dosen'] = RefDosen::find()
-            ->where(['not in', 'status', 0])
-            ->count();
-        $data['mk'] = RefMataKuliah::find()
-            ->where(['not in', 'status', 0])
-            ->count();
-        $data['tahun'] = RefTahunAjaran::find()
-            ->where(['not in', 'status', 0])
-            ->count();
-        return $this->render('index', [
-            'data' => $data,
-        ]);
+        if (Yii::$app->user->isGuest) {
+            $this->redirect('site/login');
+        } else {
+            $data['all'] = RefMahasiswa::find()
+                ->where(['not in', 'status', 0])
+                ->count();
+            $data['dosen'] = RefDosen::find()
+                ->where(['not in', 'status', 0])
+                ->count();
+            $data['mk'] = RefMataKuliah::find()
+                ->where(['not in', 'status', 0])
+                ->count();
+            $data['tahun'] = RefTahunAjaran::find()
+                ->where(['not in', 'status', 0])
+                ->count();
+            return $this->render('index', [
+                'data' => $data,
+            ]);
+        }
     }
 
     /**
@@ -103,6 +110,24 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    /**
+     * Signs user up.
+     *
+     * @return mixed
+     */
+    public function actionSignup()
+    {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            Yii::$app->session->setFlash('success', 'Thank you for registration.');
+            return $this->goHome();
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
     }
 
     /**

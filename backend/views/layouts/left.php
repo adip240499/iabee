@@ -51,7 +51,7 @@ $this->registerCss($css);
                     ['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => Yii::$app->homeUrl],
                     // ['label' => 'Import Nilai', 'icon' => 'ioxhost', 'url' => ['/data-utama']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    ['label' => 'Mata Kuliah Tayang', 'icon' => 'black-tie', 'url' => ['/mata-kuliah-tayang'],],
+                    ['label' => 'Mata Kuliah Tayang', 'icon' => 'black-tie', 'url' => ['/mata-kuliah-tayang'], 'visible' => Yii::$app->user->can('dosen')],
                     [
                         'label' => 'CP Lulusan',
                         'icon' => 'black-tie',
@@ -82,7 +82,7 @@ $this->registerCss($css);
                         'items' => [
                             ['label' => 'Mata Kuliah', 'icon' => 'file-code-o', 'url' => ['/ref-mata-kuliah'],],
                             ['label' => 'CPMK', 'icon' => 'file-code-o', 'url' => ['/ref-cpmk'],],
-                            ['label' => 'Relasi CPMK to CPL', 'icon' => 'file-code-o', 'url' => ['/relasi-cpmk-cpl'], 'visible' => !Yii::$app->user->isGuest],
+                            ['label' => 'Relasi CPMK to CPL', 'icon' => 'file-code-o', 'url' => ['/relasi-cpmk-cpl']],
                         ],
                     ],
                     [

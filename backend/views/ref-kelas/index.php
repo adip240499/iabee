@@ -17,9 +17,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <h1 class="panel-title">Tabel Kelas</h1>
     </div>
     <div class="panel-body">
-        <p align="right">
-            <?= Html::a('Tambah Kelas', ['create'], ['class' => 'btn btn-success']) ?>
-        </p>
+        <?php
+        if (Yii::$app->User->can('administrator')) {
+        ?>
+            <p align="right">
+                <?= Html::a('Tambah Kelas', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
+        <?php
+        }
+        ?>
 
         <?php // echo $this->render('_search', ['model' => $searchModel]); 
         ?>
@@ -32,7 +38,59 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 'kelas',
 
-                ['class' => 'yii\grid\ActionColumn'],
+                // ['class' => 'yii\grid\ActionColumn'],
+                [
+                    'class' => 'kartik\grid\ActionColumn',
+                    'options' => [
+                        'style' => 'min-width: 100px',
+                    ],
+                    'template' => '{view} {update} {delete}',
+                    'dropdown' => false,
+                    'vAlign' => 'middle',
+                    // 'urlCreator' => function($action, $model, $key, $index) {
+                    //     $url = Url::to([$action, 'id' => $key]);
+                    //     return $url;
+                    // },
+                    'buttons' => [
+                        'view' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-eye"></i>', $url, [
+                                'data-original-title' => 'Lihat',
+                                'title'               => 'Lihat',
+                                'data-toggle'         => 'tooltip',
+                                'class'               => 'btn btn-primary btn-xs',
+                                // 'role'                => 'modal-remote',
+                            ]);
+                        },
+                        'update' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-pencil"></i>', $url, [
+                                'data-original-title' => 'Perbarui',
+                                'title'               => 'Perbarui',
+                                'data-toggle'         => 'tooltip',
+                                'class'               => 'btn btn-warning btn-xs',
+                                // 'role'                => 'modal-remote',
+                            ]);
+                        },
+                        'delete' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-trash"></i>', $url, [
+                                'data-original-title'  => 'Hapus',
+                                'title'                => 'Hapus',
+                                'data-toggle'          => 'tooltip',
+                                'class'                => 'btn btn-danger btn-xs',
+                                'role'                 => 'modal-remote',
+                                'data-confirm'         => false,
+                                'data-method'          => false, // for overide yii data api
+                                'data-request-method'  => 'post',
+                                'data-confirm-title'   => 'Konfirmasi',
+                                'data-confirm-message' => 'Apakah anda yakin akan menghapus data ini?',
+                            ]);
+                        }
+                    ],
+                    'visibleButtons' =>
+                    [
+                        'update' => Yii::$app->user->can('administrator'),
+                        'delete' => Yii::$app->user->can('administrator'),
+                    ]
+                ],
             ],
         ]); ?>
     </div>

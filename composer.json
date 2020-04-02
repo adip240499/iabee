@@ -19,14 +19,16 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "dmstr/yii2-adminlte-asset": "*",
-				
-        "phpoffice/phpexcel": "*",
+		
+        "diecoding/yii2-core": "dev-master",				
+        
+		"phpoffice/phpexcel": "*",
 		
 		"phpnt/yii2-chartjs": "*",
 		"nickcv/yii2-encrypter": "*",
         "bower-asset/chart-js": "^2.9",
 
-        "diecoding/yii2-core": "dev-master",
+
 		
 		"lesha724/yii2-document-viewer": "*"
     },

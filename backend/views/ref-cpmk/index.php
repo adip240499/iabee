@@ -19,11 +19,15 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="panel-body">
-
-        <p align="right">
-            <?= Html::a('Tambah Cpmk', ['create'], ['class' => 'btn btn-success']) ?>
-        </p>
-
+        <?php
+        if (Yii::$app->User->can('administrator')) {
+        ?>
+            <p align="right">
+                <?= Html::a('Tambah Cpmk', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
+        <?php
+        }
+        ?>
         <?php // echo $this->render('_search', ['model' => $searchModel]); 
         ?>
         <?php
@@ -70,57 +74,59 @@ $this->params['breadcrumbs'][] = $this->title;
                 //         return $dataProvider['refCpl']->kode; // $data['name'] for array data, e.g. using SqlDataProvider.
                 //     },
                 // ],
-                ['class' => 'yii\grid\ActionColumn'],
-                // [
-                    // 'class' => 'kartik\grid\ActionColumn',
-                    // 'template' => '{all}',
-                    // 'buttons' => [
-                    //     'all' => function ($url, $model, $key) {
-                    //         $view = Html::a(
-                    //             '<i class="mdi mdi-table-border"></i>',
-                    //             ['/ref-cpmk/view', 'id' => $model->id,'idcpl' => $model['refCpl']->id],
-                    //             [
-                    //                 'class' => 'btn-sm btn btn-dark',
-                    //                 'data' => [
-                    //                     'toggle' => 'tooltip',
-                    //                     'title' => 'Lihat',
-                    //                 ],
-                    //             ]
-                    //         );
-
-                    //         $update = Html::a(
-                    //             '<i class="mdi mdi-grease-pencil"></i>',
-                    //             ['/ref-cpmk/update', 'id' => $model->id],
-                    //             [
-                    //                 'class' => 'btn-sm btn btn-primary',
-                    //                 'data' => [
-                    //                     'toggle' => 'tooltip',
-                    //                     'title' => 'Perbarui',
-                    //                 ],
-                    //             ]
-                    //         );
-
-                    //         $delete = Html::a(
-                    //             '<i class="mdi mdi-trash-can"></i>',
-                    //             ['/ref-cpmk/delete', 'id' => $model->id],
-                    //             [
-                    //                 'class' => 'btn-sm btn btn-danger',
-                    //                 'data' => [
-                    //                     'toggle' => 'tooltip',
-                    //                     'title' => 'Hapus',
-                    //                     'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
-                    //                     'method' => 'post',
-                    //                 ],
-                    //             ]
-                    //         );
-                    //         return "<div class='btn-group'>
-                    //             {$view}
-                    //             {$update}
-                    //             {$delete}
-                    //         </div>";
-                    //     },
-                    // ],
-                // ],
+                // ['class' => 'yii\grid\ActionColumn'],
+                [
+                    'class' => 'kartik\grid\ActionColumn',
+                    'options' => [
+                        'style' => 'min-width: 100px',
+                    ],
+                    'template' => '{view} {update} {delete}',
+                    'dropdown' => false,
+                    'vAlign' => 'middle',
+                    // 'urlCreator' => function($action, $model, $key, $index) {
+                    //     $url = Url::to([$action, 'id' => $key]);
+                    //     return $url;
+                    // },
+                    'buttons' => [
+                        'view' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-eye"></i>', $url, [
+                                'data-original-title' => 'Lihat',
+                                'title'               => 'Lihat',
+                                'data-toggle'         => 'tooltip',
+                                'class'               => 'btn btn-primary btn-xs',
+                                // 'role'                => 'modal-remote',
+                            ]);
+                        },
+                        'update' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-pencil"></i>', $url, [
+                                'data-original-title' => 'Perbarui',
+                                'title'               => 'Perbarui',
+                                'data-toggle'         => 'tooltip',
+                                'class'               => 'btn btn-warning btn-xs',
+                                // 'role'                => 'modal-remote',
+                            ]);
+                        },
+                        'delete' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-trash"></i>', $url, [
+                                'data-original-title'  => 'Hapus',
+                                'title'                => 'Hapus',
+                                'data-toggle'          => 'tooltip',
+                                'class'                => 'btn btn-danger btn-xs',
+                                'role'                 => 'modal-remote',
+                                'data-confirm'         => false,
+                                'data-method'          => false, // for overide yii data api
+                                'data-request-method'  => 'post',
+                                'data-confirm-title'   => 'Konfirmasi',
+                                'data-confirm-message' => 'Apakah anda yakin akan menghapus data ini?',
+                            ]);
+                        }
+                    ],
+                    'visibleButtons' =>
+                    [
+                        'update' => Yii::$app->user->can('administrator'),
+                        'delete' => Yii::$app->user->can('administrator'),
+                    ]
+                ],
             ],
         ]); ?>
     </div>
