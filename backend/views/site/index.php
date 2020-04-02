@@ -117,12 +117,12 @@ $this->title = 'Dashboard';
                                     <tr>
                                         <td width="104px">NIP</td>
                                         <td width="1px">:</td>
-                                        <td>adip</td>
+                                        <td><?php echo ucfirst(Yii::$app->user->identity->nip) ?></td>
                                     </tr>
                                     <tr>
                                         <td>Nama</td>
                                         <td>:</td>
-                                        <td><b>Adip Safiudin</b></td>
+                                        <td><b><?php echo ucfirst(Yii::$app->user->identity->nama) ?></b></td>
                                     </tr>
                                     <tr>
                                         <td>Jabatan</td>
@@ -132,7 +132,7 @@ $this->title = 'Dashboard';
                                     <tr>
                                         <td>Username</td>
                                         <td>:</td>
-                                        <td>adip</td>
+                                        <td><?php echo (Yii::$app->user->identity->username) ?></td>
                                     </tr>
                                 </tbody>
                             </table>

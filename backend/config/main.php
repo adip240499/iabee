@@ -74,6 +74,10 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        
+        'assign' => [
+            'class' => 'diecoding\components\Assign',
+        ],
 
         //mPDF
         // 'pdf' => [

@@ -47,7 +47,7 @@ $this->registerCss($css);
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="user-image" alt="User Image" />
-                        <span class="hidden-xs">Adip Safiudin</span>
+                        <span class="hidden-xs"><?php echo (Yii::$app->user->identity->username) ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -55,8 +55,8 @@ $this->registerCss($css);
                             <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
 
                             <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
+                                <?php echo ucfirst(Yii::$app->user->identity->nama) ?>
+                                <small><?php echo ucfirst(Yii::$app->user->identity->nip) ?></small>
                             </p>
                         </li>
                         <!-- Menu Footer-->

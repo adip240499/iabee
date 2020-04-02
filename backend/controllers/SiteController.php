@@ -141,4 +141,17 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+    public function actionSetAssign()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $assign = Yii::$app->request->post('assign');
+        Yii::$app->assign->setAssign($assign);
+
+        return $this->redirect(['/site/profil']);
+    }
+
 }

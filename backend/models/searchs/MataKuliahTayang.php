@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 use backend\models\MataKuliahTayang as MataKuliahTayangModel;
 use backend\models\RefMataKuliah;
 use backend\models\RefTahunAjaran;
+use Yii;
 
 /**
  * MataKuliahTayang represents the model behind the search form of `backend\models\MataKuliahTayang`.
@@ -42,8 +43,21 @@ class MataKuliahTayang extends MataKuliahTayangModel
      */
     public function search($params)
     {
-        $query = MataKuliahTayangModel::find()->where([static::tableName() . '.status' => 1]);
+        $dosen   = RefDosen::find()
+            ->where(['nip' => Yii::$app->user->identity->nip])
+            ->one();
 
+        $query = MataKuliahTayangModel::find()
+            ->where([static::tableName() . '.status' => 1])
+            ->andWhere([MataKuliahTayang::tableName() . '.id_ref_dosen' => $dosen->id]);
+
+        if (Yii::$app->User->can('administrator')) {
+            $query = MataKuliahTayangModel::find()
+                ->where([static::tableName() . '.status' => 1]);
+        }
+        // echo '<pre>';
+        // print_r($query);
+        // exit;
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -72,9 +86,9 @@ class MataKuliahTayang extends MataKuliahTayangModel
         ]);
 
         $query
-            ->andFilterWhere(['like', RefTahunAjaran::tableName().'.tahun', $this->id_tahun_ajaran])
-            ->andFilterWhere(['like', RefMataKuliah::tableName().'.nama', $this->id_ref_mata_kuliah])
-            ->andFilterWhere(['like', RefKelas::tableName().'.kelas', $this->id_ref_kelas])
+            ->andFilterWhere(['like', RefTahunAjaran::tableName() . '.tahun', $this->id_tahun_ajaran])
+            ->andFilterWhere(['like', RefMataKuliah::tableName() . '.nama', $this->id_ref_mata_kuliah])
+            ->andFilterWhere(['like', RefKelas::tableName() . '.kelas', $this->id_ref_kelas])
             ->andFilterWhere(['like', 'semester', $this->semester])
             ->andFilterWhere(['like', 'created_user', $this->created_user])
             ->andFilterWhere(['like', 'updated_user', $this->updated_user]);

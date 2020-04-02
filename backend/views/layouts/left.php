@@ -1,4 +1,7 @@
 <?php
+
+use yii\helpers\Html;
+
 $css = <<< CSS
 .skin-blue .main-sidebar, .skin-blue .left-side {
     background-color: #00252d;
@@ -38,12 +41,39 @@ $this->registerCss($css);
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-                <p>Adip Safiudin</p>
+                <p><?php echo (Yii::$app->user->identity->username) ?></p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Dosen</a>
             </div>
         </div>
+        <div>
+            <li class="has-submenu">
+                <a href="#">
+                    <i class="mdi mdi-crown"></i>
+                    Hak Akses
+                    <i class="mdi mdi-chevron-down mdi-drop"></i>
+                </a>
+                <ul class="submenu">
+                    <?php foreach (Yii::$app->assign->listAssign as $assign) { ?>
+                        <li>
+                            <?php
 
+                            $label = "{$assign} ";
+                            // $label .= $assign == "PIC" ? ucwords(Yii::$app->user->identity->jenis_user) : "";
+                            echo Html::a($label, ['/site/set-assign'], [
+                                'style' => $assign == Yii::$app->assign->active ? 'font-weight: bold;' : '',
+                                'data' => [
+                                    'method' => 'post',
+                                    'params' => [
+                                        'assign' => $assign,
+                                    ]
+                                ]
+                            ]) ?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </li>
+        </div>
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget' => 'tree'],
@@ -51,7 +81,7 @@ $this->registerCss($css);
                     ['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => Yii::$app->homeUrl],
                     // ['label' => 'Import Nilai', 'icon' => 'ioxhost', 'url' => ['/data-utama']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    ['label' => 'Mata Kuliah Tayang', 'icon' => 'black-tie', 'url' => ['/mata-kuliah-tayang'], 'visible' => Yii::$app->user->can('dosen')],
+                    ['label' => 'Mata Kuliah Tayang', 'icon' => 'black-tie', 'url' => ['/mata-kuliah-tayang']],
                     [
                         'label' => 'CP Lulusan',
                         'icon' => 'black-tie',
@@ -98,7 +128,6 @@ $this->registerCss($css);
                     ],
                     ['label' => 'Setup User', 'icon' => 'user', 'url' => ['#']],
                     ['label' => 'Tentang', 'icon' => 'optin-monster', 'url' => ['#']],
-
                 ],
             ]
         ) ?>
