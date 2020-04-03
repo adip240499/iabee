@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use backend\models\SignupForm;
-
+use common\models\User;
 
 /**
  * Site controller
@@ -151,7 +151,6 @@ class SiteController extends Controller
         $assign = Yii::$app->request->post('assign');
         Yii::$app->assign->setAssign($assign);
 
-        return $this->redirect(['/site/profil']);
+        return $this->redirect(['/site']);
     }
-
 }

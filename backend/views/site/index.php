@@ -127,7 +127,7 @@ $this->title = 'Dashboard';
                                     <tr>
                                         <td>Jabatan</td>
                                         <td>:</td>
-                                        <td>Administrator</td>
+                                        <td><?php echo ucfirst(Yii::$app->user->identity->auth_active) ?></td>
                                     </tr>
                                     <tr>
                                         <td>Username</td>
@@ -143,7 +143,6 @@ $this->title = 'Dashboard';
                         </div>
                     </div>
                 </div>
-
                 <div class="clearfix"></div>
             </div>
         </section>
