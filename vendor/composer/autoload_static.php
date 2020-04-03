@@ -208,6 +208,7 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\BrowserKit\\' => 29,
+            'Soundasleep\\' => 12,
         ),
         'P' => 
         array (
@@ -612,6 +613,10 @@ class ComposerStaticInit91c8acd947a6af07f01ede7ff7fcc475
         'Symfony\\Component\\BrowserKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
+        ),
+        'Soundasleep\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/soundasleep/html2text/src',
         ),
         'Psr\\SimpleCache\\' => 
         array (

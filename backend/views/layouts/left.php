@@ -106,10 +106,10 @@ $this->registerCss($css);
                         ],
                     ],
                     [
-                        'label' => 'CP Mata Kuliah',
-                        'icon' => 'black-tie',
-                        'url' => '#',
-                        'items' => [
+                        'label'   => 'CP Mata Kuliah',
+                        'icon'    => 'black-tie',
+                        'url'     => '#',
+                        'items'   => [
                             ['label' => 'Mata Kuliah', 'icon' => 'file-code-o', 'url' => ['/ref-mata-kuliah'],],
                             ['label' => 'CPMK', 'icon' => 'file-code-o', 'url' => ['/ref-cpmk'],],
                             ['label' => 'Relasi CPMK to CPL', 'icon' => 'file-code-o', 'url' => ['/relasi-cpmk-cpl']],

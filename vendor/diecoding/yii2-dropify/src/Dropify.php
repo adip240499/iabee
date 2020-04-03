@@ -20,7 +20,7 @@ use yii\widgets\InputWidget;
 class Dropify extends InputWidget
 {
     /**
-     * for option ```$(#options['id']).dropify(pluginOptions);```
+     * for option `$(#options['id']).dropify(pluginOptions);`
      * 
      * @var array $pluginOptions
      */
@@ -33,6 +33,14 @@ class Dropify extends InputWidget
      */
     public function init()
     {
+        /**
+         * Add preview for type .ico, .webp
+         * Fixed Issue https://github.com/die-coding/yii2-dropify/issues/1
+         */
+        if (empty($this->pluginOptions['imgFileExtensions'])) {
+            $this->pluginOptions['imgFileExtensions'] = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'ico', 'webp'];
+        }
+
         $this->_options = [
             "class" => "dropify",
         ];
@@ -64,6 +72,6 @@ class Dropify extends InputWidget
         DropifyAsset::register($view);
         $pluginOptions = Json::encode($this->pluginOptions);
         $script        = "$('#{$this->options['id']}').dropify({$pluginOptions});";
-        $this->view->registerJs($script, View::POS_READY);
+        $view->registerJs($script, View::POS_READY);
     }
 }

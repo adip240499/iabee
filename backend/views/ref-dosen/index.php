@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="panel-body">
         <?php
-        if (Yii::$app->User->can('administrator')) {
+        if (Yii::$app->assign->is(["administrator"])) {
         ?>
             <p align="right">
                 <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
@@ -120,8 +120,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'visibleButtons' =>
                     [
-                        'update' => Yii::$app->user->can('administrator'),
-                        'delete' => Yii::$app->user->can('administrator'),
+                        'update' => Yii::$app->assign->is(["administrator"]),
+                        'delete' => Yii::$app->assign->is(["administrator"]),
                     ]
                 ],
             ],

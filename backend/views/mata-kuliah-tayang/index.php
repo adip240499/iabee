@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="panel-body">
         <?php
-        if (Yii::$app->User->can('administrator')) {
+        if (Yii::$app->assign->is(["administrator"])) {
         ?>
             <p align="right">
                 <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class'    => 'kartik\grid\ActionColumn',
                     'template' => '{all}',
                     'header'   => 'Import KRS',
-                    'visible'  => !Yii::$app->user->can("dosen"),
+                    'visible'  => !Yii::$app->assign->is(["dosen"]),
                     'buttons'  => [
                         'all' => function ($url, $model, $key) {
                             if (FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'krs'])) {
@@ -95,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'kartik\grid\ActionColumn',
                     'template' => '{all}',
                     'header'   => 'Import Nilai',
-                    // 'visible' => !Yii::$app->assign->is(["Pimpinan"]),
+                    'visible' => !Yii::$app->assign->is(["administrator"]),
                     'buttons' => [
                         'all' => function ($url, $model, $key) {
                             if (!(FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'krs']))) {
@@ -181,8 +181,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'visibleButtons' =>
                     [
-                        'update' => Yii::$app->user->can('administrator'),
-                        'delete' => Yii::$app->user->can('administrator'),
+                        'update' => Yii::$app->assign->is(["administrator"]),
+                        'delete' => Yii::$app->assign->is(["administrator"]),
                     ]
                 ],
             ],

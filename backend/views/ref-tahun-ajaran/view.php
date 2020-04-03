@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="panel-body">
         <?php
-        if (Yii::$app->User->can('administrator')) {
+        if (Yii::$app->assign->is(["administrator"])) {
         ?>
             <p align="right">
                 <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
