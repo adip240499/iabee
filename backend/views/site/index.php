@@ -115,7 +115,7 @@ $this->title = 'Dashboard';
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <td width="104px">NIP</td>
+                                        <td width="90px">NIP</td>
                                         <td width="1px">:</td>
                                         <td><?php echo ucfirst(Yii::$app->user->identity->nip) ?></td>
                                     </tr>

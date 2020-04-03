@@ -46,34 +46,6 @@ $this->registerCss($css);
                 <a href="#"><i class="fa fa-circle text-success"></i> Dosen</a>
             </div>
         </div>
-        <div>
-            <li class="has-submenu">
-                <a href="#">
-                    <i class="mdi mdi-crown"></i>
-                    Hak Akses
-                    <i class="mdi mdi-chevron-down mdi-drop"></i>
-                </a>
-                <ul class="submenu">
-                    <?php foreach (Yii::$app->assign->listAssign as $assign) { ?>
-                        <li>
-                            <?php
-
-                            $label = "{$assign} ";
-                            // $label .= $assign == "PIC" ? ucwords(Yii::$app->user->identity->jenis_user) : "";
-                            echo Html::a($label, ['/site/set-assign'], [
-                                'style' => $assign == Yii::$app->assign->active ? 'font-weight: bold;' : '',
-                                'data' => [
-                                    'method' => 'post',
-                                    'params' => [
-                                        'assign' => $assign,
-                                    ]
-                                ]
-                            ]) ?>
-                        </li>
-                    <?php } ?>
-                </ul>
-            </li>
-        </div>
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget' => 'tree'],
@@ -131,6 +103,33 @@ $this->registerCss($css);
                 ],
             ]
         ) ?>
+        <ul class="sidebar-menu tree" data-widget="tree">
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>Hak Akses</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <?php foreach (Yii::$app->assign->listAssign as $assign) { ?>
+                        <li>
+                            <?php
+                            $label = "{$assign} ";
+                            echo Html::a($label, ['/site/set-assign'], [
+                                'style' => $assign == Yii::$app->assign->active ? 'font-weight: bold; color: #ffff; background-color: #013342;' : '',
+                                'data' => [
+                                    'method' => 'post',
+                                    'params' => [
+                                        'assign' => $assign,
+                                    ]
+                                ]
+                            ]) ?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </li>
+        </ul>
 
     </section>
 

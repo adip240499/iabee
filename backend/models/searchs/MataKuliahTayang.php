@@ -51,7 +51,7 @@ class MataKuliahTayang extends MataKuliahTayangModel
             ->where([static::tableName() . '.status' => 1])
             ->andWhere([MataKuliahTayang::tableName() . '.id_ref_dosen' => $dosen->id]);
 
-        if (Yii::$app->User->can('administrator')) {
+        if (Yii::$app->assign->is(["administrator"])) {
             $query = MataKuliahTayangModel::find()
                 ->where([static::tableName() . '.status' => 1]);
         }
