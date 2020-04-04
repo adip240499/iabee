@@ -98,7 +98,7 @@ $this->registerCss($css);
                             ['label' => 'Kelas', 'icon' => 'file-code-o', 'url' => ['/ref-kelas'],],
                         ],
                     ],
-                    ['label' => 'Setup User', 'icon' => 'user', 'url' => ['#']],
+                    ['label' => 'Setup User', 'icon' => 'user', 'url' => ['/user'], 'visible' => !Yii::$app->assign->is(["dosen"])],
                     ['label' => 'Tentang', 'icon' => 'optin-monster', 'url' => ['#']],
                 ],
             ]
