@@ -211,9 +211,9 @@ class CapaianMahasiswaController extends Controller
                         ->all();
 
         // Query masih belum benar
-        echo '<pre>';
-        print_r($data['capaian']);
-        exit;
+        // echo '<pre>';
+        // print_r($data['capaian']);
+        // exit;
         return $this->render('nilai-upload', [
             'data' => $data,
         ]);

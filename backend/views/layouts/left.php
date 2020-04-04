@@ -43,70 +43,70 @@ $this->registerCss($css);
             <div class="pull-left info">
                 <p><?php echo (Yii::$app->user->identity->username) ?></p>
 
-                <a href="#"><i class="fa fa-circle text-success"></i> Dosen</a>
+                <a href="#"><i class="fa fa-circle text-success"></i> <?php echo ucfirst(Yii::$app->user->identity->auth_active) ?></a>
             </div>
         </div>
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget' => 'tree'],
                 'items' => [
-                    ['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => Yii::$app->homeUrl],
+                    ['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => ['/site']],
                     // ['label' => 'Import Nilai', 'icon' => 'ioxhost', 'url' => ['/data-utama']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     ['label' => 'Mata Kuliah Tayang', 'icon' => 'black-tie', 'url' => ['/mata-kuliah-tayang']],
                     [
                         'label' => 'CP Lulusan',
-                        'icon' => 'black-tie',
+                        'icon' => 'graduation-cap',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Referensi CPL', 'icon' => 'file-code-o', 'url' => ['/ref-cpl'],],
+                            ['label' => 'Referensi CPL', 'icon' => 'circle', 'url' => ['/ref-cpl'],],
                             [
                                 'label' => 'Monev CPL',
-                                'icon' => 'file-code-o',
+                                'icon' => 'circle',
                                 'url' => ['#'],
                                 'items' => [
                                     // [
-                                    //     'label' => 'CPL Individual', 'icon' => 'file-code-o',
+                                    //     'label' => 'CPL Individual', 'icon' => 'circle',
                                     //     'options' => ['role' => 'modal-remote'], 'url' => ['/monev-cpl/landing-individual'],
                                     // ],
-                                    ['label' => 'CPL individu', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/individual' . $nim = '?jk=8'],],
-                                    ['label' => 'CPL Semester', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/semester'],],
-                                    ['label' => 'CPL Angkatan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/angkatan'],],
-                                    ['label' => 'CPL Lulusan', 'icon' => 'file-code-o', 'url' => ['/monev-cpl/index' . $nim = '?jk=8'],],
+                                    ['label' => 'CPL individu', 'icon' => 'genderless', 'url' => ['/monev-cpl/individual' . $nim = '?jk=8'],],
+                                    ['label' => 'CPL Semester', 'icon' => 'genderless', 'url' => ['/monev-cpl/semester'],],
+                                    ['label' => 'CPL Angkatan', 'icon' => 'genderless', 'url' => ['/monev-cpl/angkatan'],],
+                                    ['label' => 'CPL Lulusan', 'icon' => 'genderless', 'url' => ['/monev-cpl/index' . $nim = '?jk=8'],],
                                 ]
                             ],
                         ],
                     ],
                     [
                         'label'   => 'CP Mata Kuliah',
-                        'icon'    => 'black-tie',
+                        'icon'    => 'list-alt',
                         'url'     => '#',
                         'items'   => [
-                            ['label' => 'Mata Kuliah', 'icon' => 'file-code-o', 'url' => ['/ref-mata-kuliah'],],
-                            ['label' => 'CPMK', 'icon' => 'file-code-o', 'url' => ['/ref-cpmk'],],
-                            ['label' => 'Relasi CPMK to CPL', 'icon' => 'file-code-o', 'url' => ['/relasi-cpmk-cpl']],
+                            ['label' => 'Mata Kuliah', 'icon' => 'circle', 'url' => ['/ref-mata-kuliah'],],
+                            ['label' => 'CPMK', 'icon' => 'circle', 'url' => ['/ref-cpmk'],],
+                            ['label' => 'Relasi CPMK to CPL', 'icon' => 'circle', 'url' => ['/relasi-cpmk-cpl']],
                         ],
                     ],
                     [
                         'label' => 'Data Pendukung',
-                        'icon' => 'black-tie',
+                        'icon' => 'suitcase',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Mahasiswa', 'icon' => 'file-code-o', 'url' => ['/ref-mahasiswa'],],
-                            ['label' => 'Dosen Pengajar', 'icon' => 'file-code-o', 'url' => ['/ref-dosen'],],
-                            ['label' => 'Tahun Ajaran', 'icon' => 'file-code-o', 'url' => ['/ref-tahun-ajaran'],],
-                            ['label' => 'Kelas', 'icon' => 'file-code-o', 'url' => ['/ref-kelas'],],
+                            ['label' => 'Mahasiswa', 'icon' => 'circle', 'url' => ['/ref-mahasiswa'],],
+                            ['label' => 'Dosen Pengajar', 'icon' => 'circle', 'url' => ['/ref-dosen'],],
+                            ['label' => 'Tahun Ajaran', 'icon' => 'circle', 'url' => ['/ref-tahun-ajaran'],],
+                            ['label' => 'Kelas', 'icon' => 'circle', 'url' => ['/ref-kelas'],],
                         ],
                     ],
-                    ['label' => 'Setup User', 'icon' => 'user', 'url' => ['/user'], 'visible' => !Yii::$app->assign->is(["dosen"])],
-                    ['label' => 'Tentang', 'icon' => 'optin-monster', 'url' => ['#']],
+                    ['label' => 'Setup User', 'icon' => 'users', 'url' => ['/user'], 'visible' => !Yii::$app->assign->is(["dosen"])],
+                    ['label' => 'Tentang', 'icon' => 'info-circle', 'url' => ['#']],
                 ],
             ]
         ) ?>
         <ul class="sidebar-menu tree" data-widget="tree">
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-dashboard"></i> <span>Hak Akses</span>
+                    <i class="fa fa-user-secret"></i> <span>Hak Akses</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -115,8 +115,8 @@ $this->registerCss($css);
                     <?php foreach (Yii::$app->assign->listAssign as $assign) { ?>
                         <li>
                             <?php
-                            $label = "{$assign} ";
-                            echo Html::a($label, ['/site/set-assign'], [
+                            $label = "{$assign}";
+                            echo Html::a("<i class='fa fa-circle'>$label</i>", ['/site/set-assign'], [
                                 'style' => $assign == Yii::$app->assign->active ? 'font-weight: bold; color: #ffff; background-color: #013342;' : '',
                                 'data' => [
                                     'method' => 'post',

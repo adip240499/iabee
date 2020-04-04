@@ -40,7 +40,22 @@ $this->params['breadcrumbs'][] = 'View';
                 'kode_dosen',
                 'nip',
                 'nama_dosen',
-                'status',
+                [
+                    'class'      => 'kartik\grid\DataColumn',   // can be omitted, as it is the default
+                    'attribute'  => 'status',
+                    'format'     => 'raw',
+                    'filterInputOptions' => [
+                        'placeholder' => '',
+                    ],
+                    'value' => function ($dataProvider) {
+                        if ($dataProvider->status == 1) {
+                            return 'Aktif';
+                        } elseif ($dataProvider->status == 9) {
+                            return 'Tidak Aktif';
+                        }
+                        // return $dataProvider->status; // $data['name'] for array data, e.g. using SqlDataProvider.
+                    },
+                ],
                 // 'created_at',
                 // 'updated_at',
                 // 'created_user',

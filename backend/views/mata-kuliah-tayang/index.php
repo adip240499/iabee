@@ -134,13 +134,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 // ['class' => 'yii\grid\ActionColumn'],
                 [
-                    'class' => 'kartik\grid\ActionColumn',
+                    'class'   => 'kartik\grid\ActionColumn',
                     'options' => [
                         'style' => 'min-width: 100px',
                     ],
                     'template' => '{view} {update} {delete}',
                     'dropdown' => false,
-                    'vAlign' => 'middle',
+                    'vAlign'   => 'middle',
                     // 'urlCreator' => function($action, $model, $key, $index) {
                     //     $url = Url::to([$action, 'id' => $key]);
                     //     return $url;
@@ -165,18 +165,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                         'delete' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-trash"></i>', $url, [
-                                'data-original-title'  => 'Hapus',
-                                'title'                => 'Hapus',
-                                'data-toggle'          => 'tooltip',
-                                'class'                => 'btn btn-danger btn-xs',
-                                'role'                 => 'modal-remote',
-                                'data-confirm'         => false,
-                                'data-method'          => false, // for overide yii data api
-                                'data-request-method'  => 'post',
-                                'data-confirm-title'   => 'Konfirmasi',
-                                'data-confirm-message' => 'Apakah anda yakin akan menghapus data ini?',
-                            ]);
+                            if (!FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'nilai'])) {
+                                return Html::a('<i class="fa fa-trash"></i>', $url, [
+                                    'data-original-title'  => 'Hapus',
+                                    'title'                => 'Hapus',
+                                    'data-toggle'          => 'tooltip',
+                                    'class'                => 'btn btn-danger btn-xs',
+                                    'role'                 => 'modal-remote',
+                                    'data-confirm'         => false,
+                                    'data-method'          => false, // for overide yii data api
+                                    'data-request-method'  => 'post',
+                                    'data-confirm-title'   => 'Konfirmasi',
+                                    'data-confirm-message' => 'Apakah anda yakin akan menghapus data ini?',
+                                ]);
+                            }
                         }
                     ],
                     'visibleButtons' =>
