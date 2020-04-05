@@ -151,24 +151,58 @@ class KrsController extends Controller
     }
 
     public function actionFileUpload()
-	{
-		Yii::$app->response->format = Response::FORMAT_JSON;
-		$jk = Yii::$app->getRequest()->getQueryParam('jk');
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $jk = Yii::$app->getRequest()->getQueryParam('jk');
 
-		$data = FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'krs']);
-		$file = Yii::getAlias("@backend/uploads/file_krs/{$data->file_name}.xlsx");
-		if (file_exists($file)) {
-			return Yii::$app->response->sendFile(
-				$file,
-				$data->file_name . '.xlsx'
-			);
-		}
+        $data = FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'krs']);
+        $file = Yii::getAlias("@backend/uploads/file_krs/{$data->file_name}.xlsx");
+        if (file_exists($file)) {
+            return Yii::$app->response->sendFile(
+                $file,
+                $data->file_name . '.xlsx'
+            );
+        }
+    }
+
+    public function actionKrsUpload()
+    {
+        $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
+        $data['tayang']       = MataKuliahTayang::findOne(['id' => $jk]);
+        $data['mata_kuliah']  = RefMataKuliah::findOne($data['tayang']->id_ref_mata_kuliah);
+        $data['kelas']        = RefKelas::findOne($data['tayang']->id_ref_kelas);
+        $data['tahun_ajaran'] = RefTahunAjaran::findOne($data['tayang']->id_tahun_ajaran);
+        $data['dosen']        = RefDosen::findOne($data['tayang']->id_ref_dosen);
+
+        $data['krs']      = Krs::find()
+            ->select('*')
+            ->joinWith('refMahasiswa')
+            ->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $jk])
+            ->andWhere([Krs::tableName() . '.status' => 1])
+            ->all();
 
 
-		// echo '<pre>';
-		// print_r($file);
-		// exit;
-	}
+        // Query masih belum benar
+        // echo '<pre>';
+        // print_r($data['krs']);
+        // exit;
+        return $this->render('krs-upload', [
+            'data' => $data,
+        ]);
+    }
+
+    public function actionDeleteMahasiswa()
+    {
+        $id_mata_kuliah_tayang  = Yii::$app->getRequest()->getQueryParam('jk');
+        $id_mahasiswa           = Yii::$app->getRequest()->getQueryParam('js');
+
+        $model = Krs::findOne(['id_ref_mahasiswa' => $id_mahasiswa, 'id_mata_kuliah_tayang' => $id_mata_kuliah_tayang]);;
+        if ($model) {
+            // $model->status  = 0;
+            $model->delete();
+        }
+        return $this->redirect(['krs/krs-upload/','jk'=>$id_mata_kuliah_tayang]);
+    }
 
     public function actionProsesAjax($update = 0)
     {
@@ -179,32 +213,8 @@ class KrsController extends Controller
 
         $data          = $request->post('data');
         $encrypt       = $request->post('encrypt');
-        // $tahun         = $request->post('tahun_ajaran');
-        // $semester      = $request->post('semester');
-        // $kelas      = $request->post('kelas');
 
         $decrypt = \Yii::$app->encrypter->decrypt($encrypt);
-        // $model = MataKuliahTayang::findOne($decrypt);
-        // $cpmks   = RefCpmk::find()
-        //     ->where(['id_ref_mata_kuliah' => $model->id_ref_mata_kuliah])
-        //     ->all();
-
-        // $count = count($cpmks);
-        // for ($i = 0; $i < $count; $i++) {
-        //     $id_cpmk[] = $cpmks[$i]->id;  //CPMK
-        // }
-
-        // if (!$cpmks) {
-        //     return [
-        //         'code' => 401,
-        //         'description' => 'Token Error',
-        //         'data' => [
-        //             'class' => 'danger',
-        //             'html'  => "<td><span class='label label-warning'>Error Token</span></td>
-        // 				<td colspan='30'>Tolong Download Template Kembali</td>",
-        //         ],
-        //     ];
-        // }
 
         $hr     = "<td></td>";
         if (!empty($data)) {
@@ -272,7 +282,7 @@ class KrsController extends Controller
                     $statust = "<span class='label label-warning'>Skip Nim</span><br>";
                 }
                 if ($update || $newData) {
-                    $data->id_mata_kuliah_tayang = $decrypt;     
+                    $data->id_mata_kuliah_tayang = $decrypt;
                     $data->id_ref_mahasiswa      = $id_mahasiswa->id;
                     // $data->nilai    = $cpmk[$i];
                     // $data->tahun    = $tahun;

@@ -6,6 +6,7 @@
  * @copyright Copyright (c) 2018
  */
 
+use backend\models\FileUpload;
 use backend\models\MataKuliahTayang;
 use backend\models\RefCpmk;
 use backend\models\searchs\RefMahasiswa;
@@ -38,9 +39,8 @@ $this->registerCss($css);
             </div>
             <div class="col-md-6" align="right">
                 <?php
-                echo Html::a('<i class="fa fa-eye"></i> Lihat File Upload', ['/data-utama/file-upload', 'jk' => $jk], [
-                    'class' => 'btn btn-primary btn-flat',
-                    // 'role' => 'modal-remote',
+                echo Html::a('<i class="fa fa-eye"></i> Download File Upload', ['file-upload', 'jk' => $jk], [
+                    'class' => 'btn btn-success btn-flat',
                 ]);
                 ?>
             </div>
@@ -109,8 +109,7 @@ $this->registerCss($css);
                     <thead>
                         <tr>
                             <th colspan="1"></th>
-                            <th class="text-center" colspan="2">DATA MAHASISWA</th>
-                            <th class="text-center" colspan="5">DATA NILAI</th>
+                            <th class="text-center" colspan="7">DATA MAHASISWA</th>
                         </tr>
                         <tr>
                             <th class="text-center">NO</th>
@@ -120,58 +119,32 @@ $this->registerCss($css);
                             <th class="text-center">NIM</th>
                             <th class="text-center">NAMA</th>
                             <?php
-                            $count = count($data['capaian'][0]['capaianMahasiswa']);
-                            for ($i = 0; $i < $count; $i++) {
-                                $no = 1 + $i;
+                            if (!FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
                             ?>
-                                <th class="text-center">CPMK<?php echo $no ?></th>
+                                <th class="text-center">Action</th>
                             <?php
                             }
                             ?>
-                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $no = 1;
-                        foreach ($data['capaian'] as $data) {
-
-                            // $mahasiswa = RefMahasiswa::findOne(['id' => $data->id_ref_mahasiswa]);
-                            // $mata_kuliah = MataKuliahTayang::findOne(['id' => $data->id_mata_kuliah_tayang]);
-                            // $cpmks = RefCpmk::find()->where(['id_ref_mata_kuliah' => $mata_kuliah->id_ref_mata_kuliah])->all();
-                            // foreach ($cpmks as $key => $value) {
-                            //     $cpmk[] = $value->id;
-                            // }
-                            // echo '<pre>';
-                            // print_r($data);
-                            // exit;
+                        foreach ($data['krs'] as $data) {
                         ?>
-
                             <tr>
                                 <td class="text-center"><?php echo $no++ ?></td>
                                 <td><?php echo $data['refMahasiswa']->nim ?></td>
                                 <td><?php echo $data['refMahasiswa']->nama ?></td>
                                 <?php
-                                // echo '<pre>';
-                                // print_r($data['capaianMahasiswa'][10]->id_ref_cpmk);
-                                // exit;
-                                // if ($data['capaianMahasiswa'][0]->id_ref_cpmk == $cpmk[0]) {
-                                    foreach ($data['capaianMahasiswa'] as $key => $value) {
-                                        // echo '<pre>';
-                                        // print_r($value);
-                                        // exit;
+                                if (!FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
                                 ?>
-                                        <td class="text-center"><?php echo $value->nilai ?></td>
+                                    <td class="text-center">
+                                        <a href="<?php echo Url::to(['/krs/delete-mahasiswa', 'jk' => $jk, 'js' => $data->id_ref_mahasiswa]); ?>"><i class="fa fa-trash btn btn-danger btn-xs"></i></a>
+                                    </td>
                                 <?php
-                                        // }
-                                    // }
                                 }
                                 ?>
-                                <td class="text-center">
-                                    <a href="<?php echo Url::to(['capaian-mahasiswa/update', 'jk' => $jk, 'js' => $data->id_ref_mahasiswa]); ?>"><i class="fa fa-edit"></i></a>
-                                    <a href="<?php echo Url::to(['/capaian-mahasiswa/delete', 'jk' => $jk, 'js' => $data->id_ref_mahasiswa]); ?>"><i class="fa fa-trash"></i></a>
-                                </td>
-
                             </tr>
                         <?php
                         }
