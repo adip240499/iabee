@@ -390,7 +390,7 @@ class DataUtamaController extends Controller
 			$nim  = strtoupper(trim($data[1]));
 			$nama = $data[2];
 
-			for ($i = 0; $i < $count; $i++) {
+			for ($i = 0; $i < 5; $i++) {
 				$j = $i + 3;
 				$cpmk[] = $data[$j];  //CPMK
 			}
@@ -402,10 +402,14 @@ class DataUtamaController extends Controller
 				->andWhere([RefMahasiswa::tableName() . '.nim' => $nim])
 				->all();
 
-			if (!$nim || !$cpmk || !$id_mahasiswa || !$notin_krs) {
+			if (
+				!$nim || !$cpmk || !$id_mahasiswa ||
+				!$notin_krs || !$cpmk[0] || !$cpmk[1] ||
+				!$cpmk[2] || !$cpmk[3] || !$cpmk[4]
+			) {
+
 				$required = "<td><span class='label label-danger'>Wajib Diisi</span></td>";
 				$html = "<td><span class='label label-danger'>Error</span></td>";
-				// $html .= $hr;
 
 				if (!$nim)
 					$html .= $required;
@@ -441,7 +445,6 @@ class DataUtamaController extends Controller
 			if ($count == 5) {
 				$html = [
 					$hr,
-					// "<td>{$no}</td>",
 					"<td>{$nim}</td>",
 					"<td>{$nama}</td>",
 					"<td>{$cpmk[0]}</td>",
@@ -449,49 +452,40 @@ class DataUtamaController extends Controller
 					"<td>{$cpmk[2]}</td>",
 					"<td>{$cpmk[3]}</td>",
 					"<td>{$cpmk[4]}</td>",
-					// $hr
 				];
 			} elseif ($count == 4) {
 				$html = [
 					$hr,
-					// "<td>{$no}</td>",
 					"<td>{$nim}</td>",
 					"<td>{$nama}</td>",
 					"<td>{$cpmk[0]}</td>",
 					"<td>{$cpmk[1]}</td>",
 					"<td>{$cpmk[2]}</td>",
 					"<td>{$cpmk[3]}</td>",
-					// $hr
 				];
 			} elseif ($count == 3) {
 				$html = [
 					$hr,
-					// "<td>{$no}</td>",
 					"<td>{$nim}</td>",
 					"<td>{$nama}</td>",
 					"<td>{$cpmk[0]}</td>",
 					"<td>{$cpmk[1]}</td>",
 					"<td>{$cpmk[2]}</td>",
-					// $hr
 				];
 			} elseif ($count == 2) {
 				$html = [
 					$hr,
-					// "<td>{$no}</td>",
 					"<td>{$nim}</td>",
 					"<td>{$nama}</td>",
 					"<td>{$cpmk[0]}</td>",
 					"<td>{$cpmk[1]}</td>",
-					// $hr
 				];
 			} elseif ($count == 1) {
 				$html = [
 					$hr,
-					// "<td>{$no}</td>",
 					"<td>{$nim}</td>",
 					"<td>{$nama}</td>",
 					"<td>{$cpmk[0]}</td>",
-					// $hr
 				];
 			}
 

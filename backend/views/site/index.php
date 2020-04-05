@@ -69,9 +69,9 @@ $this->title = 'Dashboard';
                                 <span class="info-box-icon"><i class="fa fa-user-secret"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Data Admin</span>
-                                    <span class="info-box-number">3</span>
+                                    <span class="info-box-number"><?php echo $data['admin'] ?></span>
                                     <div class="progress">
-                                        <div class="progress-bar" style="width:0.20775623268698%"></div>
+                                        <div class="progress-bar" style="width:100%"></div>
                                     </div>
                                     <span class="progress-description">
                                         <a class="small-box-footer" href="#" style="color: #fff;">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>

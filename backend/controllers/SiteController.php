@@ -83,6 +83,9 @@ class SiteController extends Controller
             $data['tahun'] = RefTahunAjaran::find()
                 ->where(['not in', 'status', 0])
                 ->count();
+            $data['admin'] = User::find()
+                ->where(['not in', 'status', 0])
+                ->count();
             return $this->render('index', [
                 'data' => $data,
             ]);
