@@ -82,7 +82,7 @@ class KrsController extends Controller
                 $tahun       = RefTahunAjaran::findOne($tayang->id_tahun_ajaran);
                 $dosen       = RefDosen::findOne($tayang->id_ref_dosen);
 
-                $nama = 'nilai_' .
+                $nama = 'krs_' .
                     $mata_kuliah->kode . '_' .
                     $mata_kuliah->nama . '_' .
                     $kelas->kelas . '_Tahun_' .
@@ -150,6 +150,26 @@ class KrsController extends Controller
         ]);
     }
 
+    public function actionFileUpload()
+	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
+		$jk = Yii::$app->getRequest()->getQueryParam('jk');
+
+		$data = FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'krs']);
+		$file = Yii::getAlias("@backend/uploads/file_krs/{$data->file_name}.xlsx");
+		if (file_exists($file)) {
+			return Yii::$app->response->sendFile(
+				$file,
+				$data->file_name . '.xlsx'
+			);
+		}
+
+
+		// echo '<pre>';
+		// print_r($file);
+		// exit;
+	}
+
     public function actionProsesAjax($update = 0)
     {
         $request = Yii::$app->request;
@@ -192,22 +212,13 @@ class KrsController extends Controller
             $nim  = strtoupper(trim($data[1]));
             $nama = $data[2];
 
-            // for ($i = 0; $i < $count; $i++) {
-            //     $j = $i + 3;
-            //     $cpmk[] = $data[$j];  //CPMK
-            // }
 
             if (!$nim) {
                 $required = "<td><span class='label label-danger'>Wajib Diisi</span></td>";
-                $html = "<td><span class='label label-danger'>Error</span></td>";
+                $html = "<td><span class='label label-danger'>Error</span><br></td>";
                 $html .= "<td>{$no}</td>";
 
                 $html .= $hr;
-
-                // if (!$no)
-                //     $html .= $required;
-                // else
-                //     $html .= "<td>{$no}</td>";
 
                 if (!$nim)
                     $html .= $required;
@@ -219,92 +230,22 @@ class KrsController extends Controller
                 else
                     $html .= "<td>{$nama}</td>";
 
-                // for ($i = 0; $i < $count; $i++) {
-                //     if (!$cpmk[$i])
-                //         $html .= $required;
-                //     else
-                //         $html .= "<td>{$cpmk[$i]}</td>";
-                // }
-
                 return [
                     'code' => 200,
                     'description' => 'Error Validasi',
                     'data' => [
                         'class' => 'danger',
-                        'html'  => $html,
+                        'html'  => "$html",
                     ],
                 ];
             }
 
             $html = [
                 $hr,
-                // "<td>{$no}</td>",
                 "<td class='text-monospace'>{$nim}</td>",
                 "<td>{$nama}</td>",
-                // "<td>{$cpmk[0]}</td>",
-                // "<td>{$cpmk[1]}</td>",
-                // "<td>{$cpmk[2]}</td>",
-                // "<td>{$cpmk[3]}</td>",
-                // "<td>{$cpmk[4]}</td>",
                 $hr
             ];
-
-            // if ($count == 5) {
-            //     $html = [
-            //         $hr,
-            //         // "<td>{$no}</td>",
-            //         "<td>{$nim}</td>",
-            //         "<td>{$nama}</td>",
-            //         "<td>{$cpmk[0]}</td>",
-            //         "<td>{$cpmk[1]}</td>",
-            //         "<td>{$cpmk[2]}</td>",
-            //         "<td>{$cpmk[3]}</td>",
-            //         "<td>{$cpmk[4]}</td>",
-            //         $hr
-            //     ];
-            // } elseif ($count == 4) {
-            //     $html = [
-            //         $hr,
-            //         // "<td>{$no}</td>",
-            //         "<td>{$nim}</td>",
-            //         "<td>{$nama}</td>",
-            //         "<td>{$cpmk[0]}</td>",
-            //         "<td>{$cpmk[1]}</td>",
-            //         "<td>{$cpmk[2]}</td>",
-            //         "<td>{$cpmk[3]}</td>",
-            //         $hr
-            //     ];
-            // } elseif ($count == 3) {
-            //     $html = [
-            //         $hr,
-            //         // "<td>{$no}</td>",
-            //         "<td>{$nim}</td>",
-            //         "<td>{$nama}</td>",
-            //         "<td>{$cpmk[0]}</td>",
-            //         "<td>{$cpmk[1]}</td>",
-            //         "<td>{$cpmk[2]}</td>",
-            //         $hr
-            //     ];
-            // } elseif ($count == 2) {
-            //     $html = [
-            //         $hr,
-            //         // "<td>{$no}</td>",
-            //         "<td>{$nim}</td>",
-            //         "<td>{$nama}</td>",
-            //         "<td>{$cpmk[0]}</td>",
-            //         "<td>{$cpmk[1]}</td>",
-            //         $hr
-            //     ];
-            // } elseif ($count == 1) {
-            //     $html = [
-            //         $hr,
-            //         // "<td>{$no}</td>",
-            //         "<td>{$nim}</td>",
-            //         "<td>{$nama}</td>",
-            //         "<td>{$cpmk[0]}</td>",
-            //         $hr
-            //     ];
-            // }
 
             $status = $desc = '';
             $statust = $desct = '';
@@ -327,8 +268,8 @@ class KrsController extends Controller
                     $newData = true;
                     $data    = new Krs();
                 } else {
-                    $desct   = 'Skip nim ';
-                    $statust = "<span class='label label-warning'>Skip Nilai</span><br>";
+                    $desct   = 'Skip Nim ';
+                    $statust = "<span class='label label-warning'>Skip Nim</span><br>";
                 }
                 if ($update || $newData) {
                     $data->id_mata_kuliah_tayang = $decrypt;     
@@ -341,7 +282,7 @@ class KrsController extends Controller
 
                     if ($update && $exist) {
                         $desct   = 'Update Mahasiswa ';
-                        $statust = "<span class='label label-warning'>Update Nilai</span><br>";
+                        $statust = "<span class='label label-warning'>Update Nim</span><br>";
                     }
                 }
                 // }

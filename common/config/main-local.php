@@ -3,7 +3,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=obe',
+            'dsn' => 'mysql:host=localhost;dbname=obe_trial',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',

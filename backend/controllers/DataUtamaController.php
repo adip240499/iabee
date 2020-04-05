@@ -344,11 +344,6 @@ class DataUtamaController extends Controller
 				$data->file_name . '.xlsx'
 			);
 		}
-
-
-		// echo '<pre>';
-		// print_r($file);
-		// exit;
 	}
 
 	public function actionProsesAjax($update = 0)
@@ -400,27 +395,31 @@ class DataUtamaController extends Controller
 				$cpmk[] = $data[$j];  //CPMK
 			}
 
-			if (!$nim) {
+			$id_mahasiswa = RefMahasiswa::findOne(['nim' => $nim]);
+			$notin_krs    = Krs::find()
+				->joinWith('refMahasiswa')
+				->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $decrypt])
+				->andWhere([RefMahasiswa::tableName() . '.nim' => $nim])
+				->all();
+
+			if (!$nim || !$cpmk || !$id_mahasiswa || !$notin_krs) {
 				$required = "<td><span class='label label-danger'>Wajib Diisi</span></td>";
 				$html = "<td><span class='label label-danger'>Error</span></td>";
-				$html .= "<td>{$no}</td>";
-
-				$html .= $hr;
-
-				if (!$no)
-					$html .= $required;
-				else
-					$html .= "<td>{$no}</td>";
+				// $html .= $hr;
 
 				if (!$nim)
 					$html .= $required;
+				else if (!$id_mahasiswa)
+					$html .= "<td><span class='label label-danger'>Nim Tidak Ada</span></td>";
+				else if (!$notin_krs)
+					$html .= "<td><span class='label label-danger'>Nim Tidak diKRS</span></td>";
 				else
 					$html .= "<td>{$nim}</td>";
 
-				// if (!$nama)
-				// 	$html .= $required;
-				// else
-				// 	$html .= "<td>{$nama}</td>";
+				if (!$nama)
+					$html .= $required;
+				else
+					$html .= "<td>{$nama}</td>";
 
 				for ($i = 0; $i < $count; $i++) {
 					if (!$cpmk[$i])
@@ -450,7 +449,7 @@ class DataUtamaController extends Controller
 					"<td>{$cpmk[2]}</td>",
 					"<td>{$cpmk[3]}</td>",
 					"<td>{$cpmk[4]}</td>",
-					$hr
+					// $hr
 				];
 			} elseif ($count == 4) {
 				$html = [
@@ -462,7 +461,7 @@ class DataUtamaController extends Controller
 					"<td>{$cpmk[1]}</td>",
 					"<td>{$cpmk[2]}</td>",
 					"<td>{$cpmk[3]}</td>",
-					$hr
+					// $hr
 				];
 			} elseif ($count == 3) {
 				$html = [
@@ -473,7 +472,7 @@ class DataUtamaController extends Controller
 					"<td>{$cpmk[0]}</td>",
 					"<td>{$cpmk[1]}</td>",
 					"<td>{$cpmk[2]}</td>",
-					$hr
+					// $hr
 				];
 			} elseif ($count == 2) {
 				$html = [
@@ -483,7 +482,7 @@ class DataUtamaController extends Controller
 					"<td>{$nama}</td>",
 					"<td>{$cpmk[0]}</td>",
 					"<td>{$cpmk[1]}</td>",
-					$hr
+					// $hr
 				];
 			} elseif ($count == 1) {
 				$html = [
@@ -492,18 +491,13 @@ class DataUtamaController extends Controller
 					"<td>{$nim}</td>",
 					"<td>{$nama}</td>",
 					"<td>{$cpmk[0]}</td>",
-					$hr
+					// $hr
 				];
 			}
 
 			$status = $desc = '';
 			$statust = $desct = '';
 
-			$id_mahasiswa = RefMahasiswa::findOne(['nim' => $nim]);
-
-			// echo '<pre>';
-			// print_r($tahun);
-			// exit;
 			$transaction  = Yii::$app->db->beginTransaction();
 			try {
 				$desc   .= $desct;
@@ -518,7 +512,7 @@ class DataUtamaController extends Controller
 						$data    = new CapaianMahasiswa();
 					} else {
 						$desct   = 'Skip nim ';
-						$statust = "<span class='label label-warning'>Skip Nilai</span><br>";
+						$statust = "<span class='label label-warning'>Skip Nim</span><br>";
 					}
 					if ($update || $newData) {
 						$data->id_ref_cpmk      = $id_cpmk[$i];                 // ID CPMK dalam bentuk array

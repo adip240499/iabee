@@ -31,29 +31,71 @@ var model = $modelJson,
 
 generate(model, max, min);
 
+// function generate(model, max, key)
+// {
+
+// 	tr = $("#tr" + key);
+// 	tr.addClass('info');
+// 	tr[0].childNodes[0].innerHTML = '<span class="label label-primary">Dalam Proses</span>';
+
+//     // var fakultas =  document.getElementById("fakultas").value; 
+// 	$.post( "$url", {
+// 		data            : model[key],
+//         encrypt         : "$encrypt",
+// 		program_studi   : "$program_studi",
+// 		tahun_ajaran    : "$tahun_ajaran",
+// 		semester        : "$semester",
+// 		mata_kuliah     : "$mata_kuliah",
+// 		kelas           : "$kelas",
+// 		dosen           : "$dosen",
+// 	}).done(function( data ) {
+
+//         if (model[key][1]&&model[key][3]) {
+            
+// 	proses++;
+//             tr.removeClass('info');
+// 		tr.addClass(data['data']['class']);
+// 		tr.html(data['data']['html']);
+
+//         if (data['data']['class'] === 'danger') {
+// 			error++;
+//         } else if (data['data']['class'] === 'success') {
+// 			success++;
+//         } else if (data['data']['class'] === 'warning') {
+// 			warning++;
+//         }
+
+// 		$("#proses").html(proses + ' / ' + count + ' <small>Data</small>');
+// 		$("#error").html(error + ' <small>Data</small>');
+// 		$("#warning").html(warning + ' <small>Data</small>');
+// 		$("#success").html(success + ' <small>Data</small>');
+
+// 		$("#status-" + key).html(alert);
+//     }else{
+//         tr.remove();
+//     }
+		
+
+//         if (max >= (key + 1)) {
+//             generate(model, max, key + 1);
+//         }
+// 	});
+// }
+
 function generate(model, max, key)
 {
+	proses++;
 
 	tr = $("#tr" + key);
 	tr.addClass('info');
 	tr[0].childNodes[0].innerHTML = '<span class="label label-primary">Dalam Proses</span>';
 
-    // var fakultas =  document.getElementById("fakultas").value; 
 	$.post( "$url", {
-		data            : model[key],
-        encrypt         : "$encrypt",
-		program_studi   : "$program_studi",
-		tahun_ajaran    : "$tahun_ajaran",
-		semester        : "$semester",
-		mata_kuliah     : "$mata_kuliah",
-		kelas           : "$kelas",
-		dosen           : "$dosen",
+        data            : model[key],
+        encrypt         : "$encrypt"
 	}).done(function( data ) {
-
-        if (model[key][1]&&model[key][3]) {
-            
-	proses++;
-            tr.removeClass('info');
+		
+		tr.removeClass('info');
 		tr.addClass(data['data']['class']);
 		tr.html(data['data']['html']);
 
@@ -71,16 +113,13 @@ function generate(model, max, key)
 		$("#success").html(success + ' <small>Data</small>');
 
 		$("#status-" + key).html(alert);
-    }else{
-        tr.remove();
-    }
-		
 
         if (max >= (key + 1)) {
             generate(model, max, key + 1);
         }
 	});
 }
+
 JS;
 $this->registerJs($js);
 
