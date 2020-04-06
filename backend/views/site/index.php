@@ -137,10 +137,10 @@ $this->title = 'Dashboard';
                                 </tbody>
                             </table>
                         </div>
-                        <div class="box-footer text-center">
+                        <!-- <div class="box-footer text-center">
                             <a class="btn btn-danger" href="/site/change-password">Ubah Kata Sandi</a> <a class="btn btn-danger" href="/site/change-photo">Ubah Foto</a> <br>
                             <br>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="clearfix"></div>

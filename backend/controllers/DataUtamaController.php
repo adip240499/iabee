@@ -405,7 +405,7 @@ class DataUtamaController extends Controller
 			if (
 				!$nim || !$cpmk || !$id_mahasiswa ||
 				!$notin_krs || !$cpmk[0] || !$cpmk[1] ||
-				!$cpmk[2] || !$cpmk[3] || !$cpmk[4]
+				!$cpmk[2] || !$cpmk[3]
 			) {
 
 				$required = "<td><span class='label label-danger'>Wajib Diisi</span></td>";

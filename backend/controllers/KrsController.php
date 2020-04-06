@@ -222,16 +222,19 @@ class KrsController extends Controller
             $nim  = strtoupper(trim($data[1]));
             $nama = $data[2];
 
+            $id_mahasiswa = RefMahasiswa::findOne(['nim' => $nim]);
 
-            if (!$nim) {
+            if (!$nim || !$id_mahasiswa) {
                 $required = "<td><span class='label label-danger'>Wajib Diisi</span></td>";
                 $html = "<td><span class='label label-danger'>Error</span><br></td>";
-                $html .= "<td>{$no}</td>";
+                // $html .= "<td>{$no}</td>";
 
-                $html .= $hr;
+                // $html .= $hr;
 
                 if (!$nim)
                     $html .= $required;
+                else if (!$id_mahasiswa)
+					$html .= "<td><span class='label label-danger'>Nim Tidak Ada</span></td>";
                 else
                     $html .= "<td>{$nim}</td>";
 
@@ -260,7 +263,6 @@ class KrsController extends Controller
             $status = $desc = '';
             $statust = $desct = '';
 
-            $id_mahasiswa = RefMahasiswa::findOne(['nim' => $nim]);
 
             // echo '<pre>';
             // print_r($tahun);
