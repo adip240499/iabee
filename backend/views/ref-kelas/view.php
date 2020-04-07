@@ -39,5 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'kelas',
             ],
         ]) ?>
+        <?= Html::button(
+            'Back',
+            array(
+                'name' => 'btnBack',
+                'class' => 'btn btn-danger',
+                'onclick' => "history.go(-1)",
+            )
+        ); ?>
     </div>
 </div>

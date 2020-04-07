@@ -109,7 +109,7 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
                     // 'role' => 'modal-remote',
                 ]);
             }
-           // if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
+            // if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
             //     echo Html::a('<i class="fa fa-eye"></i> Lihat Nilai', ['/capaian-mahasiswa/nilai-upload', 'jk' => $jk], [
             //         'class' => 'btn btn-primary btn-flat',
             //         // 'role' => 'modal-remote',
@@ -158,7 +158,14 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
                 'accept' => '.xlsx',
             ]
         ]) ?>
-
+        <?= Html::button(
+            'Back',
+            array(
+                'name' => 'btnBack',
+                'class' => 'btn btn-danger',
+                'onclick' => "history.go(-1)",
+            )
+        ); ?>
         <?php ActiveForm::end() ?>
     </div>
 </div>

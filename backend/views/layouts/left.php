@@ -69,10 +69,10 @@ $this->registerCss($css);
                                     //     'label' => 'CPL Individual', 'icon' => 'circle',
                                     //     'options' => ['role' => 'modal-remote'], 'url' => ['/monev-cpl/landing-individual'],
                                     // ],
-                                    ['label' => 'CPL individu', 'icon' => 'genderless', 'url' => ['/monev-cpl/individual' . $nim = '?jk=8'],],
+                                    ['label' => 'CPL individu', 'icon' => 'genderless', 'url' => ['/monev-cpl/individual'],],
                                     ['label' => 'CPL Semester', 'icon' => 'genderless', 'url' => ['/monev-cpl/semester'],],
                                     ['label' => 'CPL Angkatan', 'icon' => 'genderless', 'url' => ['/monev-cpl/angkatan'],],
-                                    ['label' => 'CPL Lulusan', 'icon' => 'genderless', 'url' => ['/monev-cpl/index' . $nim = '?jk=8'],],
+                                    ['label' => 'CPL Lulusan', 'icon' => 'genderless', 'url' => ['/monev-cpl/index'],],
                                 ]
                             ],
                         ],

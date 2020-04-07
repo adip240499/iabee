@@ -62,5 +62,13 @@ $this->params['breadcrumbs'][] = 'View';
                 // 'updated_user',
             ],
         ]) ?>
+        <?= Html::button(
+            'Back',
+            array(
+                'name' => 'btnBack',
+                'class' => 'btn btn-danger',
+                'onclick' => "history.go(-1)",
+            )
+        ); ?>
     </div>
 </div>

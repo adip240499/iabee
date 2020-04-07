@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         if (Yii::$app->assign->is(["administrator"])) {
         ?>
-            <p>
+            <p align="right">
                 <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('Delete', ['delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
@@ -40,5 +40,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'sks',
             ],
         ]) ?>
+        <?= Html::button(
+            'Back',
+            array(
+                'name' => 'btnBack',
+                'class' => 'btn btn-danger',
+                'onclick' => "history.go(-1)",
+            )
+        ); ?>
     </div>
 </div>

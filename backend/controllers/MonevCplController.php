@@ -47,7 +47,9 @@ class MonevCplController extends Controller
     public function actionIndex()
     {
         $id_mahasiswa = Yii::$app->getRequest()->getQueryParam('jk');
-
+        if (!$id_mahasiswa) {
+            $id_mahasiswa = 76;
+        }
         if (!empty($id_mahasiswa)) {
             $cpl = RefCpl::find()->all();
             $total_cpl = count($cpl);
@@ -84,6 +86,9 @@ class MonevCplController extends Controller
     public function actionIndividual()
     {
         $id_mahasiswa = Yii::$app->getRequest()->getQueryParam('jk');
+        if (!$id_mahasiswa) {
+            $id_mahasiswa = 76;
+        }
 
         if (!empty($id_mahasiswa)) {
             $cpl = RefCpl::find()->all();

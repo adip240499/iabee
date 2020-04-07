@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm;
         ],
     ]);
 
-    $semester   = ['Ganjil'=>'Ganjil', 'Genap'=>'Genap'];
+    $semester   = ['Ganjil' => 'Ganjil', 'Genap' => 'Genap'];
     echo $form->field($model, 'semester')->widget(Select2::classname(), [
         'data' => $semester,
         'options' => [
@@ -86,6 +86,14 @@ use yii\widgets\ActiveForm;
     <!-- <?= $form->field($model, 'id_ref_dosen')->textInput() ?> -->
 
     <div class="form-group">
+        <?= Html::button(
+            'Back',
+            array(
+                'name' => 'btnBack',
+                'class' => 'btn btn-danger',
+                'onclick' => "history.go(-1)",
+            )
+        ); ?>
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 

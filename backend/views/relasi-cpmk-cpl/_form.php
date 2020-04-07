@@ -40,7 +40,7 @@ use yii\widgets\ActiveForm;
     $datas = RefCpl::find()
         // ->joinWith(['refMataKuliah'])
         ->all();
-    $cpl = ArrayHelper::map($datas, 'id', 'isi','kode');
+    $cpl = ArrayHelper::map($datas, 'id', 'isi', 'kode');
 
     echo $form->field($model, 'id_ref_cpl')->widget(Select2::classname(), [
         'data' => $cpl,
@@ -57,6 +57,14 @@ use yii\widgets\ActiveForm;
     <!-- <?= $form->field($model, 'id_ref_cpl')->textInput() ?> -->
 
     <div class="form-group">
+        <?= Html::button(
+            'Back',
+            array(
+                'name' => 'btnBack',
+                'class' => 'btn btn-danger',
+                'onclick' => "history.go(-1)",
+            )
+        ); ?>
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 

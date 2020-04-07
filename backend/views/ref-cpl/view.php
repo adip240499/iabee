@@ -41,6 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'ringkasan:ntext',
             ],
         ]) ?>
+        <?= Html::button(
+            'Back',
+            array(
+                'name' => 'btnBack',
+                'class' => 'btn btn-danger',
+                'onclick' => "history.go(-1)",
+            )
+        ); ?>
     </div>
 
 </div>

@@ -110,11 +110,17 @@ $this->registerCss($css);
 <?php
 if ($mahasiswa->status == 1) {
 	$status = 'Aktif';
-} else if ($mahasiswa->status == 2) {
+} else if ($mahasiswa->status == 9) {
+	$status = 'DO';
+} else if ($mahasiswa->status == 8) {
 	$status = 'Lulus';
-} else if ($mahasiswa->status == 3) {
-	$status = 'Tidak Aktif';
-} else {
+} else if ($mahasiswa->status == 7) {
+	$status = 'Undur Diri';
+}else if ($mahasiswa->status == 6) {
+	$status = 'Hilang';
+}else if ($mahasiswa->status == 5) {
+	$status = 'Meninggal Dunia';
+}else {
 	$status = 'Tidak Ditemukan';
 }
 ?>

@@ -90,7 +90,14 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
                 'accept' => '.xlsx',
             ]
         ]) ?>
-
+        <?= Html::button(
+            'Back',
+            array(
+                'name' => 'btnBack',
+                'class' => 'btn btn-danger',
+                'onclick' => "history.go(-1)",
+            )
+        ); ?>
         <?php ActiveForm::end() ?>
     </div>
 </div>
