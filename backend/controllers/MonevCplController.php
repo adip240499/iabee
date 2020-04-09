@@ -222,7 +222,7 @@ class MonevCplController extends Controller
     public function actionLandingAngkatan()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $model    = new CapaianMahasiswa();
+        $model    = new RefMahasiswa();
         if ($model->load(Yii::$app->request->post())) {
 
             // echo "<pre>";
@@ -231,7 +231,7 @@ class MonevCplController extends Controller
             return $this->redirect([
                 'angkatan',
                 // 'nama'     => $nama,
-                'jk' => $model->id_ref_mahasiswa,
+                'jk' => $model->angkatan,
             ]);
         }
         $mahasiswa = CapaianMahasiswa::find()
@@ -413,11 +413,11 @@ class MonevCplController extends Controller
     public function actionLandingAngkatanLulusan()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $model    = new CapaianMahasiswa();
+        $model    = new RefMahasiswa();
         if ($model->load(Yii::$app->request->post())) {
             return $this->redirect([
                 'angkatan-lulusan',
-                'jk' => $model->id_ref_mahasiswa,
+                'jk' => $model->angkatan,
             ]);
         }
         $mahasiswa = CapaianMahasiswa::find()

@@ -54,8 +54,8 @@ class Krs extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_ref_mahasiswa' => 'Id Ref Mahasiswa',
-            'id_mata_kuliah_tayang' => 'Id Mata Kuliah Tayang',
+            'id_ref_mahasiswa' => 'Mahasiswa',
+            'id_mata_kuliah_tayang' => 'Mata Kuliah Tayang',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

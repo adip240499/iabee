@@ -123,6 +123,7 @@ if ($mahasiswa->status == 1) {
 }else {
 	$status = 'Tidak Ditemukan';
 }
+$this->title = 'Capaian Pembelajaran Lulusan Alumni Per Individu';
 ?>
 <div class="row">
 	<div class="col-md-12">

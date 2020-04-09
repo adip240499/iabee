@@ -56,8 +56,8 @@ class CapaianMahasiswa extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_ref_cpmk' => 'Id Ref Cpmk',
-            'id_ref_mahasiswa' => 'Id Ref Mahasiswa',
+            'id_ref_cpmk' => 'Cpmk',
+            'id_ref_mahasiswa' => 'Mahasiswa',
             'nilai' => 'Nilai',
             'kelas' => 'Kelas',
             'tahun' => 'Tahun',

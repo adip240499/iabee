@@ -106,6 +106,7 @@ canvas {
 }
 CSS;
 $this->registerCss($css);
+$this->title = 'Capaian Pembelajaran Lulusan Alumni Per Angkatan';
 ?>
 <div class="row">
 	<!-- <div class="col-md-3">

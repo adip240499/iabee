@@ -14,13 +14,13 @@ use kartik\select2\Select2;
     ]); ?>
     <?php
     // echo "<pre>";
-    // print_r($mahasiswa);
+    // print_r($model);
     // exit;
-    echo $form->field($model, 'id_ref_mahasiswa')->widget(Select2::classname(), [
+    echo $form->field($model, 'angkatan')->widget(Select2::classname(), [
         'data' => $angkatan,
         'options' => [
             // 'id'    => 'id_tahun_ajaran',
-            // 'name'  => 'id_tahun_ajaran',
+            // 'name'  => 'Angkatan',
             'placeholder' => '- Pilih -'
         ],
         'pluginOptions' => [
