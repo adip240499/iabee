@@ -116,7 +116,7 @@ return [
     'as access' => [
         'class' => 'diecoding\rbac\components\AccessControl',
         'allowActions' => [
-            // '*',
+            '*',
             'site/*',
             'setup-rbac/*',
             'some-controller/some-action',

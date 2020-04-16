@@ -109,4 +109,9 @@ class RefCpmk extends \yii\db\ActiveRecord
                 'id_ref_cpmk' => 'id'
             ]);
     }
+
+    public function getCapaianMahasiswa()
+    {
+        return $this->hasOne(CapaianMahasiswa::className(), ['id_ref_cpmk' => 'id']);
+    }
 }

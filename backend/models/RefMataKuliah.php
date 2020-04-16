@@ -19,6 +19,7 @@ use Yii;
  *
  * @property MataKuliahTayang[] $mataKuliahTayangs
  * @property RefCpmk[] $refCpmks
+
  */
 class RefMataKuliah extends \yii\db\ActiveRecord
 {
