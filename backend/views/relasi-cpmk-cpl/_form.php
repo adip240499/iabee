@@ -2,10 +2,13 @@
 
 use backend\models\RefCpl;
 use backend\models\RefCpmk;
+use backend\models\RefMataKuliah as ModelsRefMataKuliah;
 use backend\models\searchs\RefMataKuliah;
+use kartik\widgets\DepDrop;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -25,20 +28,32 @@ use yii\widgets\ActiveForm;
     <?php
     $datas = RefCpmk::find()
         ->joinWith(['refMataKuliah'])
+        ->asArray()
         ->all();
-    $cpmk = ArrayHelper::map($datas, 'id', 'refMataKuliah.nama', 'kode');
+    // $cpmk = ArrayHelper::map($datas, 'id', 'kode', 'refMataKuliah.nama');
 
-    echo $form->field($model, 'id_ref_cpmk')->widget(Select2::classname(), [
-        'data' => $cpmk,
+    // foreach ($cpmk as $key) {
+    //     $row = $cpmk 
+    // }
+    
+    $mk = ModelsRefMataKuliah::findAll(['status'=>1]);
+    $mk = ArrayHelper::map($mk, 'id', 'nama');
+
+    echo $form->field($model1, 'id_ref_mata_kuliah')->dropDownList($mk, ['id'=>'nama-id']);
+
+    echo $form->field($model, 'id_ref_cpmk')->widget(DepDrop::classname(), [
         'options' => [
             'placeholder' => '- Pilih -'
         ],
         'pluginOptions' => [
+            'depends'=>['nama-id'],
+            'url'=>Url::to(['/relasi-cpmk-cpl/cpmk']),
             'allowClear' => true
+
         ],
     ]);
+
     $datas = RefCpl::find()
-        // ->joinWith(['refMataKuliah'])
         ->all();
     $cpl = ArrayHelper::map($datas, 'id', 'isi', 'kode');
 

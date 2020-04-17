@@ -50,7 +50,7 @@ class RelasiCpmkCpl extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_ref_cpmk' => 'Mata Kuliah',
+            'id_ref_cpmk' => 'Kode Cpmk',
             'id_ref_cpl' => 'Cpl',
             'status' => 'Status',
             'created_at' => 'Created At',

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\RefCpmk;
 use Yii;
 use backend\models\RelasiCpmkCpl;
 use backend\models\searchs\RelasiCpmkCpl as RelasiCpmkCplSearch;
@@ -9,6 +10,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * RelasiCpmkCplController implements the CRUD actions for RelasiCpmkCpl model.
@@ -74,6 +76,7 @@ class RelasiCpmkCplController extends Controller
     public function actionCreate()
     {
         $model = new RelasiCpmkCpl();
+        $model1 = new RefCpmk();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -81,7 +84,32 @@ class RelasiCpmkCplController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'model1' => $model1,
         ]);
+    }
+
+    public function actionCpmk()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $mk = $parents[0];
+                $out = RefCpmk::find()
+                    ->select('id,kode label,isi name')
+                    ->where(['id_ref_mata_kuliah' => $mk])
+                    ->asArray()
+                    ->all();
+                $out = ArrayHelper::index($out, null, 'label');
+                // echo '<pre>';
+                // print_r($out);
+                // exit();
+
+                return ['output' => $out, 'selected' => ''];
+            }
+        }
+        return ['output' => $out, 'selected' => ''];
     }
 
     /**
@@ -94,6 +122,7 @@ class RelasiCpmkCplController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model1 = RefCpmk::findOne($model->id_ref_cpmk);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -101,6 +130,7 @@ class RelasiCpmkCplController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'model1' => $model1,
         ]);
     }
 
