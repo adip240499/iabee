@@ -1,12 +1,13 @@
 <?php
 
+use backend\models\FileUpload;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\MataKuliahTayang */
 
-// $this->title = $model->id;
+$this->title = 'View : ' . $model['refMataKuliah']->nama;
 $this->params['breadcrumbs'][] = ['label' => 'Mata Kuliah Tayang', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'View';
 \yii\web\YiiAsset::register($this);
@@ -21,13 +22,19 @@ $this->params['breadcrumbs'][] = 'View';
         ?>
             <p align="right">
                 <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => 'Are you sure you want to delete this item?',
-                        'method' => 'post',
-                    ],
-                ]) ?>
+                <?php
+                if (!FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'nilai'])) {
+                ?>
+                    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+                        'class' => 'btn btn-danger',
+                        'data' => [
+                            'confirm' => 'Are you sure you want to delete this item?',
+                            'method' => 'post',
+                        ],
+                    ]) ?>
+                <?php
+                }
+                ?>
             </p>
         <?php
         }

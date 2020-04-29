@@ -11,6 +11,8 @@ $this->registerJsFile("@web/js/utils.js", [
 ]);
 
 $_data = Json::encode(array_values($data));
+$jk = Yii::$app->getRequest()->getQueryParam('jk');
+
 // echo "<pre>";print_r($_data);exit;
 $js = <<< JS
 
@@ -116,11 +118,11 @@ if ($mahasiswa->status == 1) {
 	$status = 'Lulus';
 } else if ($mahasiswa->status == 7) {
 	$status = 'Undur Diri';
-}else if ($mahasiswa->status == 6) {
+} else if ($mahasiswa->status == 6) {
 	$status = 'Hilang';
-}else if ($mahasiswa->status == 5) {
+} else if ($mahasiswa->status == 5) {
 	$status = 'Meninggal Dunia';
-}else {
+} else {
 	$status = 'Tidak Ditemukan';
 }
 $this->title = 'Capaian Pembelajaran Lulusan Per Individu';
@@ -131,11 +133,18 @@ $this->title = 'Capaian Pembelajaran Lulusan Per Individu';
 		<div class="box box-default">
 			<div class="box-body ">
 				<div class="form-group">
-					<div>
-						<?php echo Html::a('<i></i> Pilih Mahasiswa', ['landing-individual'], [
-							'class' => 'btn btn-success btn-flat',
-							'role' => 'modal-remote',
-						]) ?>
+					<div class="row">
+						<div class="col-sm-6">
+							<?php echo Html::a('<i></i> Pilih Mahasiswa', ['landing-individual'], [
+								'class' => 'btn btn-success btn-flat',
+								'role' => 'modal-remote',
+							]) ?>
+						</div>
+						<div class="col-sm-6">
+							<p align="right">
+								<?= Html::a('Transkip Nilai', ['/capaian-mahasiswa/download-transkip/','jk' => $jk], ['class' => 'btn btn-success']) ?>
+							</p>
+						</div>
 					</div>
 				</div>
 				<div class="form-group">

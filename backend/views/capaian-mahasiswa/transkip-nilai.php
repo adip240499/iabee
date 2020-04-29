@@ -48,8 +48,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             <th class="text-center">KODE</th>
                             <th class="text-center">NAMA MATAKULIAH</th>
 
-                            <th class="text-center">Kode CPMK</th>
-                            <th class="text-center">Nilai</th>
+                            <th class="text-center">CPMK 1</th>
+                            <th class="text-center">CPMK 2</th>
+                            <th class="text-center">CPMK 3</th>
+                            <th class="text-center">CPMK 4</th>
+                            <th class="text-center">CPMK 5</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,10 +62,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         ?>
                             <tr>
                                 <td class="text-center"><?php echo $no++ ?></td>
-                                <td class="text-center"><?php echo $data['kode'] ?></td>
-                                <td class="text-left"><?php echo $data['nama'] ?></td>
-                                <td class="text-center"><?php echo 'CPMK '.$data['kode_cpmk'] ?></td>
-                                <td class="text-center"><?php echo $data['nilai'] ?></td>
+                                <td class="text-center"><?php echo $data->kode ?></td>
+                                <td class="text-left"><?php echo $data->nama ?></td>
+                                <?php
+                                foreach ($data['refCpmks'] as $key => $value) {
+                                    // echo '<pre>';
+                                    // print_r($value['capaianMahasiswas']['0']->nilai);
+                                    // exit();
+                                ?>
+                                <td class="text-center"><?php echo $value['capaianMahasiswas']['0']->nilai ?></td>
+                                <?php
+                                }
+                                ?>
                             </tr>
 
                         <?php

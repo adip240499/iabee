@@ -59,13 +59,13 @@ class RefDosen extends RefDosenModel
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'nip' => $this->nip,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'kode_dosen', $this->kode_dosen])
             ->andFilterWhere(['like', 'nama_dosen', $this->nama_dosen])
+            ->andFilterWhere(['like', 'nip', $this->nip])
             ->andFilterWhere(['like', 'status', $this->status])
             ->andFilterWhere(['like', 'created_user', $this->created_user])
             ->andFilterWhere(['like', 'updated_user', $this->updated_user]);

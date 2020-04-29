@@ -6,14 +6,14 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\RefCpmk */
 
-$this->title = $model->kode;
+$this->title = 'View : CPMK '.$model->kode;
 $this->params['breadcrumbs'][] = ['label' => 'CPMK', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = 'CPMK '.$model->kode;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Data Kode <?= Html::encode($this->title) ?></h1>
+        <h1 class="panel-title">Data Kode CPMK <?php echo $model->kode;?> </h1>
     </div>
     <div class="panel-body">
         <?php

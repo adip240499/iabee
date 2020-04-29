@@ -6,14 +6,14 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\RefKelas */
 
-$this->title = $model->kelas;
+$this->title = 'View : '.$model->kelas;
 $this->params['breadcrumbs'][] = ['label' => 'Referensi Kelas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Data Kelas <?= Html::encode($this->title) ?></h1>
+        <h1 class="panel-title">Data Kelas</h1>
     </div>
     <div class="panel-body">
         <?php

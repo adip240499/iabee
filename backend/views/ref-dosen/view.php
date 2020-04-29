@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\RefDosen */
 
-// $this->title = $model->id;
+$this->title = 'View : '.$model->nama_dosen;
 $this->params['breadcrumbs'][] = ['label' => 'Dosen Pengajar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'View';
 \yii\web\YiiAsset::register($this);

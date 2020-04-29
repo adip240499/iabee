@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\RefCpl */
 
-$this->title = $model->kode;
+$this->title = 'View : '.$model->kode;
 $this->params['breadcrumbs'][] = ['label' => 'Capaian Pembelajaran Lulusan', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);

@@ -9,6 +9,7 @@ use backend\models\MataKuliahTayang;
 use backend\models\RefCpmk;
 use backend\models\RefDosen;
 use backend\models\RefKelas;
+use backend\models\RefMahasiswa;
 use backend\models\RefMataKuliah;
 use backend\models\RefTahunAjaran;
 use backend\models\searchs\CapaianMahasiswa as CapaianMahasiswaSearch;
@@ -178,14 +179,43 @@ class CapaianMahasiswaController extends Controller
         $data['dosen']        = RefDosen::findOne($data['tayang']->id_ref_dosen);
 
         // $data['capaian']      = Krs::find()
-        //     ->select('*')
-        //     // ->select('*')
-        //     ->joinWith('refMahasiswa.capaianMahasiswas.refCpmk')
-        //     // ->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $jk])
-        //     ->where([CapaianMahasiswa::tableName() . '.status' => 1])
-        //     ->AndWhere([RefCpmk::tableName() . '.id_ref_fmata_kuliah' => 106])
-        //     // ->groupBy(Krs::tableName() . '.id_ref_mahasiswa')
+        //     ->select([
+        //         'krs.id', 'krs.id_mata_kuliah_tayang', 'krs.id_ref_mahasiswa',
+        //         'ref_mahasiswa.id id_rm',
+        //         'capaian_mahasiswa.id id_cm', 'capaian_mahasiswa.id_ref_cpmk',
+        //         'capaian_mahasiswa.id_ref_mahasiswa',
+        //         'ref_cpmk.id id_rc', 'ref_cpmk.id_ref_mata_kuliah'
+        //     ])
+        //     ->joinWith(
+        //         [
+        //                 'refMahasiswa'.
+        //                 '.capaianMahasiswas'.
+        //                 '.refCpmk' => function ($query) {
+        //                 $query->where(['ref_cpmk.id_ref_mata_kuliah' => 42]);
+        //             }
+        //         ]
+        //     )
+        //     ->asArray()
         //     ->all();
+
+        $data['capaian']      = RefMahasiswa::find()
+            ->select([
+                'ref_mahasiswa.id',
+                'capaian_mahasiswa.id id_cm', 'capaian_mahasiswa.id_ref_cpmk',
+                'capaian_mahasiswa.id_ref_mahasiswa',
+                'ref_cpmk.id id_rc', 'ref_cpmk.id_ref_mata_kuliah'
+            ])
+            ->joinWith(
+                [
+                    'capaianMahasiswas.' .
+                        'refCpmk' => function ($query) {
+                        $query->where(['id_ref_mata_kuliah' => 42]);
+                    }
+                ]
+            )
+            ->andWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => 42])
+            ->asArray()
+            ->all();
 
         //query backup
         // $data['capaian'] = Krs::find()
@@ -200,80 +230,100 @@ class CapaianMahasiswaController extends Controller
         //             ->asArray()
         //             ->all();
 
-        $data['capaian'] = (new \yii\db\Query())
-            ->select('*')
-            ->from('krs k')
-            ->leftJoin('ref_mahasiswa m', 'k.id_ref_mahasiswa = m.id')
-            ->leftJoin('capaian_mahasiswa cm', 'm.id = cm.id_ref_mahasiswa')
-            ->leftJoin('ref_cpmk rc', 'rc.id = cm.id_ref_cpmk')
-            ->where([
-                'rc.id_ref_mata_kuliah' => '106'
-            ])
-            ->all();
+        // $data['capaian'] = (new \yii\db\Query())
+        //     ->select('*')
+        //     ->from('krs k')
+        //     ->leftJoin('ref_mahasiswa m', 'k.id_ref_mahasiswa = m.id')
+        //     ->leftJoin('capaian_mahasiswa cm', 'm.id = cm.id_ref_mahasiswa')
+        //     ->leftJoin('ref_cpmk rc', 'rc.id = cm.id_ref_cpmk')
+        //     ->where([
+        //         'rc.id_ref_mata_kuliah' => '42'
+        //     ])
+        //     ->all();
 
         // Query masih belum benar
-        // echo '<pre>';
-        // print_r($data['capaian']);
-        // exit;
+        echo '<pre>';
+        print_r($data['capaian']);
+        exit;
         return $this->render('nilai-upload', [
             'data' => $data,
         ]);
     }
     public function actionTranskip()
     {
-        // $data['transkip'] = refCpmk::find()
-        // ->select('*')
-        // ->joinWith('capaianMahasiswas.refMahasiswa')
-        // ->where([CapaianMahasiswa::tableName() . '.id' => 105])
-        // ->where([RefMataKuliah::tableName() . '.id' => 1])
-        // ->orderBy([CapaianMahasiswa::tableName().'.tahun'=>SORT_ASC])
-        // ->groupBy([refMataKuliah::tableName().'.id'])
-        // ->all();
-
-        $data['transkip'] = (new \yii\db\Query())
-            ->select('rmk.kode,rmk.nama,cm.nilai,rc.id')
-            ->from('ref_mata_kuliah rmk')
-            ->leftJoin('ref_cpmk rc', 'rmk.id = rc.id_ref_mata_kuliah')
-            ->leftJoin('capaian_mahasiswa cm', 'rc.id = cm.id_ref_cpmk')
-            ->where([
-                'cm.id_ref_mahasiswa' => '105'
-            ])
-            // ->groupBy(['rmk.kode'])
-            ->all();
-        // $data['transkip']
-        foreach ($data['transkip'] as $row) {
-            // echo '<pre>';
-            // print_r($row['id']);
-            // exit;
-            $nilai[] = CapaianMahasiswa::find()
-                ->select('*')
-                ->where([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => 105])
-                ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_cpmk' => $row['id']])
-                ->asArray()
-                ->all();
-
-            // $nilai[] = RefMataKuliah::find()
-            //     ->select('*')
-            //     ->joinWith('refCpmks.capaianMahasiswas')
-            //     ->where([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => 105])
-            //     ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_cpmk' => $row['id']])
-            //     ->asArray()
-            //     ->all();
-        }
         $data['transkip'] = RefMataKuliah::find()
-            ->select('ref_cpmk.kode kode_cpmk, ref_mata_kuliah.*,capaian_mahasiswa.*')
-            ->joinWith('refCpmks.capaianMahasiswas')
-            ->where([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => 105])
-            // ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_cpmk' => $row['id']])
-            ->asArray()
-            // ->groupBy([refCpmk::tableName().'.id_ref_mata_kuliah'])
+            ->select([
+                'ref_mata_kuliah.id', 'ref_mata_kuliah.kode', 'ref_mata_kuliah.nama',
+
+                'ref_cpmk.id id_cpmk', 'ref_cpmk.kode kode_cpmk', 'ref_cpmk.id_ref_mata_kuliah',
+
+                'capaian_mahasiswa.id id_capaian', 'capaian_mahasiswa.nilai', 'capaian_mahasiswa.id_ref_cpmk',
+                'capaian_mahasiswa.id_ref_mahasiswa id_mhs', 'capaian_mahasiswa.nilai',
+            ])
+            ->joinWith(['refCpmks.' . 'capaianMahasiswas' => function ($query) {
+                $query->where(['id_ref_mahasiswa' => 105]);
+            }])
             ->all();
-        // echo '<pre>';
-        // print_r($data);
-        // exit;
         return $this->render('transkip-nilai', [
             'data' => $data,
-            'nilai' => $nilai
         ]);
+    }
+
+    public function actionDownloadTranskip()
+    {
+        $data['transkip'] = RefMataKuliah::find()
+            ->select([
+                'ref_mata_kuliah.id', 'ref_mata_kuliah.kode', 'ref_mata_kuliah.nama',
+
+                'ref_cpmk.id id_cpmk', 'ref_cpmk.kode kode_cpmk', 'ref_cpmk.id_ref_mata_kuliah',
+
+                'capaian_mahasiswa.id id_capaian', 'capaian_mahasiswa.nilai', 'capaian_mahasiswa.id_ref_cpmk',
+                'capaian_mahasiswa.id_ref_mahasiswa id_mhs', 'capaian_mahasiswa.nilai',
+            ])
+            ->joinWith(['refCpmks.' . 'capaianMahasiswas' => function ($query) {
+                $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
+                $query->where(['id_ref_mahasiswa' => $jk]);
+            }])
+            ->all();
+        $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
+        $data['mahasiswa'] = RefMahasiswa::findOne(['id' => $jk]);
+
+        $nama = 'Transkip Nilai_' .
+            $data['mahasiswa']->nim . '_' .
+            $data['mahasiswa']->nama;
+
+        $base        = Yii::getAlias('@backend/modules/import/templates/template-transkip.xlsx');
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($base);
+        $worksheet   = $spreadsheet->getActiveSheet();
+
+        $worksheet->setCellValue('C4', $data['mahasiswa']->nama);  //Kode MK
+        $worksheet->setCellValue('C5', $data['mahasiswa']->nim);  //Kode MK
+        $worksheet->setCellValue('C6', $data['mahasiswa']->angkatan);  //Kode MK
+
+        $no = 1;
+        foreach ($data['transkip'] as $key => $data) {
+
+            $row = 11 + $key;
+            $worksheet->setCellValue('A' . $row, $no++);  //Kode MK
+            $worksheet->setCellValue('B' . $row, $data->kode);  //Kode MK
+            $worksheet->setCellValue('C' . $row, $data->nama);  //Nama MK 
+
+            foreach ($data['refCpmks'] as $key => $value) {
+                $huruf = ['D', 'E', 'F', 'G', 'H'];
+                $worksheet->setCellValue($huruf[$key] . $row, $value['capaianMahasiswas'][0]->nilai);  //NILAI MK
+            }
+        }
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+
+        $path = Yii::getAlias("@backend/uploads/transkip_nilai");
+
+        $base = "{$path}/Transkip_Nilai.xlsx";
+        @unlink($base);
+        $writer->save($base);
+
+        return Yii::$app->response->sendFile(
+            $base,
+            $nama . '.xlsx'
+        );
     }
 }

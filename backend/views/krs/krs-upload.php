@@ -15,7 +15,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Json;
 
-$this->title = 'Tampilan Nilai Mata Kuliah';
+$this->title = 'Tampilan KRS Mata Kuliah';
 $this->params['breadcrumbs'][] = $this->title;
 $jk = Yii::$app->getRequest()->getQueryParam('jk');
 

@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\RefTahunAjaran */
 
-$this->title = $model->tahun;
+$this->title = 'View : '.$model->tahun;
 $this->params['breadcrumbs'][] = ['label' => 'Referensi Tahun Ajaran', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
