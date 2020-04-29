@@ -2,22 +2,15 @@
 
 namespace backend\controllers;
 
-// use backend\models\searchs\CapaianMahasiswa;
-
 use backend\models\RefMahasiswa;
 use backend\models\searchs\CapaianMahasiswa;
 use backend\models\searchs\RefCpl;
-use backend\models\searchs\RefCpmk;
 use backend\models\searchs\RelasiCpmkCpl;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use backend\models\searchs\RefKelas;
-use backend\models\searchs\RefMataKuliah;
-use backend\models\searchs\RefTahunAjaran;
-use backend\models\MataKuliahTayang;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
@@ -70,8 +63,9 @@ class MonevCplController extends Controller
             return $this->render(
                 '/monev-cpl/index',
                 [
-                    'data' => $individu,
-                    'mahasiswa' => $mahasiswa,
+                    'data'         => $individu,
+                    'mahasiswa'    => $mahasiswa,
+                    'id_mahasiswa' => $id_mahasiswa
                 ]
             );
         }
@@ -108,6 +102,7 @@ class MonevCplController extends Controller
                 [
                     'data' => $individu,
                     'mahasiswa' => $mahasiswa,
+                    'id_mahasiswa' => $id_mahasiswa
                 ]
             );
         }

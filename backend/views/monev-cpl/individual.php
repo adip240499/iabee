@@ -11,7 +11,6 @@ $this->registerJsFile("@web/js/utils.js", [
 ]);
 
 $_data = Json::encode(array_values($data));
-$jk = Yii::$app->getRequest()->getQueryParam('jk');
 
 // echo "<pre>";print_r($_data);exit;
 $js = <<< JS
@@ -142,7 +141,7 @@ $this->title = 'Capaian Pembelajaran Lulusan Per Individu';
 						</div>
 						<div class="col-sm-6">
 							<p align="right">
-								<?= Html::a('Transkip Nilai', ['/capaian-mahasiswa/download-transkip/','jk' => $jk], ['class' => 'btn btn-success']) ?>
+								<?= Html::a('Transkip Nilai', ['/capaian-mahasiswa/download-transkip/', 'jk' => $id_mahasiswa], ['class' => 'btn btn-success']) ?>
 							</p>
 						</div>
 					</div>
