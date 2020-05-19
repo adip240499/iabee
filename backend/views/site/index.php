@@ -109,7 +109,6 @@ $this->title = 'Dashboard';
                         <div class="box-body text-center">
                             <div align="center">
                                 <img class="img-circle" style="width: 80px; height: 80px;" src="<?= \Yii::$app->request->BaseUrl.'\images\user.png'?>" />
-
                             </div>
                         </div>
                         <div class="box-body no-padding">

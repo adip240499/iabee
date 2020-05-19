@@ -20,11 +20,17 @@ $fieldOptions2 = [
 ];
 ?>
 <div class="login-box">
-    <div class="login-logo">
-        <a href="#"><b>Aplikasi </b> OBE</a>
+    <div class="box-body text-center">
+        <div align="center">
+            <img style="width: 65%;" src="<?= \Yii::$app->request->BaseUrl . '\images\uns.png' ?>" />
+        </div>
     </div>
+
     <!-- /.login-logo -->
     <div class="login-box-body">
+        <div class="login-logo center-block">
+            <a href="#"><b>Aplikasi </b> OBE</a>
+        </div>
         <p class="login-box-msg">Sign In untuk masuk</p>
 
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
