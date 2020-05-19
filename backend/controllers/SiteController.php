@@ -86,6 +86,9 @@ class SiteController extends Controller
             $data['admin'] = User::find()
                 ->where(['not in', 'status', 0])
                 ->count();
+            // echo '<pre>';
+            // print_r($data);
+            // exit;
             return $this->render('index', [
                 'data' => $data,
             ]);

@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class'    => 'kartik\grid\ActionColumn',
                     'template' => '{all}',
                     'header'   => 'Import KRS',
-                    'visible'  => !Yii::$app->assign->is(["dosen"]),
+                    'visible'  => !Yii::$app->assign->is(["dosen","admin dosen"]),
                     'buttons'  => [
                         'all' => function ($url, $model, $key) {
                             if (FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'krs'])) {

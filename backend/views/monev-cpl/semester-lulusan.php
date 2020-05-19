@@ -16,7 +16,7 @@ $js = <<< JS
 
 		var color = Chart.helpers.color;
 		var radarData = {
-			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
+			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10', 'CPL11', 'CPL12'],
 			datasets: [{
 				label: 'Nilai Capaian',
 				backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
@@ -29,7 +29,7 @@ $js = <<< JS
 
 		var color = Chart.helpers.color;
 		var barChartData = {
-			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10'],
+			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10', 'CPL11', 'CPL12'],
 			datasets: [{
 				label: 'Nilai Capaian',
 				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),

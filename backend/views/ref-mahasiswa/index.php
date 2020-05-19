@@ -1,5 +1,6 @@
 <?php
 
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 // use yii\grid\GridView;
 use kartik\grid\GridView;
@@ -26,7 +27,38 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         }
         ?>
-        <?php // echo $this->render('_search', ['model' => $searchModel]); 
+        <?php
+            $gridColumns = [
+                'nim',
+                'nama',
+                'angkatan',
+                [
+                    'class'      => 'kartik\grid\DataColumn',   // can be omitted, as it is the default
+                    'attribute'  => 'status',
+                    'value' => function ($dataProvider) {
+                        if ($dataProvider->status == 1) {
+                            return 'Aktif';
+                        } elseif ($dataProvider->status == 9) {
+                            return 'DO';
+                        } elseif ($dataProvider->status == 8) {
+                            return 'Lulus';
+                        } elseif ($dataProvider->status == 7) {
+                            return 'Undur Diri';
+                        } elseif ($dataProvider->status == 6) {
+                            return 'Hilang';
+                        } elseif ($dataProvider->status == 5) {
+                            return 'Meninggal Dunia';
+                        }
+                        // return $dataProvider->status; // $data['name'] for array data, e.g. using SqlDataProvider.
+                    },
+                ]
+
+            ];
+
+            echo ExportMenu::widget([
+                'dataProvider' => $dataProvider,
+                'columns'=> $gridColumns
+            ])
         ?>
 
         <?= GridView::widget([
