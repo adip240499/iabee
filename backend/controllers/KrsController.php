@@ -395,7 +395,7 @@ class KrsController extends Controller
 
         $path = Yii::getAlias("@backend/uploads/import_nilai");
 
-        $base = "{$path}/{$nama}.xlsx";
+        $base = "{$path}/krs.xlsx";
         @unlink($base);
         $writer->save($base);
 

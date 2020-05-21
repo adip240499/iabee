@@ -312,7 +312,7 @@ class DataUtamaController extends Controller
 
 		$path = Yii::getAlias("@backend/uploads/import_nilai");
 
-		$base = "{$path}/{$nama}.xlsx";
+		$base = "{$path}/nilai.xlsx";
 		@unlink($base);
 		$writer->save($base);
 
@@ -361,6 +361,9 @@ class DataUtamaController extends Controller
 
 		$decrypt      = \Yii::$app->encrypter->decrypt($encrypt);
 		$model        = MataKuliahTayang::findOne($decrypt);
+		// echo '<pre>';
+		// print_r($model->id_tahun_ajaran);
+		// exit;
 		$tahun_ajaran = RefTahunAjaran::findOne($model->id_tahun_ajaran);
 		$kelas        = RefKelas::findOne($model->id_ref_kelas);
 		$cpmks        = RefCpmk::find()
@@ -391,9 +394,14 @@ class DataUtamaController extends Controller
 			$nama = $data[2];
 
 			for ($i = 0; $i < 5; $i++) {
-				$j = $i + 3;
-				$cpmk[] = $data[$j];  //CPMK
+				$cpmk[] = '-';  //CPMK di set NULL
 			}
+
+			for ($i = 0; $i < $count; $i++) {
+				$j = $i + 3;
+				$cpmk[$i] = $data[$j];  //CPMK
+			}
+
 
 			$id_mahasiswa = RefMahasiswa::findOne(['nim' => $nim]);
 			$notin_krs    = Krs::find()
@@ -404,8 +412,7 @@ class DataUtamaController extends Controller
 
 			if (
 				!$nim || !$cpmk || !$id_mahasiswa ||
-				!$notin_krs || !$cpmk[0] || !$cpmk[1] ||
-				!$cpmk[2] || !$cpmk[3]
+				!$notin_krs || !$cpmk[0] || !$cpmk[1] || !$cpmk[2] || !$cpmk[3] || !$cpmk[4]
 			) {
 
 				$required = "<td><span class='label label-danger'>Wajib Diisi</span></td>";
