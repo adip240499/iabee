@@ -285,7 +285,7 @@ class CapaianMahasiswaController extends Controller
                 $query->where(['id_ref_mahasiswa' => $jk]);
             }])
             ->all();
-        $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
+        $jk          = Yii::$app->getRequest()->getQueryParam('jk');
         $data['mahasiswa'] = RefMahasiswa::findOne(['id' => $jk]);
 
         $nama = 'Transkip Nilai_' .

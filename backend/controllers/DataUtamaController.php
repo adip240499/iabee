@@ -271,9 +271,13 @@ class DataUtamaController extends Controller
 			->joinWith('refMahasiswa')
 			->where([Krs::tableName() . '.id_mata_kuliah_tayang' => $id_tayang])
 			->all();
+		$cpmks        = RefCpmk::find()
+			->where(['id_ref_mata_kuliah' => $model->id_ref_mata_kuliah])
+			->all();
+
 
 		// echo '<pre>';
-		// print_r($mahasiswa[0]['refMahasiswa']->nim);
+		// print_r($total_cpmk);
 		// exit;
 
 		$nama = 'nilai_' .
@@ -292,6 +296,14 @@ class DataUtamaController extends Controller
 		$worksheet->setCellValue('C9', $mata_kuliah->nama);  //Nama Mata Kuliah
 		$worksheet->setCellValue('C10', $kelas->kelas);  //Kelas
 		$worksheet->setCellValue('C11', $dosen->nama_dosen);  //Pengampu
+
+		$total_cpmk = count($cpmks);
+		for ($i = 0; $i < $total_cpmk; $i++) {
+			$huruf = ['D', 'E', 'F', 'G', 'H'];
+			$key   = $i+1;
+			$worksheet->setCellValue($huruf[$i].'14', 'CPMK'.$key);  //Pengampu
+		}
+
 
 		$count = count($mahasiswa);
 		$no = 1;
