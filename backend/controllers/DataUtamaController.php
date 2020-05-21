@@ -373,15 +373,16 @@ class DataUtamaController extends Controller
 
 		$decrypt      = \Yii::$app->encrypter->decrypt($encrypt);
 		$model        = MataKuliahTayang::findOne($decrypt);
-		// echo '<pre>';
-		// print_r($model->id_tahun_ajaran);
-		// exit;
+
 		$tahun_ajaran = RefTahunAjaran::findOne($model->id_tahun_ajaran);
 		$kelas        = RefKelas::findOne($model->id_ref_kelas);
 		$cpmks        = RefCpmk::find()
 			->where(['id_ref_mata_kuliah' => $model->id_ref_mata_kuliah])
+			->orderBy(['kode' => SORT_ASC])
 			->all();
-
+		// echo '<pre>';
+		// print_r($cpmks);
+		// exit;
 		$count = count($cpmks);
 		for ($i = 0; $i < $count; $i++) {
 			$id_cpmk[] = $cpmks[$i]->id;  //CPMK
