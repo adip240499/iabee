@@ -1,5 +1,7 @@
 <?php
 
+use backend\models\RefCpl;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
@@ -11,12 +13,18 @@ $this->registerJsFile("@web/js/utils.js", [
 ]);
 
 $_data = Json::encode(array_values($data));
+$_label = RefCpl::find()
+	->orderBy(['id' => SORT_ASC])
+	->where(['status' => 1])
+	->all();
+$_label = ArrayHelper::getColumn($_label, 'kode');
+$_label = Json::encode(array_values($_label));
 // echo "<pre>";print_r($_data);exit;
 $js = <<< JS
 
 		var color = Chart.helpers.color;
 		var radarData = {
-			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10', 'CPL11', 'CPL12'],
+			labels: $_label,
 			datasets: [{
 				label: 'Capaian Lulusan Mahasiswa',
 				backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
@@ -29,7 +37,7 @@ $js = <<< JS
 
 		var color = Chart.helpers.color;
 		var barChartData = {
-			labels: ['CPL1', 'CPL2', 'CPL3', 'CPL4', 'CPL5', 'CPL6', 'CPL7', 'CPL8', 'CPL9', 'CPL10', 'CPL11', 'CPL12'],
+			labels: $_label,
 			datasets: [{
 				label: 'Capaian Lulusan Mahasiswa',
 				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),

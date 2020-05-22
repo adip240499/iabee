@@ -95,6 +95,7 @@ class MonevCplController extends Controller
                     ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => $id_mahasiswa])
                     ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
                     ->average(CapaianMahasiswa::tableName() . '.nilai');
+                    
             }
             $mahasiswa = RefMahasiswa::findOne(["id" => $id_mahasiswa]);
             return $this->render(
