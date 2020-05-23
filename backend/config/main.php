@@ -116,9 +116,9 @@ return [
     'as access' => [
         'class' => 'diecoding\rbac\components\AccessControl',
         'allowActions' => [
-            '*',
+            // '*',
             'site/*',
-            'setup-rbac/*',
+            // 'setup-rbac/*',
             'some-controller/some-action',
             // The actions listed here will be allowed to everyone including guests.
             // So, 'setup-rbac/*' should not appear here in the production, of course.

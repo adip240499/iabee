@@ -113,7 +113,7 @@ $this->registerCss($css);
                             ['label' => 'Kelas', 'icon' => 'circle', 'url' => ['/ref-kelas'],],
                         ],
                     ],
-                    ['label' => 'Setup User', 'icon' => 'users', 'url' => ['/user'], 'visible' => !Yii::$app->assign->is(["dosen"])],
+                    ['label' => 'Setup User', 'icon' => 'users', 'url' => ['/user'], 'visible' => Yii::$app->assign->is(["administrator"])],
                     ['label' => 'Tentang', 'icon' => 'info-circle', 'url' => ['#']],
                 ],
             ]
