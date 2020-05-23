@@ -26,6 +26,21 @@ $css = <<< CSS
     /* border-left-color: #3c8dbc; */
     background: #013342;
 }
+
+.skin-blue-light .sidebar-menu  > li > a {
+    color: #555;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    font-size: 12px;
+}
+.skin-blue-light .sidebar-menu .treeview-menu>li>a,
+.skin-blue-light .sidebar-menu .treeview-menu>li.active>a {
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    font-size: 12px;
+}
+
+
 CSS;
 $this->registerCss($css);
 
@@ -117,7 +132,7 @@ $this->registerCss($css);
                             <?php
                             $label = "{$assign}";
                             echo Html::a("<i class='fa fa-circle'>$label</i>", ['/site/set-assign'], [
-                                'style' => $assign == Yii::$app->assign->active ? 'font-weight: bold; color: #ffff; background-color: #013342;' : '',
+                                'style' => $assign == Yii::$app->assign->active ? 'font-weight: bold; color: #ffff; background-color: #777;' : '',
                                 'data' => [
                                     'method' => 'post',
                                     'params' => [

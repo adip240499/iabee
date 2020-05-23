@@ -7,24 +7,24 @@ use yii\helpers\Html;
 
 
 $css = <<< CSS
-.skin-blue .main-header .navbar {
+.skin-blue-light .main-header .navbar {
     background-color: #00c0ef;
 }
-.skin-blue .main-header .logo {
+.skin-blue-light .main-header .logo {
     background-color: #009abf;
     color: #ffffff;
     border-bottom: 0 solid transparent;
 }
 
-.skin-blue .main-header .navbar .sidebar-toggle:hover {
-    background-color: #0081a0;
+.skin-blue-light .main-header .navbar .sidebar-toggle:hover {
+    background-color: 	#01a9c3;
 }
 
 .skin-blue .main-header .logo:hover {
-    background-color: #0081a0;
+    background-color: 	#01a9c3;
 }
 
-.skin-blue .main-header li.user-header {
+.skin-blue-light .main-header li.user-header {
     background-color: #00c0ef;
 }
 CSS;
