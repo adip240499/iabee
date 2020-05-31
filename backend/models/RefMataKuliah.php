@@ -37,7 +37,7 @@ class RefMataKuliah extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['kode', 'nama'], 'required'],
+            [['kode', 'nama', 'sks'], 'required'],
             [['sks', 'status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['kode'], 'string', 'max' => 16],

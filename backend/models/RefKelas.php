@@ -36,6 +36,7 @@ class RefKelas extends \yii\db\ActiveRecord
             [['status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['kelas'], 'string', 'max' => 4],
+            [['kelas'], 'required'],
             [['created_user', 'updated_user'], 'string', 'max' => 255],
         ];
     }

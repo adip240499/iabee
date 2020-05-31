@@ -34,6 +34,7 @@ class RefTahunAjaran extends \yii\db\ActiveRecord
     {
         return [
             [['status'], 'integer'],
+            [['tahun'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['tahun', 'created_user', 'updated_user'], 'string', 'max' => 255],
         ];

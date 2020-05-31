@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <!-- <?= $form->field($model, 'id_tahun_ajaran')->textInput() ?> -->
     <?php
-    $tahun = ArrayHelper::map(RefTahunAjaran::find()->all(), 'id', 'tahun');
+    $tahun = ArrayHelper::map(RefTahunAjaran::find()->where(['status'=>1])->all(), 'id', 'tahun');
     echo $form->field($model, 'id_tahun_ajaran')->widget(Select2::classname(), [
         'data' => $tahun,
         'options' => [
@@ -42,7 +42,7 @@ use yii\widgets\ActiveForm;
         ],
     ]);
 
-    $mata_kuliah = ArrayHelper::map(RefMataKuliah::find()->all(), 'id', 'nama');
+    $mata_kuliah = ArrayHelper::map(RefMataKuliah::find()->where(['status'=>1])->all(), 'id', 'nama');
     echo $form->field($model, 'id_ref_mata_kuliah')->widget(Select2::classname(), [
         'data' => $mata_kuliah,
         'options' => [
@@ -53,7 +53,7 @@ use yii\widgets\ActiveForm;
         ],
     ]);
 
-    $kelas = ArrayHelper::map(RefKelas::find()->all(), 'id', 'kelas');
+    $kelas = ArrayHelper::map(RefKelas::find()->where(['status'=>1])->all(), 'id', 'kelas');
     echo $form->field($model, 'id_ref_kelas')->widget(Select2::classname(), [
         'data' => $kelas,
         'options' => [
@@ -64,7 +64,7 @@ use yii\widgets\ActiveForm;
         ],
     ]);
 
-    $dosen = ArrayHelper::map(RefDosen::find()->all(), 'id', 'nama_dosen');
+    $dosen = ArrayHelper::map(RefDosen::find()->where(['status'=>1])->all(), 'id', 'nama_dosen');
     echo $form->field($model, 'id_ref_dosen')->widget(Select2::classname(), [
         'data' => $dosen,
         'options' => [

@@ -36,6 +36,7 @@ class RelasiCpmkCpl extends \yii\db\ActiveRecord
     {
         return [
             [['id_ref_cpmk', 'id_ref_cpl', 'status'], 'integer'],
+            [['id_ref_cpmk', 'id_ref_cpl'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['created_user', 'updated_user'], 'string', 'max' => 255],
             [['id_ref_cpmk'], 'exist', 'skipOnError' => true, 'targetClass' => RefCpmk::className(), 'targetAttribute' => ['id_ref_cpmk' => 'id']],

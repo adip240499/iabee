@@ -37,6 +37,7 @@ class RefMahasiswa extends \yii\db\ActiveRecord
     {
         return [
             [['angkatan', 'status'], 'integer'],
+            [['nim','nama','angkatan', 'status'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['nim'], 'string', 'max' => 16],
             [['nama'], 'string', 'max' => 128],
