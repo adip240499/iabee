@@ -13,6 +13,7 @@ use backend\models\RefMahasiswa;
 use backend\models\RefMataKuliah;
 use backend\models\RefTahunAjaran;
 use backend\models\searchs\CapaianMahasiswa as CapaianMahasiswaSearch;
+use yii\db\ActiveQuery;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -141,8 +142,8 @@ class CapaianMahasiswaController extends Controller
                 // print_r($value->id);
                 // exit;
                 $exist = CapaianMahasiswa::findOne(['id_ref_mahasiswa' => $id_mahasiswa, 'id_ref_cpmk' => $value->id]);
-                $exist->status = 0;
-                $exist->save();
+                // $exist->status = 0;
+                $exist->delete();
             }
         }
 
@@ -178,73 +179,27 @@ class CapaianMahasiswaController extends Controller
         $data['tahun_ajaran'] = RefTahunAjaran::findOne($data['tayang']->id_tahun_ajaran);
         $data['dosen']        = RefDosen::findOne($data['tayang']->id_ref_dosen);
 
-        // $data['capaian']      = Krs::find()
-        //     ->select([
-        //         'krs.id', 'krs.id_mata_kuliah_tayang', 'krs.id_ref_mahasiswa',
-        //         'ref_mahasiswa.id id_rm',
-        //         'capaian_mahasiswa.id id_cm', 'capaian_mahasiswa.id_ref_cpmk',
-        //         'capaian_mahasiswa.id_ref_mahasiswa',
-        //         'ref_cpmk.id id_rc', 'ref_cpmk.id_ref_mata_kuliah'
-        //     ])
-        //     ->joinWith(
-        //         [
-        //                 'refMahasiswa'.
-        //                 '.capaianMahasiswas'.
-        //                 '.refCpmk' => function ($query) {
-        //                 $query->where(['ref_cpmk.id_ref_mata_kuliah' => 42]);
-        //             }
-        //         ]
-        //     )
-        //     ->asArray()
-        //     ->all();
-
-        $data['capaian']      = RefMahasiswa::find()
+        $data['capaian']      = CapaianMahasiswa::find()
             ->select([
-                'ref_mahasiswa.id',
-                'capaian_mahasiswa.id id_cm', 'capaian_mahasiswa.id_ref_cpmk',
-                'capaian_mahasiswa.id_ref_mahasiswa',
-                'ref_cpmk.id id_rc', 'ref_cpmk.id_ref_mata_kuliah'
+                'capaian_mahasiswa.*',
             ])
             ->joinWith(
                 [
-                    'capaianMahasiswas.' .
-                        'refCpmk' => function ($query) {
-                        $query->where(['id_ref_mata_kuliah' => 42]);
+                    'refCpmk' => function ($query) {
+                        $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
+                        $query->where(['ref_cpmk.id_ref_mata_kuliah' => $jk]);
                     }
                 ]
             )
-            ->andWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => 42])
             ->asArray()
             ->all();
 
-        //query backup
-        // $data['capaian'] = Krs::find()
-        //             ->alias('k')
-        //             ->select(['*'])
-        //             ->join('INNER JOIN', 'ref_mahasiswa m', 'k.id_ref_mahasiswa = m.id')
-        //             ->join('INNER JOIN', 'capaian_mahasiswa cm', 'm.id = cm.id_ref_mahasiswa')
-        //             ->join('INNER JOIN', 'ref_cpmk rc', 'rc.id = cm.id_ref_cpmk')
-        //             ->where([
-        //                 'rc.id_ref_mata_kuliah' => 106
-        //             ])
-        //             ->asArray()
-        //             ->all();
-
-        // $data['capaian'] = (new \yii\db\Query())
-        //     ->select('*')
-        //     ->from('krs k')
-        //     ->leftJoin('ref_mahasiswa m', 'k.id_ref_mahasiswa = m.id')
-        //     ->leftJoin('capaian_mahasiswa cm', 'm.id = cm.id_ref_mahasiswa')
-        //     ->leftJoin('ref_cpmk rc', 'rc.id = cm.id_ref_cpmk')
-        //     ->where([
-        //         'rc.id_ref_mata_kuliah' => '42'
-        //     ])
-        //     ->all();
+        $data['capaian'] = ArrayHelper::index($data['capaian'], null, 'id_ref_mahasiswa');
 
         // Query masih belum benar
-        echo '<pre>';
-        print_r($data['capaian']);
-        exit;
+        // echo '<pre>';
+        // print_r($data['capaian']);
+        // exit;
         return $this->render('nilai-upload', [
             'data' => $data,
         ]);

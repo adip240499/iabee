@@ -6,12 +6,20 @@
  * @copyright Copyright (c) 2018
  */
 
+use backend\models\MataKuliahTayang;
+use backend\models\RefCpmk;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Json;
 
 $this->title = 'Proses Import Nilai';
 $this->params['breadcrumbs'][] = $this->title;
+$jk        = Yii::$app->getRequest()->getQueryParam('jk');
+$mk_tayang = MataKuliahTayang::findOne($jk);
+$cpmks     = RefCpmk::find()
+    ->where(['id_ref_mata_kuliah' => $mk_tayang->id_ref_mata_kuliah])
+    ->all();
+$total_cpmk = count($cpmks);
 
 $count     = count($model);
 $min       = min(array_keys((array) $model));
@@ -254,11 +262,11 @@ $this->registerCss($css);
                             <th class="text-center">NIM</th>
                             <th class="text-center">NAMA</th>
 
-                            <th class="text-center">CPMK1</th>
-                            <th class="text-center">CPMK2</th>
-                            <th class="text-center">CPMK3</th>
-                            <th class="text-center">CPMK4</th>
-                            <th class="text-center">CPMK5</th>
+                            <?php
+                            for ($i = 1; $i <= $total_cpmk; $i++) {
+                                echo "<th class='text-center'>CPMK {$i}</th>";
+                            }
+                            ?>
                         </tr>
                     </thead>
                     <tbody>

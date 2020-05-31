@@ -104,9 +104,8 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
             ]) ?>
             <?php
             if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
-                echo Html::a('<i class="fa fa-eye"></i> Lihat Nilai', ['/data-utama/file-upload', 'jk' => $jk], [
+                echo Html::a('<i class="fa fa-eye"></i> Lihat Nilai', ['/capaian-mahasiswa/nilai-upload', 'jk' => $jk], [
                     'class' => 'btn btn-primary btn-flat',
-                    // 'role' => 'modal-remote',
                 ]);
             }
             // if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
