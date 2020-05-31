@@ -30,13 +30,13 @@ $css = <<< CSS
 .skin-blue-light .sidebar-menu  > li > a {
     color: #555;
     font-weight: 500;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.6px;
     font-size: 12px;
 }
 .skin-blue-light .sidebar-menu .treeview-menu>li>a,
 .skin-blue-light .sidebar-menu .treeview-menu>li.active>a {
     font-weight: 500;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.6px;
     font-size: 12px;
 }
 

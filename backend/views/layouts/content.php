@@ -3,6 +3,18 @@
 use yii\widgets\Breadcrumbs;
 use dmstr\widgets\Alert;
 
+$css = <<< CSS
+.main-footer {
+    padding: 7px;
+    font-size: 12px;
+}
+.panel-body {
+    font-size: 13.4px;
+    /* letter-spacing: 0.9px; */
+
+}
+CSS;
+$this->registerCss($css);
 ?>
 <div class="content-wrapper" style="background: url(https://files.diecoding.com/assets/images/pattern/symphony.png) fixed; min-height: 659px;">
     <section class="content-header">
