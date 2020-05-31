@@ -44,7 +44,7 @@ class MataKuliahTayang extends \yii\db\ActiveRecord
     {
         return [
             [['id_tahun_ajaran', 'id_ref_mata_kuliah', 'id_ref_kelas', 'id_ref_dosen', 'status'], 'integer'],
-            [['id_tahun_ajaran', 'id_ref_mata_kuliah', 'id_ref_kelas', 'id_ref_dosen', 'semester'], 'required'],
+            [['id_tahun_ajaran', 'id_ref_mata_kuliah', 'id_ref_kelas', 'id_ref_dosen', 'semester'], 'required', 'message' => '{attribute} tidak boleh kosong'],
             [['created_at', 'updated_at'], 'safe'],
             [['semester'], 'string', 'max' => 16],
             [['created_user', 'updated_user'], 'string', 'max' => 255],

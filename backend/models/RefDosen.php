@@ -36,7 +36,7 @@ class RefDosen extends \yii\db\ActiveRecord
     {
         return [
             [['nip', 'status'], 'integer'],
-            [['nip', 'kode_dosen', 'nama_dosen', 'status'], 'required'],
+            [['nip', 'kode_dosen', 'nama_dosen', 'status'], 'required', 'message' => '{attribute} tidak boleh kosong'],
             [['created_at', 'updated_at'], 'safe'],
             [['kode_dosen'], 'string', 'max' => 10],
             [['nama_dosen'], 'string', 'max' => 60],

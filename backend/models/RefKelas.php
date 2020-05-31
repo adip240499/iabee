@@ -36,7 +36,7 @@ class RefKelas extends \yii\db\ActiveRecord
             [['status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['kelas'], 'string', 'max' => 4],
-            [['kelas'], 'required'],
+            [['kelas'], 'required','message'=>'{attribute} tidak boleh kosong'],
             [['created_user', 'updated_user'], 'string', 'max' => 255],
         ];
     }

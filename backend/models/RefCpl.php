@@ -36,7 +36,7 @@ class RefCpl extends \yii\db\ActiveRecord
     {
         return [
             [['isi', 'ringkasan'], 'string'],
-            [['kode', 'isi'], 'required'],
+            [['kode', 'isi'], 'required', 'message' => '{attribute} tidak boleh kosong'],
             [['status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['kode'], 'string', 'max' => 8],

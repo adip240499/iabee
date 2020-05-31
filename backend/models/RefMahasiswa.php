@@ -37,7 +37,7 @@ class RefMahasiswa extends \yii\db\ActiveRecord
     {
         return [
             [['angkatan', 'status'], 'integer'],
-            [['nim','nama','angkatan', 'status'], 'required'],
+            [['nim', 'nama', 'angkatan', 'status'], 'required', 'message' => '{attribute} tidak boleh kosong'],
             [['created_at', 'updated_at'], 'safe'],
             [['nim'], 'string', 'max' => 16],
             [['nama'], 'string', 'max' => 128],
@@ -86,7 +86,7 @@ class RefMahasiswa extends \yii\db\ActiveRecord
     public function getRelasiCpmkCpls()
     {
         return $this->hasMany(RelasiCpmkCpl::className(), ['id_ref_cpmk' => 'id_ref_cpmk'])
-        ->viaTable(RefCpmk::tableName(), ['id' => 'id_ref_cpmk'])
-        ->viaTable(CapaianMahasiswa::tableName(), ['id_ref_mahasiswa' => 'id']);
+            ->viaTable(RefCpmk::tableName(), ['id' => 'id_ref_cpmk'])
+            ->viaTable(CapaianMahasiswa::tableName(), ['id_ref_mahasiswa' => 'id']);
     }
 }
