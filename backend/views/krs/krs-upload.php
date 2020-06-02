@@ -6,6 +6,7 @@
  * @copyright Copyright (c) 2018
  */
 
+use backend\models\CapaianMahasiswa;
 use backend\models\FileUpload;
 use backend\models\MataKuliahTayang;
 use backend\models\RefCpmk;
@@ -18,7 +19,7 @@ use yii\helpers\Json;
 $this->title = 'Tampilan KRS Mata Kuliah';
 $this->params['breadcrumbs'][] = $this->title;
 $jk = Yii::$app->getRequest()->getQueryParam('jk');
-
+$mk_tayang = MataKuliahTayang::findOne($jk);
 
 $css = <<< CSS
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
@@ -26,9 +27,62 @@ $css = <<< CSS
     outline: none;
     border: none;
 }
+.removeRow{
+    background-color: #FF6347;
+    color:#FFFFFF;
+}
 CSS;
 $this->registerCss($css);
 
+$js = <<< JS
+$(document).ready(function(){
+    $('.chk_boxes1').click(function(){
+        if($(this).is(':checked')){
+            $(this).closest('tr').addClass('removeRow');
+        } else {
+            $(this).closest('tr').removeClass('removeRow');
+        }
+    });
+
+    $('#btn_delete').click(function(){
+        if(confirm("Apakah Anda yakin ingin menghapus data ini?")){
+            var js = [];
+            var jk = $jk;
+
+            $(':checkbox:checked').each(function(i){
+                js.push($(this).attr('data-id'));
+            });
+
+            if(js.length === 0){
+                alert("Pilih minimal satu data");
+            }else{
+                $.ajax({
+                url:"delete-multiple",
+                method:'POST',
+                data:{'js':js,'jk':jk},
+                success:function(){
+                        for(var i=0; i<js.length; i++){
+                        $('tr#'+js[i]+'').fadeOut('slow');
+                        }
+                    }
+                });
+            }
+        } else {
+            return false;
+        }
+    });
+
+        $('.check_all').click(function() {
+            $('.chk_boxes1').prop('checked', this.checked);
+            if($(this).is(':checked')){
+                $('.check').addClass('removeRow');
+            } else {
+                $('.check').removeClass('removeRow');
+            }
+        });
+    });
+JS;
+$this->registerJs($js);
 ?>
 
 <div class="panel panel-default">
@@ -105,52 +159,97 @@ $this->registerCss($css);
         <br>
         <div class="row">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table">
                     <thead>
                         <tr>
                             <th colspan="1"></th>
                             <th class="text-center" colspan="7">DATA MAHASISWA</th>
                         </tr>
                         <tr>
+                            <th>
+                                <input type="checkbox" class="check_all" />
+                            </th>
                             <th class="text-center">NO</th>
-                            <!-- <th class="text-center">#</th> -->
-                            <!-- <th class="text-center">KEY</th> -->
-
                             <th class="text-center">NIM</th>
                             <th class="text-center">NAMA</th>
                             <?php
-                            if (!FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
+                            // if (!FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
                             ?>
-                                <th class="text-center">Action</th>
+                            <th class="text-center">Action</th>
                             <?php
-                            }
+                            // }
                             ?>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $no = 1;
-                        foreach ($data['krs'] as $data) {
+                        foreach ($data['krs'] as $value) {
                         ?>
-                            <tr>
-                                <td class="text-center"><?php echo $no++ ?></td>
-                                <td><?php echo $data['refMahasiswa']->nim ?></td>
-                                <td><?php echo $data['refMahasiswa']->nama ?></td>
+                            <?php
+                            if (
+                                !CapaianMahasiswa::find()
+                                    ->joinWith(['refCpmk'])
+                                    ->where([CapaianMahasiswa::tableName() . '.tahun' => $data['tahun_ajaran']->tahun])
+                                    ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $mk_tayang->semester])
+                                    ->andWhere([CapaianMahasiswa::tableName() . '.kelas' => $data['kelas']->kelas])
+                                    ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => $value['refMahasiswa']->id])
+                                    ->andWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => $data['mata_kuliah']->id])
+                                    ->one()
+                            ) {
+                            ?>
+                                <tr class="check" id="<?php echo $value['refMahasiswa']->id ?>">
+                                    <td>
+                                        <input type="checkbox" name="js" class="chk_boxes1" data-id="<?php echo $value['refMahasiswa']->id ?>" />
+                                    </td>
                                 <?php
-                                if (!FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
+                            } else {
+                                echo "<tr><td></td>";
+                            }
+                                ?>
+                                <td class="text-center"><?php echo $no++ ?></td>
+                                <td><?php echo $value['refMahasiswa']->nim ?></td>
+                                <td><?php echo $value['refMahasiswa']->nama ?></td>
+                                <?php
+                                if (
+                                    !CapaianMahasiswa::find()
+                                        ->joinWith(['refCpmk'])
+                                        ->where([CapaianMahasiswa::tableName() . '.tahun' => $data['tahun_ajaran']->tahun])
+                                        ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $mk_tayang->semester])
+                                        ->andWhere([CapaianMahasiswa::tableName() . '.kelas' => $data['kelas']->kelas])
+                                        ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => $value['refMahasiswa']->id])
+                                        ->andWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => $data['mata_kuliah']->id])
+                                        ->one()
+                                ) {
                                 ?>
                                     <td class="text-center">
-                                        <a href="<?php echo Url::to(['/krs/delete-mahasiswa', 'jk' => $jk, 'js' => $data->id_ref_mahasiswa]); ?>"><i class="fa fa-trash btn btn-danger btn-xs"></i></a>
+                                        <?php
+                                        echo Html::a('<i class="fa fa-trash"></i>', ['/krs/delete-mahasiswa', 'jk' => $jk, 'js' => $value->id_ref_mahasiswa], [
+                                            'class' => 'btn btn-danger btn-xs',
+                                            'data-original-title'  => 'Hapus',
+                                            'title'                => 'Hapus',
+                                            'data-toggle'          => 'tooltip',
+                                            'role'                 => 'modal-remote',
+                                            'data-confirm'         => false,
+                                            'data-method'          => false, // for overide yii data api
+                                            'data-request-method'  => 'post',
+                                            'data-confirm-title'   => 'Konfirmasi',
+                                            'data-confirm-message' => 'Apakah anda yakin akan menghapus data ini?',
+                                        ]);
+                                        ?>
                                     </td>
                                 <?php
                                 }
                                 ?>
-                            </tr>
-                        <?php
+                                </tr>
+                            <?php
                         }
-                        ?>
+                            ?>
                     </tbody>
                 </table>
+            </div>
+            <div class="col-md-12">
+                <button type="button" name="btn_delete" id="btn_delete" class="btn btn-danger btn-ms">Delete Selected</button>
             </div>
         </div>
 

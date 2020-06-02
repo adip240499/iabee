@@ -28,8 +28,62 @@ $css = <<< CSS
     outline: none;
     border: none;
 }
+.removeRow{
+        background-color: #FF6347;
+        color:#FFFFFF;
+    }
 CSS;
 $this->registerCss($css);
+
+$js = <<< JS
+$(document).ready(function(){
+    $('.chk_boxes1').click(function(){
+        if($(this).is(':checked')){
+            $(this).closest('tr').addClass('removeRow');
+        } else {
+            $(this).closest('tr').removeClass('removeRow');
+        }
+    });
+
+    $('#btn_delete').click(function(){
+        if(confirm("Apakah Anda yakin ingin menghapus data ini?")){
+            var js = [];
+            var jk = $jk;
+
+            $(':checkbox:checked').each(function(i){
+                js.push($(this).attr('data-id'));
+            });
+
+            if(js.length === 0){
+                alert("Pilih minimal satu data");
+            }else{
+                $.ajax({
+                url:"delete-multiple",
+                method:'POST',
+                data:{'js':js,'jk':jk},
+                success:function(){
+                        for(var i=0; i<js.length; i++){
+                        $('tr#'+js[i]+'').fadeOut('slow');
+                        }
+                    }
+                });
+            }
+        } else {
+            return false;
+        }
+    });
+
+        $('.check_all').click(function() {
+            $('.chk_boxes1').prop('checked', this.checked);
+            if($(this).is(':checked')){
+                $('.check').addClass('removeRow');
+            } else {
+                $('.check').removeClass('removeRow');
+            }
+        });
+    });
+JS;
+$this->registerJs($js);
 ?>
 
 <div class="panel panel-default">
@@ -106,7 +160,7 @@ $this->registerCss($css);
         <br>
         <div class="row">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table">
                     <thead>
                         <tr></tr>
                         <tr>
@@ -115,6 +169,9 @@ $this->registerCss($css);
                             <th class="text-center" colspan="5">DATA NILAI</th>
                         </tr>
                         <tr>
+                            <th>
+                                <input type="checkbox" class="check_all" />
+                            </th>
                             <th class="text-center">NO</th>
                             <th class="text-center">NIM</th>
                             <th class="text-center">NAMA</th>
@@ -133,7 +190,10 @@ $this->registerCss($css);
                         foreach ($data['capaian'] as $key => $data) {
                             $mahasiswa = RefMahasiswa::findOne(['id' => $key]);
                         ?>
-                            <tr>
+                            <tr class="check" id="<?php echo $key ?>">
+                                <td>
+                                    <input type="checkbox" name="js" class="chk_boxes1" data-id="<?php echo $key ?>" />
+                                </td>
                                 <td class="text-center"><?php echo $no++ ?></td>
                                 <td class="text-left"><?php echo $mahasiswa->nim ?></td>
                                 <td class="text-left"><?php echo $mahasiswa->nama ?></td>
@@ -173,7 +233,9 @@ $this->registerCss($css);
                     </tbody>
                 </table>
             </div>
+            <div class="col-md-12">
+                <button type="button" name="btn_delete" id="btn_delete" class="btn btn-danger btn-ms">Delete Selected</button>
+            </div>
         </div>
-
     </div>
 </div>

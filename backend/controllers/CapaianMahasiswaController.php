@@ -19,6 +19,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
+use yii\web\Response;
 
 /**
  * CapaianMahasiswaController implements the CRUD actions for CapaianMahasiswa model.
@@ -187,10 +189,15 @@ class CapaianMahasiswaController extends Controller
                 [
                     'refCpmk' => function ($query) {
                         $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
-                        $query->where(['ref_cpmk.id_ref_mata_kuliah' => $jk]);
+                        $data['tayang']       = MataKuliahTayang::findOne(['id' => $jk]);
+                        $data['mata_kuliah']  = RefMataKuliah::findOne($data['tayang']->id_ref_mata_kuliah);
+                        $query->where(['ref_cpmk.id_ref_mata_kuliah' => $data['mata_kuliah']->id]);
                     }
                 ]
             )
+            ->andWhere([CapaianMahasiswa::tableName() . '.tahun' => $data['tahun_ajaran']->tahun])
+            ->andWhere([CapaianMahasiswa::tableName() . '.kelas' => $data['kelas']->kelas])
+            ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $data['tayang']->semester])
             ->asArray()
             ->all();
 
@@ -280,5 +287,27 @@ class CapaianMahasiswaController extends Controller
             $base,
             $nama . '.xlsx'
         );
+    }
+
+    public function actionDeleteMultiple()
+    {
+        $request = Yii::$app->request;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $js = $request->post('js');
+        $jk = $request->post('jk');
+
+        $mata_kuliah_tayang = MataKuliahTayang::find()
+            ->joinWith('refCpmks')
+            ->where([MataKuliahTayang::tableName() . '.id' => $jk])
+            ->all();
+        // $count = count($mata_kuliah_tayang[0]['refCpmks']);
+
+        foreach ($js as $id_mahasiswa) {
+            foreach ($mata_kuliah_tayang as $key => $value) {
+                foreach ($value['refCpmks'] as $key => $value) {
+                    CapaianMahasiswa::deleteAll(['id_ref_mahasiswa' => $id_mahasiswa, 'id_ref_cpmk' => $value->id]);
+                }
+            }
+        }
     }
 }

@@ -201,7 +201,22 @@ class KrsController extends Controller
             // $model->status  = 0;
             $model->delete();
         }
-        return $this->redirect(['krs/krs-upload/','jk'=>$id_mata_kuliah_tayang]);
+        return $this->redirect(['krs/krs-upload/', 'jk' => $id_mata_kuliah_tayang]);
+    }
+
+    public function actionDeleteMultiple()
+    {
+        $request = Yii::$app->request;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $js = $request->post('js');
+        $jk = $request->post('jk');
+
+        // echo 'pre';
+        // print_r($js);
+        // exit();
+        foreach ($js as $id_mahasiswa) {
+            $model = Krs::deleteAll(['id_ref_mahasiswa' => $js, 'id_mata_kuliah_tayang' => $jk]);;
+        }
     }
 
     public function actionProsesAjax($update = 0)
@@ -234,7 +249,7 @@ class KrsController extends Controller
                 if (!$nim)
                     $html .= $required;
                 else if (!$id_mahasiswa)
-					$html .= "<td><span class='label label-danger'>Nim Tidak Ada</span></td>";
+                    $html .= "<td><span class='label label-danger'>Nim Tidak Ada</span></td>";
                 else
                     $html .= "<td>{$nim}</td>";
 

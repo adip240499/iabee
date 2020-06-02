@@ -1,6 +1,9 @@
 <?php
 
+use backend\models\CapaianMahasiswa;
 use backend\models\FileUpload;
+use backend\models\Krs;
+use backend\models\RefCpmk;
 use yii\helpers\Html;
 // use yii\grid\GridView;
 use kartik\grid\GridView;
@@ -30,6 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         <?php Pjax::begin(); ?>
         <?php // echo $this->render('_search', ['model' => $searchModel]); 
+        // echo '<pre>';
+        // print_r($model);
+        // exit;
         ?>
 
         <?= GridView::widget([
@@ -65,10 +71,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class'    => 'kartik\grid\ActionColumn',
                     'template' => '{all}',
                     'header'   => 'Import KRS',
-                    'visible'  => !Yii::$app->assign->is(["dosen","admin dosen"]),
+                    'visible'  => !Yii::$app->assign->is(["dosen", "admin dosen"]),
                     'buttons'  => [
                         'all' => function ($url, $model, $key) {
-                            if (FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'krs'])) {
+                            if (Krs::findOne(['id_mata_kuliah_tayang' => $model->id])) {
                                 $krs = Html::a(
                                     '<span class="glyphicon glyphicon-eye-open"> KRS</span>',
                                     ['/krs', 'jk' => $model->id],
@@ -98,16 +104,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     'visible' => !Yii::$app->assign->is(["administrator"]),
                     'buttons' => [
                         'all' => function ($url, $model, $key) {
-                            if (!(FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'krs']))) {
+                            if (!Krs::findOne(['id_mata_kuliah_tayang' => $model->id])) {
                                 $nilai = Html::a(
                                     '<i class="glyphicon glyphicon-eye-open"> Nilai</i>',
-                                    ['#'],
+                                    [''],
                                     [
                                         'class'        => 'btn-sm btn btn-danger',
                                         'title'        => 'Kartu Rencana Studi Belum di UPLOAD ADMINISTRATOR',
                                     ]
                                 );
-                            } else if (FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'nilai'])) {
+                            } else if (
+                                CapaianMahasiswa::find()
+                                ->joinWith(['refCpmk'])
+                                ->where([CapaianMahasiswa::tableName() . '.tahun' => $model['tahunAjaran']->tahun])
+                                ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $model->semester])
+                                ->andWhere([CapaianMahasiswa::tableName() . '.kelas' => $model['refKelas']->kelas])
+                                ->andWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => $model['refMataKuliah']->id])
+                                ->one()
+                            ) {
                                 $nilai = Html::a(
                                     '<span class="glyphicon glyphicon-eye-open"> Nilai</span>',
                                     ['/data-utama', 'jk' => $model->id],
@@ -156,16 +170,30 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                         'update' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-pencil"></i>', $url, [
-                                'data-original-title' => 'Perbarui',
-                                'title'               => 'Perbarui',
-                                'data-toggle'         => 'tooltip',
-                                'class'               => 'btn btn-warning btn-xs',
-                                // 'role'                => 'modal-remote',
-                            ]);
+                            if (!CapaianMahasiswa::find()
+                                ->joinWith(['refCpmk'])
+                                ->where([CapaianMahasiswa::tableName() . '.tahun' => $model['tahunAjaran']->tahun])
+                                ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $model->semester])
+                                ->andWhere([CapaianMahasiswa::tableName() . '.kelas' => $model['refKelas']->kelas])
+                                ->andWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => $model['refMataKuliah']->id])
+                                ->one()) {
+                                return Html::a('<i class="fa fa-pencil"></i>', $url, [
+                                    'data-original-title' => 'Perbarui',
+                                    'title'               => 'Perbarui',
+                                    'data-toggle'         => 'tooltip',
+                                    'class'               => 'btn btn-warning btn-xs',
+                                    // 'role'                => 'modal-remote',
+                                ]);
+                            }
                         },
                         'delete' => function ($url, $model) {
-                            if (!FileUpload::findOne(['id_mata_kuliah_tayang' => $model->id, 'jenis' => 'nilai'])) {
+                            if (!CapaianMahasiswa::find()
+                                ->joinWith(['refCpmk'])
+                                ->where([CapaianMahasiswa::tableName() . '.tahun' => $model['tahunAjaran']->tahun])
+                                ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $model->semester])
+                                ->andWhere([CapaianMahasiswa::tableName() . '.kelas' => $model['refKelas']->kelas])
+                                ->andWhere([RefCpmk::tableName() . '.id_ref_mata_kuliah' => $model['refMataKuliah']->id])
+                                ->one()) {
                                 return Html::a('<i class="fa fa-trash"></i>', $url, [
                                     'data-original-title'  => 'Hapus',
                                     'title'                => 'Hapus',
