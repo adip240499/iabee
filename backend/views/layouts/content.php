@@ -43,7 +43,6 @@ $this->registerCss($css);
     </section>
 
     <section class="content">
-        <?= Alert::widget() ?>
         <?= $content ?>
     </section>
 </div>

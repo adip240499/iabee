@@ -80,7 +80,10 @@ class RefCpmkController extends Controller
         $model = new RefCpmk();
         $modelcpl = new RefCpl();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->created_user = Yii::$app->user->identity->username;
+            $model->save();
+            Yii::$app->session->setFlash('success', [['Success', 'Data Berhasil Dimasukkan']]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -102,7 +105,10 @@ class RefCpmkController extends Controller
         $model = $this->findModel($id);
         // $modelcpl = $this->findModelCpl($idcpl);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated_user = Yii::$app->user->identity->username;
+            $model->save();
+            Yii::$app->session->setFlash('warning', [['Update', 'Data Berhasil Diperbarui']]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -123,8 +129,10 @@ class RefCpmkController extends Controller
     {
         $model = $this->findModel($id);
         if ($model) {
+            $model->updated_user = Yii::$app->user->identity->username;
             $model->status  = 0;
             $model->save();
+            Yii::$app->session->setFlash('error', [['Delete', 'Data Berhasil Dihapus']]);
         }
         return $this->redirect(['index']);
     }

@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "ref_kelas".
@@ -27,6 +29,19 @@ class RefKelas extends \yii\db\ActiveRecord
         return 'ref_kelas';
     }
 
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class'              => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value'              => new Expression('NOW()'),
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +51,7 @@ class RefKelas extends \yii\db\ActiveRecord
             [['status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['kelas'], 'string', 'max' => 4],
-            [['kelas'], 'required','message'=>'{attribute} tidak boleh kosong'],
+            [['kelas'], 'required', 'message' => '{attribute} tidak boleh kosong'],
             [['created_user', 'updated_user'], 'string', 'max' => 255],
         ];
     }

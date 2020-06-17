@@ -2,13 +2,15 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
+use aryelds\sweetalert\SweetAlert;
+use diecoding\toastr\ToastrFlash;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
 
 // echo "<pre>";print_r(Yii::$app->assetManager->bundles);exit;
-if (Yii::$app->controller->action->id === 'login') {
+if (Yii::$app->controller->action->id === 'login' || Yii::$app->controller->action->id === 'signup') {
     /**
      * Do not use this code in your template. Remove it. 
      * Instead, use the code  $this->layout = '//main-login'; in your controller.
@@ -61,10 +63,30 @@ if (Yii::$app->controller->action->id === 'login') {
                 ['content' => $content, 'directoryAsset' => $directoryAsset]
             ) ?>
             <?php
+            echo ToastrFlash::widget([
+                
+            ]);
+            ?>
+            <?php
+            if (Yii::$app->session->getFlash('alert')) {
+                $message = Yii::$app->session->getFlash('alert');
+                echo SweetAlert::widget([
+                    'options' => [
+                        'title' => (!empty($message['title'])) ? Html::encode($message['title']) : 'Title Not Set!',
+                        'text' => (!empty($message['text'])) ? Html::encode($message['text']) : 'Text Not Set!',
+                        'type' => (!empty($message['type'])) ? $message['type'] : SweetAlert::TYPE_INFO,
+                        'timer' => (!empty($message['timer'])) ? $message['timer'] : 4000,
+                        'showConfirmButton' => (!empty($message['showConfirmButton'])) ? $message['showConfirmButton'] : true
+                    ]
+                ]);
+            }
+            ?>
+            <?php
             Modal::begin([
                 "id"     => "ajaxCrudModal",
                 "header"  => "<h4 class='modal-title'></h4>",
                 "footer" => "",
+                'options' => ['tabindex' => false],
             ]);
 
             Modal::end();

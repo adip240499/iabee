@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "ref_cpmk".
@@ -30,6 +32,18 @@ class RefCpmk extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'ref_cpmk';
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class'              => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value'              => new Expression('NOW()'),
+            ],
+        ];
     }
 
     /**

@@ -363,15 +363,6 @@ return array (
       '@yii/authclient' => $vendorDir . '/yiisoft/yii2-authclient/src',
     ),
   ),
-  'kartik-v/yii2-popover-x' => 
-  array (
-    'name' => 'kartik-v/yii2-popover-x',
-    'version' => '1.3.0.0',
-    'alias' => 
-    array (
-      '@kartik/popover' => $vendorDir . '/kartik-v/yii2-popover-x',
-    ),
-  ),
   'kartik-v/yii2-editable' => 
   array (
     'name' => 'kartik-v/yii2-editable',
@@ -399,15 +390,6 @@ return array (
       '@kartik/money' => $vendorDir . '/kartik-v/yii2-money/src',
     ),
   ),
-  'kartik-v/yii2-detail-view' => 
-  array (
-    'name' => 'kartik-v/yii2-detail-view',
-    'version' => '1.8.2.0',
-    'alias' => 
-    array (
-      '@kartik/detail' => $vendorDir . '/kartik-v/yii2-detail-view/src',
-    ),
-  ),
   'kartik-v/yii2-date-range' => 
   array (
     'name' => 'kartik-v/yii2-date-range',
@@ -426,15 +408,6 @@ return array (
       '@kartik/datecontrol' => $vendorDir . '/kartik-v/yii2-datecontrol/src',
     ),
   ),
-  'kartik-v/yii2-mpdf' => 
-  array (
-    'name' => 'kartik-v/yii2-mpdf',
-    'version' => '1.0.5.0',
-    'alias' => 
-    array (
-      '@kartik/mpdf' => $vendorDir . '/kartik-v/yii2-mpdf/src',
-    ),
-  ),
   'borales/yii2-phone-input' => 
   array (
     'name' => 'borales/yii2-phone-input',
@@ -442,15 +415,6 @@ return array (
     'alias' => 
     array (
       '@borales/extensions/phoneInput' => $vendorDir . '/borales/yii2-phone-input/src',
-    ),
-  ),
-  'wbraganca/yii2-dynamicform' => 
-  array (
-    'name' => 'wbraganca/yii2-dynamicform',
-    'version' => '2.0.2.0',
-    'alias' => 
-    array (
-      '@wbraganca/dynamicform' => $vendorDir . '/wbraganca/yii2-dynamicform',
     ),
   ),
   'sizeg/yii2-jwt' => 
@@ -541,6 +505,51 @@ return array (
     'alias' => 
     array (
       '@diecoding' => $vendorDir . '/diecoding/yii2-core/src',
+    ),
+  ),
+  'wbraganca/yii2-dynamicform' => 
+  array (
+    'name' => 'wbraganca/yii2-dynamicform',
+    'version' => '2.0.3.0',
+    'alias' => 
+    array (
+      '@wbraganca/dynamicform' => $vendorDir . '/wbraganca/yii2-dynamicform/src',
+    ),
+  ),
+  'kartik-v/yii2-mpdf' => 
+  array (
+    'name' => 'kartik-v/yii2-mpdf',
+    'version' => '1.0.6.0',
+    'alias' => 
+    array (
+      '@kartik/mpdf' => $vendorDir . '/kartik-v/yii2-mpdf/src',
+    ),
+  ),
+  'kartik-v/yii2-detail-view' => 
+  array (
+    'name' => 'kartik-v/yii2-detail-view',
+    'version' => '1.8.3.0',
+    'alias' => 
+    array (
+      '@kartik/detail' => $vendorDir . '/kartik-v/yii2-detail-view/src',
+    ),
+  ),
+  'kartik-v/yii2-popover-x' => 
+  array (
+    'name' => 'kartik-v/yii2-popover-x',
+    'version' => '1.3.5.0',
+    'alias' => 
+    array (
+      '@kartik/popover' => $vendorDir . '/kartik-v/yii2-popover-x/src',
+    ),
+  ),
+  'aryelds/yii2-sweet-alert' => 
+  array (
+    'name' => 'aryelds/yii2-sweet-alert',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@aryelds/sweetalert' => $vendorDir . '/aryelds/yii2-sweet-alert',
     ),
   ),
 );

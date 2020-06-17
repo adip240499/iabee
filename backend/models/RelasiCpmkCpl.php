@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "relasi_cpmk_cpl".
@@ -41,6 +43,18 @@ class RelasiCpmkCpl extends \yii\db\ActiveRecord
             [['created_user', 'updated_user'], 'string', 'max' => 255],
             [['id_ref_cpmk'], 'exist', 'skipOnError' => true, 'targetClass' => RefCpmk::className(), 'targetAttribute' => ['id_ref_cpmk' => 'id']],
             [['id_ref_cpl'], 'exist', 'skipOnError' => true, 'targetClass' => RefCpl::className(), 'targetAttribute' => ['id_ref_cpl' => 'id']],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class'              => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value'              => new Expression('NOW()'),
+            ],
         ];
     }
 

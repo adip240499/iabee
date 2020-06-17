@@ -67,51 +67,27 @@ class CapaianMahasiswaController extends Controller
     }
 
     /**
-     * Displays a single CapaianMahasiswa model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new CapaianMahasiswa model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new CapaianMahasiswa();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
      * Updates an existing CapaianMahasiswa model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($jk, $js)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($jk, $js);
+        if ($models = (Yii::$app->request->post())) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            foreach ($model['capaian'] as $key => $value) {
+                $key = $key + 1;
+                $data = CapaianMahasiswa::findOne([$value->id]);
+                $data->updated_user = Yii::$app->user->identity->username;
+                $data->nilai = $models["cpmk{$key}"];
+                $data->save();
+            }
+            Yii::$app->session->setFlash('warning', [['Update', 'Data Berhasil Diperbarui']]);
+            return $this->redirect(['nilai-upload', 'jk' => $jk]);
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -146,6 +122,7 @@ class CapaianMahasiswaController extends Controller
                 $exist = CapaianMahasiswa::findOne(['id_ref_mahasiswa' => $id_mahasiswa, 'id_ref_cpmk' => $value->id]);
                 // $exist->status = 0;
                 $exist->delete();
+                Yii::$app->session->setFlash('erro', [['Delete', 'Data Berhasil Dihapus']]);
             }
         }
 
@@ -163,9 +140,36 @@ class CapaianMahasiswaController extends Controller
      * @return CapaianMahasiswa the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($jk, $js)
     {
-        if (($model = CapaianMahasiswa::findOne($id)) !== null) {
+        $data['tayang']       = MataKuliahTayang::findOne(['id' => $jk]);
+        $model['mahasiswa']    = RefMahasiswa::findOne(['id' => $js]);
+        $data['mata_kuliah']  = RefMataKuliah::findOne($data['tayang']->id_ref_mata_kuliah);
+        $data['kelas']        = RefKelas::findOne($data['tayang']->id_ref_kelas);
+        $data['tahun_ajaran'] = RefTahunAjaran::findOne($data['tayang']->id_tahun_ajaran);
+        $data['dosen']        = RefDosen::findOne($data['tayang']->id_ref_dosen);
+
+        $model['capaian']      = CapaianMahasiswa::find()
+            ->select([
+                'capaian_mahasiswa.*',
+            ])
+            ->joinWith(
+                [
+                    'refCpmk' => function ($query) {
+                        $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
+                        $data['tayang']       = MataKuliahTayang::findOne(['id' => $jk]);
+                        $data['mata_kuliah']  = RefMataKuliah::findOne($data['tayang']->id_ref_mata_kuliah);
+                        $query->where(['ref_cpmk.id_ref_mata_kuliah' => $data['mata_kuliah']->id]);
+                    }
+                ]
+            )
+            ->andWhere([CapaianMahasiswa::tableName() . '.tahun' => $data['tahun_ajaran']->tahun])
+            ->andWhere([CapaianMahasiswa::tableName() . '.kelas' => $data['kelas']->kelas])
+            ->andWhere([CapaianMahasiswa::tableName() . '.semester' => $data['tayang']->semester])
+            ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => $js])
+            // ->asArray()
+            ->all();
+        if (($model['capaian']) !== null) {
             return $model;
         }
 

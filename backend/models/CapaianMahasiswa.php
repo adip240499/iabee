@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "capaian_mahasiswa".
@@ -33,6 +35,18 @@ class CapaianMahasiswa extends \yii\db\ActiveRecord
         return 'capaian_mahasiswa';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class'              => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value'              => new Expression('NOW()'),
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -58,7 +72,7 @@ class CapaianMahasiswa extends \yii\db\ActiveRecord
             'id' => 'ID',
             'id_ref_cpmk' => 'Cpmk',
             'id_ref_mahasiswa' => 'Mahasiswa',
-            'nilai' => 'Nilai',
+            'nilai' => '',
             'kelas' => 'Kelas',
             'tahun' => 'Tahun',
             'semester' => 'Semester',

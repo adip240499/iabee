@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "mata_kuliah_tayang".
@@ -35,6 +37,18 @@ class MataKuliahTayang extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'mata_kuliah_tayang';
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class'              => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value'              => new Expression('NOW()'),
+            ],
+        ];
     }
 
     /**

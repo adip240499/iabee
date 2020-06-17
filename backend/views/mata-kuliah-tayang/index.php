@@ -10,17 +10,36 @@ use kartik\grid\GridView;
 use phpDocumentor\Reflection\Types\Null_;
 use PHPUnit\Framework\Constraint\IsNull;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\searchs\MataKuliahTayang */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+$this->registerJsFile("@web/js/sweetalert.js", [
+    'depends' => ["yii\web\JqueryAsset"]
+]);
+$js      = <<< JS
+function alert() {
+   return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href>Why do I have this issue?</a>'
+    })
+}
+
+JS;
+$this->registerJs($js);
+
 
 $this->title = 'Mata Kuliah Tayang';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h1 class="panel-title">Tabel Data</h1>
     </div>
+    
     <div class="panel-body">
         <?php
         if (Yii::$app->assign->is(["administrator"])) {
@@ -32,12 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
         }
         ?>
         <?php Pjax::begin(); ?>
-        <?php // echo $this->render('_search', ['model' => $searchModel]); 
-        // echo '<pre>';
-        // print_r($model);
-        // exit;
-        ?>
-
+        
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel'  => $searchModel,

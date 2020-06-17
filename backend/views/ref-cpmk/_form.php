@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <!-- <?= $form->field($model, 'id_ref_mata_kuliah')->textInput() ?> -->
     <?php
-    $data = ArrayHelper::map(RefMataKuliah::find()->all(), 'id', 'nama');
+    $data = ArrayHelper::map(RefMataKuliah::find()->where(['status'=>1])->all(), 'id', 'nama');
 
     echo $form->field($model, 'id_ref_mata_kuliah')->widget(Select2::classname(), [
         'data' => $data,

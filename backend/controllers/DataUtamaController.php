@@ -100,19 +100,24 @@ class DataUtamaController extends Controller
 				@unlink($base);
 				$files = $model->file[0]->saveAs($base, FALSE);
 				if ($files) {
-					$flag = true;
+					$flag    = true;
 					$newData = false;
 					$data = $exist = FileUpload::findOne(['id_mata_kuliah_tayang' => $decrypt, 'jenis' => 'nilai']);
 					if (!$data) {
 						$newData = true;
-						$data = new FileUpload();
+						$data    = new FileUpload();
 					}
 					if ($update || $newData) {
 						$data->id_mata_kuliah_tayang = $decrypt;
-						$data->file_name = $nama;
-						$data->base_name = $model->file[0]->baseName;
-						$data->jenis = 'nilai';
-						$flag = $flag && $data->save(FALSE);
+						$data->file_name             = $nama;
+						$data->base_name             = $model->file[0]->baseName;
+						$data->jenis                 = 'nilai';
+						if ($update) {
+							$data->updated_user = Yii::$app->user->identity->username;
+						} else {
+							$data->created_user = Yii::$app->user->identity->username;
+						}
+						$flag                        = $flag && $data->save(FALSE);
 						if ($update && $exist) {
 						}
 					}
@@ -300,8 +305,8 @@ class DataUtamaController extends Controller
 		$total_cpmk = count($cpmks);
 		for ($i = 0; $i < $total_cpmk; $i++) {
 			$huruf = ['D', 'E', 'F', 'G', 'H'];
-			$key   = $i+1;
-			$worksheet->setCellValue($huruf[$i].'14', 'CPMK'.$key);  //Pengampu
+			$key   = $i + 1;
+			$worksheet->setCellValue($huruf[$i] . '14', 'CPMK' . $key);  //Pengampu
 		}
 
 
@@ -531,12 +536,21 @@ class DataUtamaController extends Controller
 					if ($update || $newData) {
 						$data->id_ref_cpmk      = $id_cpmk[$i];                 // ID CPMK dalam bentuk array
 						$data->id_ref_mahasiswa = $id_mahasiswa->id;
-						$data->nilai            = $cpmk[$i];
-						$data->tahun            = $tahun_ajaran->tahun;
-						$data->semester         = $model->semester;
-						$data->kelas            = $kelas->kelas;
-						$data->status           = 1;
-						$flag                   = $flag && $data->save(false);
+						if ($update) {
+							$data->updated_user = Yii::$app->user->identity->username;
+						} else {
+							$data->created_user = Yii::$app->user->identity->username;
+						}
+						if ($data->nilai > $cpmk[$i]) {
+							$data->nilai = $data->nilai;
+						} else {
+							$data->nilai = $cpmk[$i];
+						}
+						$data->tahun        = $tahun_ajaran->tahun;
+						$data->semester     = $model->semester;
+						$data->kelas        = $kelas->kelas;
+						$data->status       = 1;
+						$flag               = $flag && $data->save(false);
 
 						if ($update && $exist) {
 							$desct   = 'Update Nilai ';

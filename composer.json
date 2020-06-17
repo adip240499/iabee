@@ -27,8 +27,7 @@
 		"phpnt/yii2-chartjs": "*",
 		"nickcv/yii2-encrypter": "*",
         "bower-asset/chart-js": "^2.9",
-
-
+        "aryelds/yii2-sweet-alert": "@dev",
 		
 		"lesha724/yii2-document-viewer": "*"
     },

@@ -13,6 +13,7 @@ use yii\bootstrap\ActiveForm;
 use kartik\widgets\FileInput;
 use kartik\export\ExportMenu;
 use kartik\widgets\SwitchInput;
+use aryelds\sweetalert\SweetAlert;
 
 
 
@@ -20,79 +21,21 @@ use kartik\widgets\SwitchInput;
 /* @var $searchModel backend\models\searchs\RefKelas */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", [
+    'depends' => ["yii\web\JqueryAsset"]
+]);
+
+
 $this->title = 'Import Nilai';
 $this->params['breadcrumbs'][] = $this->title;
+
+
 $jk = Yii::$app->getRequest()->getQueryParam('jk');
-// $id_tahun_ajaran = Yii::$app->request->post('id_tahun_ajaran');
-// $id_ref_semester = Yii::$app->request->post('id_ref_semester');
-// $id_ref_mata_kuliah = Yii::$app->request->post('id_ref_mata_kuliah');
-// $id_ref_kelas = Yii::$app->request->post('id_ref_kelas');
 $url = Url::to(['', 'update' => $update, 'jk' => $jk]);
 $urlOn = Url::to(['', 'update' => 1, $update, 'jk' => $jk]);
 $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
 
-
 ?>
-<!-- <div class="row">
-    <div class="col-md-6">
-        <div class="box box-default">
-            <div class="box-body ">
-                <form action="data-utama">
-                    <div class="form-group">
-                        <label>Tahun Ajaran</label>
-                        <select class="form-control select2" name="id_ref_mata_kuliah" style="width: 100%;">
-                            <option selected="selected" disabled>- Pilih -</option>
-                            <option value="1">2019/2020</option>
-                            <option value="2">2020/2021</option>
-
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Semester</label>
-                        <select class="form-control select2" name="id_ref_kelas" style="width: 100%;">
-                            <option selected="selected" disabled>- Pilih -</option>
-                            <option value="1">Ganjil</option>
-                            <option value="2">Genap</option>
-                        </select>
-                    </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="box box-default">
-            <div class="box-body ">
-                <div class="form-group">
-                    <label>Mata Kuliah</label>
-                    <select class="form-control select2" name="id_tahun_ajaran" style="width: 100%;">
-                        <option selected="selected" disabled>- Pilih -</option>
-                        <option value="EE1">EExxx - Pemrograman Dasar</option>
-                        <option value="EE2">EExxx - Pemrograman Lanjut</option>
-                        <option value="EE3">EExxx - Basis Data</option>
-                        <option value="EE4">EExxx - Kecerdasan Buatan</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Kelas</label>
-                    <select class="form-control select2" name="id_tahun_ajaran" style="width: 100%;">
-                        <option selected="selected" disabled>- Pilih -</option>
-                        <option value="1">A</option>
-                        <option value="2">B</option>
-                        <option value="3">C</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-12 ml-auto">
-                        <button type="submit" class="btn btn-success btn-flat"><i class="fa fa-download"></i> Download Template</button>
-                    </div>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
 
 <div class="import-nilai-index panel panel-default">
     <div class="panel-heading">
@@ -108,12 +51,6 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
                     'class' => 'btn btn-primary btn-flat',
                 ]);
             }
-            // if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {
-            //     echo Html::a('<i class="fa fa-eye"></i> Lihat Nilai', ['/capaian-mahasiswa/nilai-upload', 'jk' => $jk], [
-            //         'class' => 'btn btn-primary btn-flat',
-            //         // 'role' => 'modal-remote',
-            //     ]);
-            // } 
             ?>
         </p>
     </div>
@@ -122,7 +59,7 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
         <span style="font-size: 12px;">Jika Data Sudah Ada :</span>
         <?php echo SwitchInput::widget([
             'name'          => 'update',
-            'value'            => $update,
+            'value'         => $update,
             'pluginOptions' => [
                 'size'     => 'small',
                 'onText'   => 'Perbarui',
@@ -133,9 +70,15 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
             'pluginEvents' => [
                 'switchChange.bootstrapSwitch' => "function(e, s) {
 					if (s) {
-						$('#form-main').attr('action', '$urlOn');
+                        $('#form-main').attr('action', '$urlOn');
+                        Swal.fire({
+                            title: 'Info !',
+                            text: 'Jika ada mahasiswa yang mengulang maka nilai yang diambil adalah yang TERBAIK',
+                            icon: 'info',
+                            confirmButtonText: 'OK'
+                        });
 					} else {
-						$('#form-main').attr('action', '$urlOf');
+                        $('#form-main').attr('action', '$urlOf');
 					}
 				}",
             ],

@@ -91,6 +91,9 @@ class KrsController extends Controller
                 $path = Yii::getAlias("@backend/uploads/file_krs");
                 $base = "{$path}/{$nama}.xlsx";
                 @unlink($base);
+                // echo "<pre>";
+                // print_r($base);
+                // exit;
                 $files = $model->file[0]->saveAs($base, FALSE);
                 if ($files) {
                     $flag = true;
@@ -200,6 +203,7 @@ class KrsController extends Controller
         if ($model) {
             // $model->status  = 0;
             $model->delete();
+            Yii::$app->session->setFlash('error', [['Delete', 'Data Berhasil Dihapus']]);
         }
         return $this->redirect(['krs/krs-upload/', 'jk' => $id_mata_kuliah_tayang]);
     }
@@ -301,10 +305,11 @@ class KrsController extends Controller
                 if ($update || $newData) {
                     $data->id_mata_kuliah_tayang = $decrypt;
                     $data->id_ref_mahasiswa      = $id_mahasiswa->id;
-                    // $data->nilai    = $cpmk[$i];
-                    // $data->tahun    = $tahun;
-                    // $data->semester = $semester;
-                    // $data->kelas    = $kelas;
+                    if ($update) {
+                        $data->updated_user = Yii::$app->user->identity->username;
+                    } else {
+                        $data->created_user = Yii::$app->user->identity->username;
+                    }
                     $flag = $flag && $data->save(false);
 
                     if ($update && $exist) {
@@ -463,6 +468,7 @@ class KrsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('warning', [['Update', 'Data Berhasil Diperbarui']]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -484,6 +490,7 @@ class KrsController extends Controller
         if ($model) {
             $model->status  = 0;
             $model->save();
+            Yii::$app->session->setFlash('erro', [['Delete', 'Data Berhasil Dihapus']]);
         }
         return $this->redirect(['index']);
     }

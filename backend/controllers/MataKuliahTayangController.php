@@ -53,7 +53,6 @@ class MataKuliahTayangController extends Controller
     {
         $searchModel = new MataKuliahTayangSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -82,8 +81,35 @@ class MataKuliahTayangController extends Controller
     {
         $model = new MataKuliahTayang();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $cek = MataKuliahTayang::findOne([
+                'id_tahun_ajaran'    => $model->id_tahun_ajaran,
+                'semester'           => $model->semester,
+                'id_ref_mata_kuliah' => $model->id_ref_mata_kuliah,
+                'id_ref_kelas'       => $model->id_ref_kelas,
+                'status'             => '1'
+            ]);
+            if (!$cek) {
+                $model->created_user = Yii::$app->user->identity->username;
+                $model->save();
+                Yii::$app->session->setFlash('success', [['Success', 'Data Berhasil Dimasukkan']]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $model = $this->findModel($cek->id);
+                Yii::$app->getSession()->setFlash('alert', [
+                    'text' => "Gagal Memasukkan Data
+                    {$model['refMataKuliah']->nama}
+                    Tahun {$model['tahunAjaran']->tahun}
+                    Semester {$model->semester} 
+                    Kelas {$model['refKelas']->kelas}",
+                    'title' => 'Data Pernah Dimasukkan',
+                    'type' => 'error',
+                    'timer' => 20000,
+                    'showConfirmButton' => false
+                ]);
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('create', [
@@ -102,10 +128,37 @@ class MataKuliahTayangController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $cek = MataKuliahTayang::findOne([
+                'id_tahun_ajaran'    => $model->id_tahun_ajaran,
+                'semester'           => $model->semester,
+                'id_ref_mata_kuliah' => $model->id_ref_mata_kuliah,
+                'id_ref_kelas'       => $model->id_ref_kelas,
+                'status'             => '1'
+            ]);
+            if (!$cek || ($cek && ($cek->id==$model->id))) {
+                $model->updated_user = Yii::$app->user->identity->username;
+                $model->save();
+                Yii::$app->session->setFlash('warning', [['Update', 'Data Berhasil Diperbarui']]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $model = $this->findModel($cek->id);
+                Yii::$app->getSession()->setFlash('alert', [
+                    'text' => "Gagal Memasukkan Data
+                    {$model['refMataKuliah']->nama}
+                    Tahun {$model['tahunAjaran']->tahun}
+                    Semester {$model->semester} 
+                    Kelas {$model['refKelas']->kelas}",
+                    'title' => 'Data Pernah Dimasukkan',
+                    'type' => 'error',
+                    'timer' => 20000,
+                    'showConfirmButton' => false
+                ]);
+                return $this->redirect(['update', 'id'=>$model->id]);
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -122,13 +175,16 @@ class MataKuliahTayangController extends Controller
     {
         $model = $this->findModel($id);
         if ($model) {
+            $model->updated_user = Yii::$app->user->identity->username;
             $model->status  = 0;
             $model->save();
         }
+        Yii::$app->session->setFlash('error', [['Delete', 'Data Berhasil Dihapus']]);
         return $this->redirect(['index']);
     }
 
-    public function actionFileNilai(){
+    public function actionFileNilai()
+    {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model    = new MataKuliahTayang();
         $data['tahun_ajaran'] = ArrayHelper::map(RefTahunAjaran::find()->all(), 'id', 'tahun');

@@ -11,7 +11,6 @@ use yii\widgets\ActiveForm;
 <div class="ref-kelas-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
     <?= $form->field($model, 'kelas')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">

@@ -55,6 +55,10 @@ $fieldOptions2 = [
             </div>
             <!-- /.col -->
         </div>
+        <div class="social-auth-links text-center">
+            <p>- OR -</p>
+            <a href="<?php echo \Yii::$app->request->BaseUrl.'/site/signup'?>" class="btn btn-block btn-danger btn-flat">Sign Up</a>
+        </div>
         <?php ActiveForm::end(); ?>
 
     </div>

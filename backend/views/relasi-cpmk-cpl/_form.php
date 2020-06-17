@@ -30,30 +30,26 @@ use yii\widgets\ActiveForm;
         ->joinWith(['refMataKuliah'])
         ->asArray()
         ->all();
-    // $cpmk = ArrayHelper::map($datas, 'id', 'kode', 'refMataKuliah.nama');
 
-    // foreach ($cpmk as $key) {
-    //     $row = $cpmk 
-    // }
-    
-    $mk = ModelsRefMataKuliah::findAll(['status'=>1]);
+    $mk = ModelsRefMataKuliah::findAll(['status' => 1]);
     $mk = ArrayHelper::map($mk, 'id', 'nama');
 
-    echo $form->field($model1, 'id_ref_mata_kuliah')->dropDownList($mk, ['id'=>'nama-id']);
+    echo $form->field($model1, 'id_ref_mata_kuliah')->dropDownList($mk, ['id' => 'nama-id']);
 
     echo $form->field($model, 'id_ref_cpmk')->widget(DepDrop::classname(), [
         'options' => [
             'placeholder' => '- Pilih -'
         ],
         'pluginOptions' => [
-            'depends'=>['nama-id'],
-            'url'=>Url::to(['/relasi-cpmk-cpl/cpmk']),
+            'depends' => ['nama-id'],
+            'url' => Url::to(['/relasi-cpmk-cpl/cpmk']),
             'allowClear' => true
 
         ],
     ]);
 
     $datas = RefCpl::find()
+        ->where(['status' => 1])
         ->all();
     $cpl = ArrayHelper::map($datas, 'id', 'isi', 'kode');
 

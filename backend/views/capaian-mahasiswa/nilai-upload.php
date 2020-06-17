@@ -206,9 +206,12 @@ $this->registerJs($js);
                                 ?>
                                 <td class="text-center">
                                     <?php
-                                    // echo Html::a('<i class="fa fa-pencil"></i>', ['/capaian-mahasiswa/edit', 'jk' => $jk,'js'=>$key], [
-                                    //     'class' => 'btn btn-primary btn-xs',
-                                    // ]);
+                                    echo Html::a('<i class="fa fa-pencil"></i>', ['/capaian-mahasiswa/update', 'jk' => $jk, 'js' => $key], [
+                                        'class' => 'btn btn-primary btn-xs',
+                                        'data-original-title'  => 'Perbarui',
+                                        'title'                => 'Perbarui',
+                                        'data-toggle'          => 'tooltip'
+                                    ]);
                                     ?>
                                     <?php
                                     echo Html::a('<i class="fa fa-trash"></i>', ['/capaian-mahasiswa/delete', 'jk' => $jk, 'js' => $key], [

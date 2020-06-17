@@ -78,7 +78,10 @@ class RelasiCpmkCplController extends Controller
         $model = new RelasiCpmkCpl();
         $model1 = new RefCpmk();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->created_user = Yii::$app->user->identity->username;
+            $model->save();
+            Yii::$app->session->setFlash('success', [['Success', 'Data Berhasil Dimasukkan']]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -99,6 +102,7 @@ class RelasiCpmkCplController extends Controller
                 $out = RefCpmk::find()
                     ->select('id,kode label,isi name')
                     ->where(['id_ref_mata_kuliah' => $mk])
+                    ->andWhere(['status' => 1])
                     ->asArray()
                     ->all();
                 $out = ArrayHelper::index($out, null, 'label');
@@ -124,7 +128,10 @@ class RelasiCpmkCplController extends Controller
         $model = $this->findModel($id);
         $model1 = RefCpmk::findOne($model->id_ref_cpmk);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated_user = Yii::$app->user->identity->username;
+            $model->save();
+            Yii::$app->session->setFlash('warning', [['Update', 'Data Berhasil Diperbarui']]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -145,8 +152,10 @@ class RelasiCpmkCplController extends Controller
     {
         $model = $this->findModel($id);
         if ($model) {
+            $model->updated_user = Yii::$app->user->identity->username;
             $model->status  = 0;
             $model->save();
+            Yii::$app->session->setFlash('error', [['Delete', 'Data Berhasil Dihapus']]);
         }
         return $this->redirect(['index']);
     }
