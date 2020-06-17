@@ -7,7 +7,7 @@ use kartik\form\ActiveForm;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
 
-$url = \yii\helpers\Url::to(['mahasiswa-list']);
+$url = \yii\helpers\Url::to(['mahasiswa-list', 'status' => 1]);
 ?>
 
 <div style="margin: 0 12px 20px;">
@@ -15,21 +15,9 @@ $url = \yii\helpers\Url::to(['mahasiswa-list']);
         // 'action'    => Url::to(['download', 'dl' => 1])
     ]); ?>
     <?php
-    // echo "<pre>";
-    // print_r($mahasiswa);
-    // exit;
-    // echo $form->field($model, 'id_ref_mahasiswa')->widget(Select2::classname(), [
-    //     'data' => $mahasiswa,
-    //     'options' => [
-    //         'placeholder' => '- Pilih -'
-    //     ],
-    //     'pluginOptions' => [
-    //         'allowClear' => true
-    //     ],
-    // ]);
 
     echo $form->field($model, 'id_ref_mahasiswa')->widget(Select2::classname(), [
-        'options' => ['multiple'=>false, 'placeholder' => 'Ketik nama ...'],
+        'options' => ['multiple' => false, 'placeholder' => 'Ketik nama ...'],
         'pluginOptions' => [
             'allowClear' => true,
             'minimumInputLength' => 1,

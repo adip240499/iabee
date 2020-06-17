@@ -7,7 +7,7 @@ use kartik\form\ActiveForm;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
 
-$url = \yii\helpers\Url::to(['mahasiswa-list-alumni']);
+$url = \yii\helpers\Url::to(['mahasiswa-list', 'status' => 8]);
 
 ?>
 
@@ -22,8 +22,8 @@ $url = \yii\helpers\Url::to(['mahasiswa-list-alumni']);
     // echo $form->field($model, 'id_ref_mahasiswa')->widget(Select2::classname(), [
     //     'data' => $mahasiswa,
     //     'options' => [
-            // 'id'    => 'id_tahun_ajaran',
-            // 'name'  => 'id_tahun_ajaran',
+    // 'id'    => 'id_tahun_ajaran',
+    // 'name'  => 'id_tahun_ajaran',
     //         'placeholder' => '- Pilih -'
     //     ],
     //     'pluginOptions' => [
@@ -32,7 +32,7 @@ $url = \yii\helpers\Url::to(['mahasiswa-list-alumni']);
     // ]);
 
     echo $form->field($model, 'id_ref_mahasiswa')->widget(Select2::classname(), [
-        'options' => ['multiple'=>false, 'placeholder' => 'Ketik nama ...'],
+        'options' => ['multiple' => false, 'placeholder' => 'Ketik nama ...'],
         'pluginOptions' => [
             'allowClear' => true,
             'minimumInputLength' => 1,

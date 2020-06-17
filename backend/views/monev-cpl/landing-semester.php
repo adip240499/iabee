@@ -5,34 +5,35 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\form\ActiveForm;
 use kartik\select2\Select2;
+use yii\web\JsExpression;
+
+$url = \yii\helpers\Url::to(['semester-list','status'=>1]);
 
 ?>
 
 <div style="margin: 0 12px 20px;">
     <?php $form = ActiveForm::begin([
-        // 'action'    => Url::to(['download', 'dl' => 1])
     ]); ?>
     <?php
-    // echo "<pre>";
-    // print_r($mahasiswa);
-    // exit;
     echo $form->field($model, 'tahun')->widget(Select2::classname(), [
-        'data' => $tahun,
-        'options' => [
-            // 'id'    => 'id_tahun_ajaran',
-            // 'name'  => 'id_tahun_ajaran',
-            'placeholder' => '- Pilih -'
-        ],
+        'options' => ['multiple' => false, 'placeholder' => 'Ketik Tahun ...'],
         'pluginOptions' => [
-            'allowClear' => true
+            'allowClear' => true,
+            'minimumInputLength' => 1,
+            'language' => [
+                'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
+            ],
+            'ajax' => [
+                'url' => $url,
+                'dataType' => 'json',
+                'data' => new JsExpression('function(params) { return {q:params.term}; }')
+            ]
         ],
     ]);
 
     echo $form->field($model, 'semester')->widget(Select2::classname(), [
-        'data' => $semester,
+        'data' => ['Ganjil' => 'Ganjil', 'Genap' => 'Genap'],
         'options' => [
-            // 'id'    => 'id_tahun_ajaran',
-            // 'name'  => 'id_tahun_ajaran',
             'placeholder' => '- Pilih -'
         ],
         'pluginOptions' => [
