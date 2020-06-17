@@ -7,6 +7,7 @@ use backend\models\searchs\CapaianMahasiswa;
 use backend\models\searchs\RefCpl;
 use backend\models\searchs\RelasiCpmkCpl;
 use Yii;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
@@ -95,7 +96,6 @@ class MonevCplController extends Controller
                     ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => $id_mahasiswa])
                     ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
                     ->average(CapaianMahasiswa::tableName() . '.nilai');
-                    
             }
             $mahasiswa = RefMahasiswa::findOne(["id" => $id_mahasiswa]);
             return $this->render(
@@ -239,8 +239,8 @@ class MonevCplController extends Controller
         return [
             'title'   => 'Portal Angkatan',
             'content' => $this->renderAjax('landing-angkatan', [
-                'angkatan'    => $data['angkatan'],
-                'model'            => $model
+                'angkatan' => $data['angkatan'],
+                'model'    => $model
             ]),
             'footer'  => '<div class="col-12 text-right">' .
                 Html::button(
@@ -490,5 +490,48 @@ class MonevCplController extends Controller
                 ) .
                 '</div>'
         ];
+    }
+
+    public function actionMahasiswaList($q = null, $id = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $mahasiswa = CapaianMahasiswa::find()
+                ->distinct()
+                ->select(['capaian_mahasiswa.id', 'capaian_mahasiswa.id_ref_mahasiswa', 'ref_mahasiswa.id id', 'ref_mahasiswa.nama text'])
+                ->joinWith(['refMahasiswa'])
+                ->where([RefMahasiswa::tableName() . '.status' => 1])
+                ->andWhere(['like', RefMahasiswa::tableName() . '.nama', $q])
+                ->limit(500)
+                ->asArray()
+                ->all();
+
+            $out['results'] = array_values($mahasiswa);
+        } elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => RefMahasiswa::find($id)->nama];
+        }
+        return $out;
+    }
+
+    public function actionMahasiswaListAlumni($q = null, $id = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $mahasiswa = CapaianMahasiswa::find()
+                ->select(['capaian_mahasiswa.id', 'capaian_mahasiswa.id_ref_mahasiswa', 'ref_mahasiswa.id id', 'ref_mahasiswa.nama text'])
+                ->joinWith(['refMahasiswa'])
+                ->where([RefMahasiswa::tableName() . '.status' => 8])
+                ->andWhere(['like', RefMahasiswa::tableName() . '.nama', $q])
+                ->limit(10)
+                ->asArray()
+                ->all();
+
+            $out['results'] = array_values($mahasiswa);
+        } elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => RefMahasiswa::find($id)->nama];
+        }
+        return $out;
     }
 }
