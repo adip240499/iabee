@@ -76,7 +76,7 @@ class KrsController extends Controller
                 $encrypt            = $spreadsheet->getActiveSheet()->getCell('B12')->getValue();
 
                 $decrypt = \Yii::$app->encrypter->decrypt($encrypt);
-                $tayang = MataKuliahTayang::findOne($decrypt);
+                $tayang      = MataKuliahTayang::findOne($decrypt);
                 $mata_kuliah = RefMataKuliah::findOne($tayang->id_ref_mata_kuliah);
                 $kelas       = RefKelas::findOne($tayang->id_ref_kelas);
                 $tahun       = RefTahunAjaran::findOne($tayang->id_tahun_ajaran);
