@@ -49,8 +49,10 @@ class RefTahunAjaran extends \yii\db\ActiveRecord
         return [
             [['status'], 'integer'],
             [['tahun'], 'required', 'message' => '{attribute} tidak boleh kosong'],
+            [['tahun'], 'number', 'message' => '{attribute} berupa angka'],
             [['created_at', 'updated_at'], 'safe'],
-            [['tahun', 'created_user', 'updated_user'], 'string', 'max' => 255],
+            [['created_user', 'updated_user'], 'string', 'max' => 255],
+            [['tahun'], 'string', 'max' => 4],
         ];
     }
 

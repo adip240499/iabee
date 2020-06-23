@@ -90,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'all' => function ($url, $model, $key) {
                             if (Krs::findOne(['id_mata_kuliah_tayang' => $model->id])) {
                                 $krs = Html::a(
-                                    '<span class="glyphicon glyphicon-eye-open"> KRS</span>',
+                                    '<span class="glyphicon glyphicon-info-sign"> KRS</span>',
                                     ['/krs', 'jk' => $model->id],
                                     [
                                         'class' => 'btn-sm btn btn-primary',
@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 );
                             } else {
                                 $krs = Html::a(
-                                    '<i class="glyphicon glyphicon-eye-open"> KRS</i>',
+                                    '<i class="glyphicon glyphicon-info-sign"> KRS</i>',
                                     ['/krs', 'jk' => $model->id],
                                     [
                                         'class' => 'btn-sm btn btn-warning',
@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'all' => function ($url, $model, $key) {
                             if (!Krs::findOne(['id_mata_kuliah_tayang' => $model->id])) {
                                 $nilai = Html::a(
-                                    '<i class="glyphicon glyphicon-eye-open"> Nilai</i>',
+                                    '<i class="glyphicon glyphicon-info-sign"> Nilai</i>',
                                     [''],
                                     [
                                         'class'        => 'btn-sm btn btn-danger',
@@ -137,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ->one()
                             ) {
                                 $nilai = Html::a(
-                                    '<span class="glyphicon glyphicon-eye-open"> Nilai</span>',
+                                    '<span class="glyphicon glyphicon-info-sign"> Nilai</span>',
                                     ['/data-utama', 'jk' => $model->id],
                                     [
                                         'class' => 'btn-sm btn btn-primary',
@@ -145,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 );
                             } else {
                                 $nilai = Html::a(
-                                    '<i class="glyphicon glyphicon-eye-open"> Nilai</i>',
+                                    '<i class="glyphicon glyphicon-info-sign"> Nilai</i>',
                                     ['/data-utama', 'jk' => $model->id],
                                     [
                                         'class' => 'btn-sm btn btn-warning',
@@ -175,7 +175,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     // },
                     'buttons' => [
                         'view' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-eye"></i>', $url, [
+                            return Html::a('<i class="fa fa-info-circle"></i>', $url, [
                                 'data-original-title' => 'Lihat',
                                 'title'               => 'Lihat',
                                 'data-toggle'         => 'tooltip',

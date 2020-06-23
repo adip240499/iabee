@@ -45,7 +45,7 @@ class MonevCplController extends Controller
             $id_mahasiswa = 76;
         }
         if (!empty($id_mahasiswa)) {
-            $cpl = RefCpl::find()->all();
+            $cpl = RefCpl::find()->where(['status'=>1])->all();
             $total_cpl = count($cpl);
 
             for ($i = 1; $i <= $total_cpl; $i++) {
@@ -73,7 +73,7 @@ class MonevCplController extends Controller
         return $this->render(
             '/monev-cpl/index',
             [
-                'data' => $individu,
+                // 'data' => $individu,
             ]
         );
     }
@@ -86,7 +86,7 @@ class MonevCplController extends Controller
         }
 
         if (!empty($id_mahasiswa)) {
-            $cpl = RefCpl::find()->all();
+            $cpl = RefCpl::find()->where(['status'=>1])->all();
             $total_cpl = count($cpl);
 
             for ($i = 1; $i <= $total_cpl; $i++) {
@@ -95,8 +95,14 @@ class MonevCplController extends Controller
                     ->where([RelasiCpmkCpl::tableName() . '.id_ref_cpl' => $i])
                     ->andWhere([CapaianMahasiswa::tableName() . '.id_ref_mahasiswa' => $id_mahasiswa])
                     ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
+                    ->andWhere([RelasiCpmkCpl::tableName() . '.status' => 1])
                     ->average(CapaianMahasiswa::tableName() . '.nilai');
+                    // ->asArray()
+                    // ->all();
             }
+            // echo '<pre>';
+            // print_r($individu);
+            // exit;
             $mahasiswa = RefMahasiswa::findOne(["id" => $id_mahasiswa]);
             return $this->render(
                 '/monev-cpl/individual',
@@ -110,7 +116,7 @@ class MonevCplController extends Controller
         return $this->render(
             '/monev-cpl/individual',
             [
-                'data' => $individu,
+                // 'data' => $individu,
             ]
         );
     }
@@ -119,7 +125,7 @@ class MonevCplController extends Controller
     {
         $tahun = Yii::$app->getRequest()->getQueryParam('jk');
 
-        $cpl = RefCpl::find()->all();
+        $cpl = RefCpl::find()->where(['status'=>1])->all();
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
@@ -145,7 +151,7 @@ class MonevCplController extends Controller
         $tahun = Yii::$app->getRequest()->getQueryParam('js');
         $sem = Yii::$app->getRequest()->getQueryParam('jk');
 
-        $cpl = RefCpl::find()->all();
+        $cpl = RefCpl::find()->where(['status'=>1])->all();
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
@@ -282,7 +288,7 @@ class MonevCplController extends Controller
     {
         $tahun = Yii::$app->getRequest()->getQueryParam('jk');
 
-        $cpl = RefCpl::find()->all();
+        $cpl = RefCpl::find()->where(['status'=>1])->all();
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
@@ -308,7 +314,7 @@ class MonevCplController extends Controller
         $tahun = Yii::$app->getRequest()->getQueryParam('js');
         $sem = Yii::$app->getRequest()->getQueryParam('jk');
 
-        $cpl = RefCpl::find()->all();
+        $cpl = RefCpl::find()->where(['status'=>1])->all();
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {

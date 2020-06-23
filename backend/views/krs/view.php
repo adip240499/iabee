@@ -13,6 +13,8 @@ use yii\helpers\Json;
 $this->title = 'Proses Import KRS';
 $this->params['breadcrumbs'][] = $this->title;
 
+$jk        = Yii::$app->getRequest()->getQueryParam('jk');
+
 $count     = count($model);
 $min       = min(array_keys((array) $model));
 $max       = max(array_keys((array) $model));
@@ -178,7 +180,7 @@ $this->registerCss($css);
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <?php echo Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Halaman Unggah File', ['/data-utama'], ['class' => 'btn-social btn btn-']) ?>
+        <?php echo Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Halaman Unggah File', ['/krs', 'jk' => $jk], ['class' => 'btn-social btn btn-']) ?>
         <hr>
         <div class="row">
             <div class="col-md-12">

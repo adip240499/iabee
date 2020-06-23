@@ -53,7 +53,11 @@ class KrsController extends Controller
         ];
     }
 
-
+    /**
+     * Index digunakan untuk menampilkan dan memproses halaman untuk import KRS.
+     * Jika file telah diupload maka code dibawah $model->load(Yii::$app->request->post() akan tereksekusi
+     * 
+     */
     public function actionIndex($update = 0)
     {
         if (!(Yii::$app->getRequest()->getQueryParam('jk'))) {

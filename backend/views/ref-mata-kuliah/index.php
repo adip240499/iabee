@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     // },
                     'buttons' => [
                         'view' => function ($url, $model) {
-                            return Html::a('<i class="fa fa-eye"></i>', $url, [
+                            return Html::a('<i class="fa fa-info-circle"></i>', $url, [
                                 'data-original-title' => 'Lihat',
                                 'title'               => 'Lihat',
                                 'data-toggle'         => 'tooltip',

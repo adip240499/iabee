@@ -89,7 +89,7 @@ $this->registerJs($js);
     <div class="panel-body">
         <div class="row">
             <div div class="col-md-6">
-                <?php echo Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Halaman Unggah File', ['/data-utama'], ['class' => 'btn-social btn btn-']) ?>
+                <?php echo Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Halaman Unggah File', ['/krs', 'jk' => $jk], ['class' => 'btn-social btn btn-']) ?>
             </div>
             <div class="col-md-6" align="right">
                 <?php
