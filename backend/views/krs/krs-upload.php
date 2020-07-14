@@ -1,20 +1,9 @@
 <?php
 
-/**
- * @link http://www.diecoding.com/
- * @author Die Coding (Sugeng Sulistiyawan) <diecoding@gmail.com>
- * @copyright Copyright (c) 2018
- */
-
 use backend\models\CapaianMahasiswa;
-use backend\models\FileUpload;
 use backend\models\MataKuliahTayang;
 use backend\models\RefCpmk;
-use backend\models\searchs\RefMahasiswa;
-use yii\helpers\BaseUrl;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\helpers\Json;
 
 $this->title = 'Tampilan KRS Mata Kuliah';
 $this->params['breadcrumbs'][] = $this->title;

@@ -3,13 +3,9 @@
 use backend\models\FileUpload;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\helpers\Json;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\FileInput;
-use kartik\export\ExportMenu;
 use kartik\widgets\SwitchInput;
-
-
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\searchs\RefKelas */
@@ -22,15 +18,11 @@ $url = Url::to(['', 'update' => $update, 'jk' => $jk]);
 $urlOn = Url::to(['', 'update' => 1, $update, 'jk' => $jk]);
 $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
 
-
 ?>
-
-
 
 <div class="import-nilai-index panel panel-default">
     <div class="panel-heading">
         <h1 class="panel-title"><strong> Kartu Rencana Studi</strong></h1>
-
     </div>
 
     <div class="panel-body">
@@ -40,11 +32,6 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
                 // 'role' => 'modal-remote',
             ]) ?>
             <?php
-            // if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'krs'])) {
-            //     echo Html::a('<i class="fa fa-eye"></i> Lihat File Upload', ['file-upload', 'jk' => $jk], [
-            //         'class' => 'btn btn-primary btn-flat',
-            //     ]);
-            // }
             if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'krs'])) {
                 echo Html::a('<i class="fa fa-eye"></i> Lihat File Upload', ['/krs/krs-upload', 'jk' => $jk], [
                     'class' => 'btn btn-primary btn-flat',

@@ -38,6 +38,13 @@ class MonevCplController extends Controller
         ];
     }
 
+    /**
+     * INDEX DIGUNAKAN UNTUK MENAMPILKAN MONEV INDIVIDU ALUMNI
+     * melakukan looping sesuai jumlah CPL yang ada di tabel RefCPL
+     * mengambil data dari database sesuai dengan id_mahasiswa
+     * menghitung rata" data yang didapat
+     * mengirimm data ke view
+     */
     public function actionIndex()
     {
         $id_mahasiswa = Yii::$app->getRequest()->getQueryParam('jk');
@@ -45,7 +52,7 @@ class MonevCplController extends Controller
             $id_mahasiswa = 76;
         }
         if (!empty($id_mahasiswa)) {
-            $cpl = RefCpl::find()->where(['status'=>1])->all();
+            $cpl = RefCpl::find()->where(['status' => 1])->all();
             $total_cpl = count($cpl);
 
             for ($i = 1; $i <= $total_cpl; $i++) {
@@ -78,6 +85,13 @@ class MonevCplController extends Controller
         );
     }
 
+    /**
+     * INDIVIDUAL DIGUNAKAN UNTUK MENAMPILKAN MONEV INDIVIDU
+     * melakukan looping sesuai jumlah CPL yang ada di tabel RefCPL
+     * mengambil data dari database sesuai dengan id_mahasiswa
+     * menghitung rata" data yang didapat
+     * mengirimm data ke view
+     */
     public function actionIndividual()
     {
         $id_mahasiswa = Yii::$app->getRequest()->getQueryParam('jk');
@@ -86,7 +100,7 @@ class MonevCplController extends Controller
         }
 
         if (!empty($id_mahasiswa)) {
-            $cpl = RefCpl::find()->where(['status'=>1])->all();
+            $cpl = RefCpl::find()->where(['status' => 1])->all();
             $total_cpl = count($cpl);
 
             for ($i = 1; $i <= $total_cpl; $i++) {
@@ -97,8 +111,6 @@ class MonevCplController extends Controller
                     ->andWhere([CapaianMahasiswa::tableName() . '.status' => 1])
                     ->andWhere([RelasiCpmkCpl::tableName() . '.status' => 1])
                     ->average(CapaianMahasiswa::tableName() . '.nilai');
-                    // ->asArray()
-                    // ->all();
             }
             // echo '<pre>';
             // print_r($individu);
@@ -121,11 +133,18 @@ class MonevCplController extends Controller
         );
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN MONEV ANGKATAN
+     * melakukan looping sesuai jumlah CPL yang ada di tabel RefCPL
+     * mengambil data dari database sesuai dengan tahun angkatan
+     * menghitung rata" data yang didapat
+     * mengirimm data ke view
+     */
     public function actionAngkatan()
     {
         $tahun = Yii::$app->getRequest()->getQueryParam('jk');
 
-        $cpl = RefCpl::find()->where(['status'=>1])->all();
+        $cpl = RefCpl::find()->where(['status' => 1])->all();
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
@@ -146,12 +165,19 @@ class MonevCplController extends Controller
         );
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN MONEV SEMESTER
+     * melakukan looping sesuai jumlah CPL yang ada di tabel RefCPL
+     * mengambil data dari database sesuai dengan tahun dan semester
+     * menghitung rata" data yang didapat
+     * mengirimm data ke view
+     */
     public function actionSemester()
     {
         $tahun = Yii::$app->getRequest()->getQueryParam('js');
         $sem = Yii::$app->getRequest()->getQueryParam('jk');
 
-        $cpl = RefCpl::find()->where(['status'=>1])->all();
+        $cpl = RefCpl::find()->where(['status' => 1])->all();
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
@@ -174,7 +200,11 @@ class MonevCplController extends Controller
         );
     }
 
-
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN POP UP PILIHAN MAHASISWA
+     * jika data telah dimasukkan maka akan diredirect ke function individual
+     * ketika mengakses function ini maka akan menampilkan pop up ke view
+     */
     public function actionLandingIndividual()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -189,7 +219,7 @@ class MonevCplController extends Controller
         return [
             'title'   => 'Portal Individual',
             'content' => $this->renderAjax('landing-individual', [
-                'model'            => $model
+                'model' => $model
             ]),
             'footer'  => '<div class="col-12 text-right">' .
                 Html::button(
@@ -210,6 +240,11 @@ class MonevCplController extends Controller
         ];
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN POP UP PILIHAN ANGKATAN
+     * jika data telah dimasukkan maka akan diredirect ke function angkatan
+     * ketika mengakses function ini maka akan menampilkan pop up ke view
+     */
     public function actionLandingAngkatan()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -246,6 +281,11 @@ class MonevCplController extends Controller
         ];
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN POP UP PILIHAN SEMESTER
+     * jika data telah dimasukkan maka akan diredirect ke function semester
+     * ketika mengakses function ini maka akan menampilkan pop up ke view
+     */
     public function actionLandingSemester()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -283,12 +323,18 @@ class MonevCplController extends Controller
         ];
     }
 
-    //LULUSAN
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN MONEV ANGKATAN ALUMNI
+     * melakukan looping sesuai jumlah CPL yang ada di tabel RefCPL
+     * mengambil data dari database sesuai dengan tahun
+     * menghitung rata" data yang didapat
+     * mengirimm data ke view
+     */
     public function actionAngkatanLulusan()
     {
         $tahun = Yii::$app->getRequest()->getQueryParam('jk');
 
-        $cpl = RefCpl::find()->where(['status'=>1])->all();
+        $cpl = RefCpl::find()->where(['status' => 1])->all();
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
@@ -309,12 +355,19 @@ class MonevCplController extends Controller
         );
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN MONEV SEMESTER ALUMNI
+     * melakukan looping sesuai jumlah CPL yang ada di tabel RefCPL
+     * mengambil data dari database sesuai dengan tahun dan semester
+     * menghitung rata" data yang didapat
+     * mengirimm data ke view
+     */
     public function actionSemesterLulusan()
     {
         $tahun = Yii::$app->getRequest()->getQueryParam('js');
         $sem = Yii::$app->getRequest()->getQueryParam('jk');
 
-        $cpl = RefCpl::find()->where(['status'=>1])->all();
+        $cpl = RefCpl::find()->where(['status' => 1])->all();
         $total_cpl = count($cpl);
 
         for ($i = 1; $i <= $total_cpl; $i++) {
@@ -337,7 +390,11 @@ class MonevCplController extends Controller
         );
     }
 
-
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN POP UP PILIHAN MAHASISWA ALUMNI
+     * jika data telah dimasukkan maka akan diredirect ke function index
+     * ketika mengakses function ini maka akan menampilkan pop up ke view
+     */
     public function actionLandingIndividualLulusan()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -373,6 +430,11 @@ class MonevCplController extends Controller
         ];
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN POP UP PILIHAN ANGKATAN ALUMNNI
+     * jika data telah dimasukkan maka akan diredirect ke function angkatanlulusan
+     * ketika mengakses function ini maka akan menampilkan pop up ke view
+     */
     public function actionLandingAngkatanLulusan()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -407,6 +469,11 @@ class MonevCplController extends Controller
         ];
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN POP UP PILIHAN SEMESTER ALUMNI
+     * jika data telah dimasukkan maka akan diredirect ke function semester-lulusan
+     * ketika mengakses function ini maka akan menampilkan pop up ke view
+     */
     public function actionLandingSemesterLulusan()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -442,6 +509,11 @@ class MonevCplController extends Controller
         ];
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN LIST MAHASISWA DENGAN AJAX
+     * Mengambil data mahasiswa sesuai dengan nama yang diinputkan user dengan limit 10
+     * Membuat array yang berisi id dan text
+     */
     public function actionMahasiswaList($q = null, $id = null, $status)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -471,6 +543,11 @@ class MonevCplController extends Controller
         return $out;
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN LIST SEMESTER DENGAN AJAX
+     * Mengambil data tahun sesuai dengan nama tahun yang diinputkan user dengan limit 10
+     * Membuat array yang berisi id dan text
+     */
     public function actionSemesterList($q = null, $id = null, $status)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -498,6 +575,11 @@ class MonevCplController extends Controller
         return $out;
     }
 
+    /**
+     * DIGUNAKAN UNTUK MENAMPILKAN LIST SEMESTER DENGAN AJAX
+     * Mengambil data angkatan sesuai dengan nama angkatan yang diinputkan user dengan limit 10
+     * Membuat array yang berisi id dan text
+     */
     public function actionAngkatanList($q = null, $id = null, $status)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

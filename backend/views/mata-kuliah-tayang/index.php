@@ -30,7 +30,6 @@ function alert() {
 JS;
 $this->registerJs($js);
 
-
 $this->title = 'Mata Kuliah Tayang';
 $this->params['breadcrumbs'][] = $this->title;
 

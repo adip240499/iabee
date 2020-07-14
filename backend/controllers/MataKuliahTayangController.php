@@ -73,8 +73,11 @@ class MataKuliahTayangController extends Controller
     }
 
     /**
-     * Creates a new MataKuliahTayang model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Membuat Mata Kuliah Tayang baru
+     * Jika mata kuliah terdapat isinya maka masuk kondisi $app->request->post()
+     * Melakukan pengecekan apakah mata kuliah tayang sudah pernah dibuat atau belum
+     * Jika belum maka disimpan
+     * Jika sudah maka akan menampilkan sweet alert error "Gagal memasukkan Data"
      * @return mixed
      */
     public function actionCreate()
@@ -118,8 +121,11 @@ class MataKuliahTayangController extends Controller
     }
 
     /**
-     * Updates an existing MataKuliahTayang model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * Memperbarui Mata Kuliah Tayang berdasarkan id
+     * Jika mata kuliah terdapat isinya maka masuk kondisi $app->request->post()
+     * Melakukan pengecekan apakah mata kuliah tayang sudah pernah dibuat atau belum
+     * Jika belum maka disimpan
+     * Jika sudah maka akan menampilkan sweet alert error "Gagal memasukkan Data"
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -183,6 +189,9 @@ class MataKuliahTayangController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * TIDAK DIGUNAKAN
+     */
     public function actionFileNilai()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -199,11 +208,11 @@ class MataKuliahTayangController extends Controller
         return [
             'title'   => 'File Nilai',
             'content' => $this->renderAjax('file-nilai', [
-                'tahun_ajaran'     => $data['tahun_ajaran'],
-                'kelas'            => $data['kelas'],
-                'mata_kuliah'      => $data['mata_kuliah'],
-                'mk_tayang'      => $data['mk_tayang'],
-                'model'            => $model
+                'tahun_ajaran' => $data['tahun_ajaran'],
+                'kelas'        => $data['kelas'],
+                'mata_kuliah'  => $data['mata_kuliah'],
+                'mk_tayang'    => $data['mk_tayang'],
+                'model'        => $model
             ]),
             'footer'  => '<div class="col-12 text-right">' .
                 Html::button(

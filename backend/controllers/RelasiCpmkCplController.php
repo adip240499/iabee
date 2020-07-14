@@ -91,6 +91,10 @@ class RelasiCpmkCplController extends Controller
         ]);
     }
 
+    /**
+     * dependent dropdown untuk mengambil CPMK pada Form Relasi CPMK ke CPL
+     * data dikirim kembali sesuai format data yang dibutuhkan
+     */
     public function actionCpmk()
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

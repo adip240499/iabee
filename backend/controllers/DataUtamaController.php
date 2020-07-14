@@ -7,8 +7,6 @@ use backend\models\FileUpload;
 use backend\models\Krs;
 use backend\models\MataKuliahTayang;
 use backend\models\RefDosen;
-use backend\models\RefMataKuliah as ModelsRefMataKuliah;
-use backend\models\RefTahunAjaran as ModelsRefTahunAjaran;
 use backend\models\searchs\CapaianMahasiswa;
 use backend\models\searchs\RefKelas;
 use backend\models\searchs\RefCpmk;
@@ -19,16 +17,10 @@ use Yii;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\UploadedFile;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use backend\models\UploadFileImporter;
-use yii\base\Model;
 use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
-use yii\helpers\FileHelper;
-use yii\helpers\Html;
-use yii\helpers\Url;
 
 /**
  * RefCplController implements the CRUD actions for RefCpl model.
@@ -56,6 +48,19 @@ class DataUtamaController extends Controller
 		];
 	}
 
+	/**
+	 * Index digunakan untuk menampilkan dan memproses halaman untuk import NILAI.
+	 * Jika terdapat data yang masuk maka code dibawah $model->load(Yii::$app->request->post() akan tereksekusi
+	 * Jika file terdapat datanya maka code dibawah $model->file akan tereksekusi
+	 * Mengambil data pada excel dan menyimpannya ke variabel $spreadsheetData dalam bentuk array
+	 * Mengambil beberapa value pada beberap sel excel yaitu fakultas, program studi, semester dan data enkripsi
+	 * Melakukan Decrypt pada data enkripsi
+	 * Mengambil beberapa data yang perlu ditampilkan dari database berdasarkan data decyprt
+	 * Membuat nama file
+	 * Menyimpan file yang diupload ke folder $path
+	 * Melakukan penyimpanan atau memperbarui nama file ke database
+	 * Mengirim data ke view
+	 */
 	public function actionIndex($update = 0)
 	{
 		if (!(Yii::$app->getRequest()->getQueryParam('jk'))) {
@@ -144,10 +149,6 @@ class DataUtamaController extends Controller
 						'kelas' 			=> $kelas->kelas,
 						'dosen' 			=> $dosen->nama_dosen,
 						'encrypt' 			=> $encrypt,
-						// 'id_cpmk1'			=> $id_cpmk1,
-						// 'id_cpmk2'			=> $id_cpmk2,
-						// 'id_cpmk3'			=> $id_cpmk3,
-						// 'id_cpmk4'			=> $id_cpmk4,
 					]);
 				} else {
 					Yii::$app->session->setFlash('error', 'Minimal terdapat 1 record data.');
@@ -256,7 +257,16 @@ class DataUtamaController extends Controller
 	// 	];
 	// }
 
-
+	/**
+	 * FUNCTION UNTUK MENDOWNLOAD TEMPLATE NILAI
+	 * @param integer $jk
+	 * Mengambil beberapa data dari tabel database berdasarkan $jk
+	 * membuat nama file template
+	 * Mengambil file excel template yang telah disediakan pada folder templates
+	 * menuliskan beberapa nilai ke sel tertentu
+	 * menuliskan ekstensi file
+	 * mengirimkan file sebagai respons dari function
+	 */
 	public function actionDownloadTemplate()
 	{
 		Yii::$app->response->format = Response::FORMAT_JSON;
@@ -278,12 +288,8 @@ class DataUtamaController extends Controller
 			->all();
 		$cpmks        = RefCpmk::find()
 			->where(['id_ref_mata_kuliah' => $model->id_ref_mata_kuliah])
+			->Andwhere(['status' => 1])
 			->all();
-
-
-		// echo '<pre>';
-		// print_r($total_cpmk);
-		// exit;
 
 		$nama = 'nilai_' .
 			$mata_kuliah->kode . '_' .
@@ -309,6 +315,9 @@ class DataUtamaController extends Controller
 			$worksheet->setCellValue($huruf[$i] . '14', 'CPMK' . $key);  //Pengampu
 		}
 
+		// echo '<pre>';
+		// print_r($total_cpmk);
+		// exit;
 
 		$count = count($mahasiswa);
 		$no = 1;
@@ -318,17 +327,13 @@ class DataUtamaController extends Controller
 			$worksheet->setCellValue('B' . $j, $mahasiswa[$i]['refMahasiswa']->nim);  //nim
 			$worksheet->setCellValue('C' . $j, $mahasiswa[$i]['refMahasiswa']->nama);  //nama mahasiswa
 		}
-		// $encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
-		// $worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
 
 		$encrypt	= \Yii::$app->encrypter->encrypt($id_tayang);
 		$worksheet->setCellValue('B12', $encrypt);  //id mata kuliah tayang
 
 
 		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-
 		$path = Yii::getAlias("@backend/uploads/import_nilai");
-
 		$base = "{$path}/nilai.xlsx";
 		@unlink($base);
 		$writer->save($base);
@@ -339,6 +344,9 @@ class DataUtamaController extends Controller
 		);
 	}
 
+	/**
+     * TIDAK DIGUNAKAN
+     */
 	public function actionDownload($nama)
 	{
 		$download = Yii::getAlias("@backend/uploads/import_nilai/{$nama}.xlsx");
@@ -348,6 +356,12 @@ class DataUtamaController extends Controller
 		);
 	}
 
+	/**
+     * Mendownload File yang diupload terakhir kali
+     * @param integer $jk
+     * Mengambil data file dari tabel FileUpload berdasarkan $jk
+     * Mengambil file dari folder file_nilai dengan nama dari database
+     */
 	public function actionFileUpload()
 	{
 		Yii::$app->response->format = Response::FORMAT_JSON;

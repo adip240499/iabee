@@ -52,6 +52,7 @@ class CapaianMahasiswaController extends Controller
     }
 
     /**
+     * TIDAK DIGUNAKAN
      * Lists all CapaianMahasiswa models.
      * @return mixed
      */
@@ -67,17 +68,16 @@ class CapaianMahasiswaController extends Controller
     }
 
     /**
-     * Updates an existing CapaianMahasiswa model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * UPDATE DIMODIF DENGAN PERULANGAN SESUAI JUMLAH CPMK PADA MATAKULIAH
      * @return mixed
+     * perulangan dilakukan berdasarkan jumlah cpmk pada mata kuliah
+     * nilai disimpan sesuai id 
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($jk, $js)
     {
         $model = $this->findModel($jk, $js);
         if ($models = (Yii::$app->request->post())) {
-
             foreach ($model['capaian'] as $key => $value) {
                 $key = $key + 1;
                 $data = CapaianMahasiswa::findOne([$value->id]);
@@ -94,10 +94,12 @@ class CapaianMahasiswaController extends Controller
     }
 
     /**
-     * Deletes an existing CapaianMahasiswa model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
+     * FUNCTION DELETE DIMODIF UNTUK MENGHAPUS DATA NILAI CPMK PER MAHASISWA
+     * @param integer $jk
+     * @param integer $js
+     * Mengambil data id cpmk berdasarkan id mata kuliah tayang
+     * Melakukan perulangan berdasarkan jumlah cpmk
+     * Menghapus data berdasarkan mahasiswa dan id cpmk
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete()
@@ -110,26 +112,16 @@ class CapaianMahasiswaController extends Controller
             ->where([MataKuliahTayang::tableName() . '.id' => $id_mata_kuliah_tayang])
             ->all();
 
-
         $count = count($mata_kuliah_tayang[0]['refCpmks']);
-
 
         foreach ($mata_kuliah_tayang as $key => $value) {
             foreach ($value['refCpmks'] as $key => $value) {
-                // echo '<pre>';
-                // print_r($value->id);
-                // exit;
                 $exist = CapaianMahasiswa::findOne(['id_ref_mahasiswa' => $id_mahasiswa, 'id_ref_cpmk' => $value->id]);
                 // $exist->status = 0;
                 $exist->delete();
                 Yii::$app->session->setFlash('erro', [['Delete', 'Data Berhasil Dihapus']]);
             }
         }
-
-        // if ($model) {
-        //     $model->status  = 0;
-        //     $model->save();
-        // }
         return $this->redirect(['nilai-upload', 'jk' => $id_mata_kuliah_tayang]);
     }
 
@@ -176,6 +168,14 @@ class CapaianMahasiswaController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /**
+     * MELIHAT NILAI MAHASISWA YANG PERNAH DIIMPORT
+     * @param integer $jk
+     * Mengambil beberapa data yang diperlukan dari database berdasarkan $jk
+     * Mengambil data nilai mahasiswa berdasarkan id_cpmk, tahun, kelas, semester dari tabel capaian mahasoswa
+     * membuat index array menjadi id_ref_mahasiswa dengan bantuan arrayhelper yii2
+     * mengirim data ke view
+     */
     public function actionNilaiUpload()
     {
         $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
@@ -207,7 +207,6 @@ class CapaianMahasiswaController extends Controller
 
         $data['capaian'] = ArrayHelper::index($data['capaian'], null, 'id_ref_mahasiswa');
 
-        // Query masih belum benar
         // echo '<pre>';
         // print_r($data['capaian']);
         // exit;
@@ -215,6 +214,10 @@ class CapaianMahasiswaController extends Controller
             'data' => $data,
         ]);
     }
+
+    /**
+     * TIDAK DIGUNAKAN
+     */
     public function actionTranskip()
     {
         $data['transkip'] = RefMataKuliah::find()
@@ -235,6 +238,18 @@ class CapaianMahasiswaController extends Controller
         ]);
     }
 
+    /**
+     * MENDOWNLOAD TRANSKIP NILAI MAHASISWA YANG PERNAH DI IMPORT
+     * @param integer $jk
+     * Mengambil semua data nilai per RefMataKuliah  dari database berdasarkan $jk = id_ref_mahasiswa
+     * Mengambil data mahasiswa berdasarkan $jk
+     * Membuat nama file
+     * Meload template transkip nilai dari folder templates
+     * Menuliskan data mahasiswa ke dalam file excel
+     * Menuliskan data Mata Kuliah dan nilainya sesuai jumlah CPMK ke dalam file excel
+     * menuliskan ekstensi sebagai .xlsx
+     * Mengirim file excel sebagai response
+     */
     public function actionDownloadTranskip()
     {
         $data['transkip'] = RefMataKuliah::find()
@@ -262,15 +277,15 @@ class CapaianMahasiswaController extends Controller
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($base);
         $worksheet   = $spreadsheet->getActiveSheet();
 
-        $worksheet->setCellValue('C4', $data['mahasiswa']->nama);  //Kode MK
-        $worksheet->setCellValue('C5', $data['mahasiswa']->nim);  //Kode MK
-        $worksheet->setCellValue('C6', $data['mahasiswa']->angkatan);  //Kode MK
+        $worksheet->setCellValue('C4', $data['mahasiswa']->nama);  //Nama
+        $worksheet->setCellValue('C5', $data['mahasiswa']->nim);  //Nim
+        $worksheet->setCellValue('C6', $data['mahasiswa']->angkatan);  //Angkatan
 
         $no = 1;
         foreach ($data['transkip'] as $key => $data) {
 
             $row = 11 + $key;
-            $worksheet->setCellValue('A' . $row, $no++);  //Kode MK
+            $worksheet->setCellValue('A' . $row, $no++);  //No
             $worksheet->setCellValue('B' . $row, $data->kode);  //Kode MK
             $worksheet->setCellValue('C' . $row, $data->nama);  //Nama MK 
 
@@ -293,6 +308,16 @@ class CapaianMahasiswaController extends Controller
         );
     }
 
+    /**
+     * MENGHAPUS NILAI CPMK BERDASARKAN $JK = ID MAHASISWA
+     * @param integer $jk
+     * @param integer $js
+     * Mengambil data id cpmk berdasarkan id mata kuliah tayang
+     * Melakukan perulangan berdasarkan jumlah mahasiswa yang dipilih
+     * Melakukan perulangan berdasarkan jumlah cpmk
+     * Menghapus data berdasarkan mahasiswa dan id cpmk
+     * Menghapus semua data sesuai id_ref_mahasiswa dan id_mata_kuliah_tayang
+     */
     public function actionDeleteMultiple()
     {
         $request = Yii::$app->request;

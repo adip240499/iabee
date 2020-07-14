@@ -55,8 +55,16 @@ class KrsController extends Controller
 
     /**
      * Index digunakan untuk menampilkan dan memproses halaman untuk import KRS.
-     * Jika file telah diupload maka code dibawah $model->load(Yii::$app->request->post() akan tereksekusi
-     * 
+     * Jika terdapat data yang masuk maka code dibawah $model->load(Yii::$app->request->post() akan tereksekusi
+     * Jika file terdapat datanya maka code dibawah $model->file akan tereksekusi
+     * Mengambil data pada excel dan menyimpannya ke variabel $spreadsheetData dalam bentuk array
+     * Mengambil beberapa value pada beberap sel excel yaitu fakultas, program studi, semester dan data enkripsi
+     * Melakukan Decrypt pada data enkripsi
+     * Mengambil beberapa data yang perlu ditampilkan dari database berdasarkan data decyprt
+     * Membuat nama file
+     * Menyimpan file yang diupload ke folder $path
+     * Melakukan penyimpanan atau memperbarui nama file ke database
+     * Mengirim data ke view
      */
     public function actionIndex($update = 0)
     {
@@ -74,10 +82,10 @@ class KrsController extends Controller
                 $spreadsheet = $reader->load($xlsx);
                 $spreadsheetData = $spreadsheet->getActiveSheet()->toArray();
 
-                $fakultas         = $spreadsheet->getActiveSheet()->getCell('C4')->getValue();
-                $program_studi    = $spreadsheet->getActiveSheet()->getCell('C5')->getValue();
-                $semester         = $spreadsheet->getActiveSheet()->getCell('C7')->getValue();
-                $encrypt            = $spreadsheet->getActiveSheet()->getCell('B12')->getValue();
+                $fakultas      = $spreadsheet->getActiveSheet()->getCell('C4')->getValue();
+                $program_studi = $spreadsheet->getActiveSheet()->getCell('C5')->getValue();
+                $semester      = $spreadsheet->getActiveSheet()->getCell('C7')->getValue();
+                $encrypt       = $spreadsheet->getActiveSheet()->getCell('B12')->getValue();
 
                 $decrypt = \Yii::$app->encrypter->decrypt($encrypt);
                 $tayang      = MataKuliahTayang::findOne($decrypt);
@@ -123,10 +131,6 @@ class KrsController extends Controller
                         unset($spreadsheetData[$i]);
                     }
 
-                    // echo "<pre>";
-                    // print_r($spreadsheetData);
-                    // exit;
-
                     return $this->render('view', [
                         'model'            => $spreadsheetData,
                         'update'           => $update,
@@ -157,6 +161,12 @@ class KrsController extends Controller
         ]);
     }
 
+    /**
+     * Mendownload File yang diupload terakhir kali
+     * @param integer $jk
+     * Mengambil data file dari tabel FileUpload berdasarkan $jk
+     * Mengambil file dari folder file_krs dengan nama dari database
+     */
     public function actionFileUpload()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -172,6 +182,12 @@ class KrsController extends Controller
         }
     }
 
+    /**
+     * MELIHAT HASIL IMPORT YANG PERNAH DIUPLOAD
+     * @param integer $jk
+     * Mengambil beberapa data yang diperlukan dari database berdasarkan $jk
+     * Mengambil data KRS mahasiswa dari tabel KRS berdasarkan $jk
+     */
     public function actionKrsUpload()
     {
         $jk                   = Yii::$app->getRequest()->getQueryParam('jk');
@@ -188,16 +204,18 @@ class KrsController extends Controller
             ->andWhere([Krs::tableName() . '.status' => 1])
             ->all();
 
-
-        // Query masih belum benar
-        // echo '<pre>';
-        // print_r($data['krs']);
-        // exit;
         return $this->render('krs-upload', [
             'data' => $data,
         ]);
     }
 
+    /**
+     * Menghapus mahasiswa berdasarkan $jk dan $js
+     * @param integer $jk
+     * @param integer $js
+     * mencari data sesuai dengan id_ref_mahasiswa dan id_mata_kuliah_tayang pada tabel KRS
+     * menghapus data yang ditemukan
+     */
     public function actionDeleteMahasiswa()
     {
         $id_mata_kuliah_tayang  = Yii::$app->getRequest()->getQueryParam('jk');
@@ -212,6 +230,12 @@ class KrsController extends Controller
         return $this->redirect(['krs/krs-upload/', 'jk' => $id_mata_kuliah_tayang]);
     }
 
+    /**
+     * Menghapus mahasiswa berdasarkan $jk dan $js secara bersamaan
+     * @param integer $jk
+     * @param integer $js
+     * Menghapus semua data sesuai id_ref_mahasiswa dan id_mata_kuliah_tayang
+     */
     public function actionDeleteMultiple()
     {
         $request = Yii::$app->request;
@@ -375,6 +399,16 @@ class KrsController extends Controller
         ];
     }
 
+    /**
+     * Function untuk mendownload template KRS
+     * @param integer $jk
+     * Mengambil beberapa data dari tabel database berdasarkan $jk
+     * membuat nama file template
+     * Mengambil file excel template yang telah disediakan pada folder templates
+     * menuliskan beberapa nilai ke sel tertentu
+     * menuliskan ekstensi file
+     * mengirimkan file sebagai respons dari function
+     */
     public function actionDownloadTemplate()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -385,7 +419,7 @@ class KrsController extends Controller
         }
         $id_tayang = Yii::$app->getRequest()->getQueryParam('jk');
 
-        $model = MataKuliahTayang::findOne($id_tayang);
+        $model       = MataKuliahTayang::findOne($id_tayang);
         $mata_kuliah = RefMataKuliah::findOne($model->id_ref_mata_kuliah);
         $kelas       = RefKelas::findOne($model->id_ref_kelas);
         $tahun       = RefTahunAjaran::findOne($model->id_tahun_ajaran);
@@ -407,9 +441,6 @@ class KrsController extends Controller
         $worksheet->setCellValue('C9', $mata_kuliah->nama);  //Nama Mata Kuliah
         $worksheet->setCellValue('C10', $kelas->kelas);  //Kelas
         $worksheet->setCellValue('C11', $dosen->nama_dosen);  //Pengampu
-
-        // $encrypt	= \Yii::$app->encrypter->encrypt($model->id_ref_mata_kuliah);
-        // $worksheet->setCellValue('B12', $encrypt);  //id mata kuliah
 
         $encrypt    = \Yii::$app->encrypter->encrypt($id_tayang);
         $worksheet->setCellValue('B12', $encrypt);  //id mata kuliah tayang
@@ -443,6 +474,7 @@ class KrsController extends Controller
     }
 
     /**
+     * TIDAK DIGUNAKAN
      * Creates a new Krs model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -461,6 +493,7 @@ class KrsController extends Controller
     }
 
     /**
+     * TIDAK DIGUNAKAN
      * Updates an existing Krs model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -482,6 +515,7 @@ class KrsController extends Controller
     }
 
     /**
+     * TIDAK DIGUNAKAN
      * Deletes an existing Krs model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -500,6 +534,7 @@ class KrsController extends Controller
     }
 
     /**
+     * TIDAK DIGUNAKAN
      * Finds the Krs model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id

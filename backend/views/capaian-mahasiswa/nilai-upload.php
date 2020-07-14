@@ -19,6 +19,7 @@ $jk        = Yii::$app->getRequest()->getQueryParam('jk');
 $mk_tayang = MataKuliahTayang::findOne($jk);
 $cpmks     = RefCpmk::find()
     ->where(['id_ref_mata_kuliah' => $mk_tayang->id_ref_mata_kuliah])
+    ->Andwhere(['status' => 1])
     ->all();
 $total_cpmk = count($cpmks);
 
@@ -90,7 +91,7 @@ $this->registerJs($js);
     <div class="panel-body">
         <div class="row">
             <div div class="col-md-6">
-                <?php echo Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Halaman Unggah File', ['/data-utama','jk'=>$jk], ['class' => 'btn-social btn btn-']) ?>
+                <?php echo Html::a('<i class="fa fa-arrow-left"></i> Kembali ke Halaman Unggah File', ['/data-utama', 'jk' => $jk], ['class' => 'btn-social btn btn-']) ?>
             </div>
             <div class="col-md-6" align="right">
                 <?php
