@@ -1,21 +1,11 @@
 <?php
 
 use backend\models\FileUpload;
-use backend\models\MataKuliahTayang;
-use backend\models\RefDosen;
-use backend\models\RefKelas;
-use backend\models\RefMataKuliah;
-use backend\models\RefTahunAjaran;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\helpers\Json;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\FileInput;
-use kartik\export\ExportMenu;
 use kartik\widgets\SwitchInput;
-use aryelds\sweetalert\SweetAlert;
-
-
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\searchs\RefKelas */
@@ -43,7 +33,6 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
         <p>
             <?php echo Html::a('<i class="fa fa-download"></i> Template Excel', ['download-template', 'jk' => $jk], [
                 'class' => 'btn btn-success btn-flat',
-                // 'role'=> 'modal-remote',
             ]) ?>
             <?php
             if (FileUpload::findOne(['id_mata_kuliah_tayang' => $jk, 'jenis' => 'nilai'])) {

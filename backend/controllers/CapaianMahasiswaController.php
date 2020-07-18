@@ -172,7 +172,7 @@ class CapaianMahasiswaController extends Controller
      * MELIHAT NILAI MAHASISWA YANG PERNAH DIIMPORT
      * @param integer $jk
      * Mengambil beberapa data yang diperlukan dari database berdasarkan $jk
-     * Mengambil data nilai mahasiswa berdasarkan id_cpmk, tahun, kelas, semester dari tabel capaian mahasoswa
+     * Mengambil data nilai mahasiswa berdasarkan id_cpmk, tahun, kelas, semester dari tabel capaian mahasiswa
      * membuat index array menjadi id_ref_mahasiswa dengan bantuan arrayhelper yii2
      * mengirim data ke view
      */
