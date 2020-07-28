@@ -15,7 +15,7 @@ $this->registerJsFile("@web/js/utils.js", [
 $_data = Json::encode(array_values($data));
 $_label = RefCpl::find()
 	->orderBy(['id' => SORT_ASC])
-	->where(['status'=>1])
+	->where(['status' => 1])
 	->all();
 $_label = ArrayHelper::getColumn($_label, 'kode');
 $_label = Json::encode(array_values($_label));
@@ -151,7 +151,10 @@ $this->title = 'Capaian Pembelajaran Lulusan Per Individu';
 						</div>
 						<div class="col-sm-6">
 							<p align="right">
-								<?= Html::a('Transkip Nilai', ['/capaian-mahasiswa/download-transkip/', 'jk' => $id_mahasiswa], ['class' => 'btn btn-success']) ?>
+								<?= Html::a('Transkip Nilai', [
+									'/capaian-mahasiswa/download-transkip/',
+									'jk' => $id_mahasiswa
+								], ['class' => 'btn btn-success']) ?>
 							</p>
 						</div>
 					</div>

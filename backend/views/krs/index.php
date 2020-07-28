@@ -71,6 +71,7 @@ $urlOf = Url::to(['', 'update' => 0, $update, 'jk' => $jk]);
         <?php echo $form->field($model, 'file')->widget(FileInput::classname(), [
             'pluginOptions' => [
                 'showRemove' => true,
+                'showPreview' => true,
                 'uploadLabel' => 'Import',
             ],
             'options' => [

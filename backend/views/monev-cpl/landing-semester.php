@@ -8,7 +8,6 @@ use kartik\select2\Select2;
 use yii\web\JsExpression;
 
 $url = \yii\helpers\Url::to(['semester-list','status'=>1]);
-
 ?>
 
 <div style="margin: 0 12px 20px;">
